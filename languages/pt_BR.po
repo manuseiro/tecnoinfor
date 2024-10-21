@@ -1,0 +1,211 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2024-10-20 19:31-0300\n"
+"PO-Revision-Date: 2024-10-20 19:31-0300\n"
+"Last-Translator: \n"
+"Language-Team: SteelThemes\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"TesteProject-Id-Version: Engines\n"
+"X-Generator: Poedit 3.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
+"_n\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: languages\n"
+
+#: 404.php:6
+msgid "Page not found"
+msgstr "Pagina não existe"
+
+#: 404.php:11
+msgid "Error 404. Page not found"
+msgstr "Erro 404, Pagina não existe"
+
+#: 404.php:12
+msgid ""
+"The post or page that you are looking for either has just moved or doesn't "
+"exists in this server."
+msgstr ""
+"O post ou página que você está procurando foi movida recentemente ou não "
+"existe neste servidor."
+
+#: 404.php:16
+msgid "Back to Home"
+msgstr "Voltar para Home"
+
+#: functions.php:31
+msgid "Primary Menu"
+msgstr "Menu Principal"
+
+#: functions.php:65 functions.php:67
+msgid "Clients"
+msgstr "Clientes"
+
+#: functions.php:66 functions.php:68
+msgid "Client"
+msgstr "Cliente"
+
+#: functions.php:69 functions.php:105
+msgid "Add New"
+msgstr "Adicionar Novo"
+
+#: functions.php:70
+msgid "Add New Client"
+msgstr "Adicionar Novo Cliente"
+
+#: functions.php:71
+msgid "New Client"
+msgstr "Novo Cliente"
+
+#: functions.php:72
+msgid "Edit Client"
+msgstr "Editar Cliente"
+
+#: functions.php:73
+msgid "View Client"
+msgstr "Ver Cliente"
+
+#: functions.php:74
+msgid "All Clients"
+msgstr "Todos os Clientes"
+
+#: functions.php:75
+msgid "Search Clients"
+msgstr "Pesquisar Clientes"
+
+#: functions.php:76
+msgid "No clients found."
+msgstr "Nenhum cliente encontrado."
+
+#: functions.php:77
+msgid "No clients found in trash."
+msgstr "Nenhum cliente encontrado na Lixeira."
+
+#: functions.php:106
+msgid "Add New Changelog"
+msgstr "Adicionar Novo Changelog"
+
+#: functions.php:107
+msgid "New Changelog"
+msgstr "Novo Changelog"
+
+#: functions.php:108
+msgid "Edit Changelog"
+msgstr "Editar Changelog"
+
+#: functions.php:109
+msgid "View Changelog"
+msgstr "Ver Changelog"
+
+#: functions.php:110
+msgid "All Changelogs"
+msgstr "Todos os Changelogs"
+
+#: functions.php:111
+msgid "Search Changelogs"
+msgstr "Pesquisar Changelogs"
+
+#: functions.php:112 templates/page-changelog.php:53
+msgid "No changelogs found."
+msgstr "Nenhum changelogs encontrado."
+
+#: functions.php:113
+msgid "No changelogs found in Trash."
+msgstr "Nenhum changelogs encontrado na Lixeira."
+
+#: functions.php:150
+msgid "Changelog Details"
+msgstr "Detalhes do Changelog"
+
+#: functions.php:170
+msgid "Version"
+msgstr "Versão"
+
+#: functions.php:174
+msgid "Release Date"
+msgstr "Data de lançamento"
+
+#: functions.php:227
+msgid "POT file not found."
+msgstr "Arquivo POT não encontrado."
+
+#: functions.php:238
+msgid "PO file was created. Please add your translations now."
+msgstr "O arquivo PO foi criado. Por favor, adicione suas traduções agora."
+
+#: functions.php:260
+msgid "Translation saved successfully!"
+msgstr "Tradução salva com sucesso!"
+
+#: functions.php:269
+msgid "PO file not found. Cannot delete translation."
+msgstr "Arquivo PO não encontrado. Não é possível excluir a tradução."
+
+#: functions.php:283
+msgid "Translation deleted successfully!"
+msgstr "Tradução excluída com sucesso!"
+
+#: functions.php:285
+msgid "Translation not found for deletion."
+msgstr "Tradução não encontrada para exclusão."
+
+#: functions.php:299
+msgid "Translation Settings"
+msgstr "Configurações de Tradução"
+
+#: functions.php:302
+msgid "Select Language"
+msgstr "Selecione o idioma"
+
+#: functions.php:312
+msgid "Add or Update Translation"
+msgstr "Adicionar ou atualizar tradução"
+
+#: functions.php:315 functions.php:332
+msgid "Original String"
+msgstr "Texto Original"
+
+#: functions.php:319 functions.php:333
+msgid "Translated String"
+msgstr "Texto Traduzido"
+
+#: functions.php:323
+msgid "Save Translation"
+msgstr "Salvar Tradução"
+
+#: functions.php:328
+msgid "Existing Translations"
+msgstr "Traduções existentes"
+
+#: functions.php:334
+msgid "Actions"
+msgstr "Ações"
+
+#: functions.php:350
+msgid "Update"
+msgstr "Atualizar"
+
+#: functions.php:354
+msgid "Delete"
+msgstr "Excluir"
+
+#: functions.php:360
+msgid "No translations found."
+msgstr "Nenhuma tradução encontrada."
+
+#: header.php:56
+msgid "Toggle navigation"
+msgstr "Alternar navegação"
+
+#: templates/page-changelog.php:35 templates/single-changelog.php:11
+msgid "Version:"
+msgstr "Versão:"
+
+#: templates/page-changelog.php:36 templates/single-changelog.php:14
+msgid "Released on:"
+msgstr "Lançado em:"

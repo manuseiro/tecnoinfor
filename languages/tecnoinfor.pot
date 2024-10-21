@@ -1,0 +1,209 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Engines\n"
+"POT-Creation-Date: 2024-10-20 18:29-0300\n"
+"PO-Revision-Date: 2017-11-30 08:13-0300\n"
+"Last-Translator: \n"
+"Language-Team: SteelThemes\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
+"_n\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: languages\n"
+
+#: 404.php:6
+msgid "Page not found"
+msgstr ""
+
+#: 404.php:11
+msgid "Error 404. Page not found"
+msgstr ""
+
+#: 404.php:12
+msgid ""
+"The post or page that you are looking for either has just moved or doesn't "
+"exists in this server."
+msgstr ""
+
+#: 404.php:16
+msgid "Back to Home"
+msgstr ""
+
+#: functions.php:31
+msgid "Primary Menu"
+msgstr ""
+
+#: functions.php:65 functions.php:67
+msgid "Clients"
+msgstr ""
+
+#: functions.php:66 functions.php:68
+msgid "Client"
+msgstr ""
+
+#: functions.php:69 functions.php:105
+msgid "Add New"
+msgstr ""
+
+#: functions.php:70
+msgid "Add New Client"
+msgstr ""
+
+#: functions.php:71
+msgid "New Client"
+msgstr ""
+
+#: functions.php:72
+msgid "Edit Client"
+msgstr ""
+
+#: functions.php:73
+msgid "View Client"
+msgstr ""
+
+#: functions.php:74
+msgid "All Clients"
+msgstr ""
+
+#: functions.php:75
+msgid "Search Clients"
+msgstr ""
+
+#: functions.php:76
+msgid "No clients found."
+msgstr ""
+
+#: functions.php:77
+msgid "No clients found in trash."
+msgstr ""
+
+#: functions.php:106
+msgid "Add New Changelog"
+msgstr ""
+
+#: functions.php:107
+msgid "New Changelog"
+msgstr ""
+
+#: functions.php:108
+msgid "Edit Changelog"
+msgstr ""
+
+#: functions.php:109
+msgid "View Changelog"
+msgstr ""
+
+#: functions.php:110
+msgid "All Changelogs"
+msgstr ""
+
+#: functions.php:111
+msgid "Search Changelogs"
+msgstr ""
+
+#: functions.php:112 templates/page-changelog.php:53
+msgid "No changelogs found."
+msgstr ""
+
+#: functions.php:113
+msgid "No changelogs found in Trash."
+msgstr ""
+
+#: functions.php:150
+msgid "Changelog Details"
+msgstr ""
+
+#: functions.php:170
+msgid "Version"
+msgstr ""
+
+#: functions.php:174
+msgid "Release Date"
+msgstr ""
+
+#: functions.php:227
+msgid "POT file not found."
+msgstr ""
+
+#: functions.php:238
+msgid "PO file was created. Please add your translations now."
+msgstr ""
+
+#: functions.php:260
+msgid "Translation saved successfully!"
+msgstr ""
+
+#: functions.php:269
+msgid "PO file not found. Cannot delete translation."
+msgstr ""
+
+#: functions.php:283
+msgid "Translation deleted successfully!"
+msgstr ""
+
+#: functions.php:285
+msgid "Translation not found for deletion."
+msgstr ""
+
+#: functions.php:299
+msgid "Translation Settings"
+msgstr ""
+
+#: functions.php:302
+msgid "Select Language"
+msgstr ""
+
+#: functions.php:312
+msgid "Add or Update Translation"
+msgstr ""
+
+#: functions.php:315 functions.php:332
+msgid "Original String"
+msgstr ""
+
+#: functions.php:319 functions.php:333
+msgid "Translated String"
+msgstr ""
+
+#: functions.php:323
+msgid "Save Translation"
+msgstr ""
+
+#: functions.php:328
+msgid "Existing Translations"
+msgstr ""
+
+#: functions.php:334
+msgid "Actions"
+msgstr ""
+
+#: functions.php:350
+msgid "Update"
+msgstr ""
+
+#: functions.php:354
+msgid "Delete"
+msgstr ""
+
+#: functions.php:360
+msgid "No translations found."
+msgstr ""
+
+#: header.php:56
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/page-changelog.php:35 templates/single-changelog.php:11
+msgid "Version:"
+msgstr ""
+
+#: templates/page-changelog.php:36 templates/single-changelog.php:14
+msgid "Released on:"
+msgstr ""
