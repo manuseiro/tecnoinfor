@@ -17,11 +17,11 @@
               <div class="col-lg-7 px-5 text-start fw-bold">
                   <div class="h-100 d-inline-flex align-items-center py-3 me-4 ">
                       <small class="bi bi-geo-fill text-primary me-2"></small>
-                      <small>XYZ Road, Delhi, India</small>
+                      <small>Eusebio Ceará, Brasil</small>
                   </div>
                   <div class="h-100 d-inline-flex align-items-center py-3">
                       <small class="bi bi-clock text-primary me-2"></small>
-                      <small>Mon - Sat: 09:00 AM - 07:00 PM</small>
+                      <small>Seg - Sex: 08:00 AM - 07:00 PM</small>
                   </div>
               </div>
               <div class="col-lg-5 px-5 text-end">

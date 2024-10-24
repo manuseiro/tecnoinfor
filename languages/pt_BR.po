@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-10-20 19:31-0300\n"
-"PO-Revision-Date: 2024-10-20 19:31-0300\n"
+"POT-Creation-Date: 2024-10-23 21:09-0300\n"
+"PO-Revision-Date: 2024-10-23 21:10-0300\n"
 "Last-Translator: \n"
 "Language-Team: SteelThemes\n"
 "Language: pt_BR\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "TesteProject-Id-Version: Engines\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
 "_n\n"
@@ -38,163 +38,272 @@ msgstr ""
 msgid "Back to Home"
 msgstr "Voltar para Home"
 
-#: functions.php:31
+#: footer.php:14
+msgid "Tecnoinfor"
+msgstr "A Tecnoinfor"
+
+#: footer.php:28
+msgid "Product"
+msgstr "Produto"
+
+#: footer.php:42 functions.php:34
+msgid "Contact"
+msgstr "Contato"
+
+#: footer.php:56 functions.php:36
+msgid "Support"
+msgstr "Suporte"
+
+#: footer.php:71 templates/page-termos_politica.php:35
+msgid "Terms of Use"
+msgstr "Termos de Uso"
+
+#: footer.php:72 footer.php:73 templates/page-termos_politica.php:25
+#: templates/page-termos_politica.php:30
+msgid "Privacy Policy"
+msgstr "Política de Privacidade"
+
+#: footer.php:80
+msgid "All rights reserved </br>Designed by "
+msgstr "Todos os direitos reservados </br>Criado por"
+
+#: functions.php:32
 msgid "Primary Menu"
 msgstr "Menu Principal"
 
-#: functions.php:65 functions.php:67
+#: functions.php:33
+msgid "Institutional"
+msgstr "Institucional"
+
+#: functions.php:35
+msgid "Help"
+msgstr "Ajuda"
+
+#: functions.php:73 functions.php:75
 msgid "Clients"
 msgstr "Clientes"
 
-#: functions.php:66 functions.php:68
+#: functions.php:74 functions.php:76
 msgid "Client"
 msgstr "Cliente"
 
-#: functions.php:69 functions.php:105
+#: functions.php:77
 msgid "Add New"
 msgstr "Adicionar Novo"
 
-#: functions.php:70
+#: functions.php:78
 msgid "Add New Client"
 msgstr "Adicionar Novo Cliente"
 
-#: functions.php:71
+#: functions.php:79
 msgid "New Client"
 msgstr "Novo Cliente"
 
-#: functions.php:72
+#: functions.php:80
 msgid "Edit Client"
 msgstr "Editar Cliente"
 
-#: functions.php:73
+#: functions.php:81
 msgid "View Client"
 msgstr "Ver Cliente"
 
-#: functions.php:74
+#: functions.php:82
 msgid "All Clients"
 msgstr "Todos os Clientes"
 
-#: functions.php:75
+#: functions.php:83
 msgid "Search Clients"
 msgstr "Pesquisar Clientes"
 
-#: functions.php:76
+#: functions.php:84
 msgid "No clients found."
 msgstr "Nenhum cliente encontrado."
 
-#: functions.php:77
+#: functions.php:85
 msgid "No clients found in trash."
 msgstr "Nenhum cliente encontrado na Lixeira."
 
-#: functions.php:106
-msgid "Add New Changelog"
-msgstr "Adicionar Novo Changelog"
-
-#: functions.php:107
-msgid "New Changelog"
-msgstr "Novo Changelog"
-
-#: functions.php:108
-msgid "Edit Changelog"
-msgstr "Editar Changelog"
-
-#: functions.php:109
-msgid "View Changelog"
-msgstr "Ver Changelog"
-
-#: functions.php:110
-msgid "All Changelogs"
-msgstr "Todos os Changelogs"
-
-#: functions.php:111
-msgid "Search Changelogs"
-msgstr "Pesquisar Changelogs"
-
-#: functions.php:112 templates/page-changelog.php:53
-msgid "No changelogs found."
-msgstr "Nenhum changelogs encontrado."
+#: functions.php:112
+msgid "Add New FAQ"
+msgstr "Adicionar Novo FAQ"
 
 #: functions.php:113
-msgid "No changelogs found in Trash."
-msgstr "Nenhum changelogs encontrado na Lixeira."
+msgid "Edit FAQ"
+msgstr "Editar FAQ"
+
+#: functions.php:114
+msgid "New FAQ"
+msgstr "Nova FAQ"
+
+#: functions.php:115
+msgid "View FAQ"
+msgstr "Ver FAQ"
+
+#: functions.php:116
+msgid "Search FAQs"
+msgstr "Pesquisar FAQs"
+
+#: functions.php:117
+msgid "No FAQs Found"
+msgstr "Nenhuma FAQs encontrada."
+
+#: functions.php:118
+msgid "No FAQs found in the Trash"
+msgstr "Nenhuma FAQs encontrada na Lixeira."
+
+#: functions.php:148
+msgid "Search Subjects"
+msgstr "Pesquisar Assuntos"
+
+#: functions.php:149
+msgid "All Subjects"
+msgstr "Todos os Assuntos"
 
 #: functions.php:150
-msgid "Changelog Details"
-msgstr "Detalhes do Changelog"
+msgid "Parent Subject"
+msgstr "Assunto Pai"
 
-#: functions.php:170
-msgid "Version"
-msgstr "Versão"
+#: functions.php:151
+msgid "Parent Subject:"
+msgstr "Assunto Pai:"
 
-#: functions.php:174
-msgid "Release Date"
-msgstr "Data de lançamento"
+#: functions.php:152
+msgid "Edit Subject"
+msgstr "Editar Assunto"
 
-#: functions.php:227
+#: functions.php:153
+msgid "Update Subject"
+msgstr "Atualizar Assunto"
+
+#: functions.php:154
+msgid "Add New Subject"
+msgstr "Adicionar Novo Assunto"
+
+#: functions.php:155
+msgid "New Subject Name"
+msgstr "Novo Nome do Assunto"
+
+#: functions.php:156
+msgid "Subjects"
+msgstr "Assuntos"
+
+#: functions.php:247 templates/page-changelogs.php:59
+msgid "Added"
+msgstr "Adicionado"
+
+#: functions.php:248
+msgid "Ex.: New features or improvements"
+msgstr "Ex.: Novos recursos ou melhorias"
+
+#: functions.php:252 templates/page-changelogs.php:60
+msgid "Fixed"
+msgstr "Correção"
+
+#: functions.php:253
+msgid "Ex.: Bug fixes or known errors"
+msgstr "Ex.: Correções de bugs ou erros conhecidos"
+
+#: functions.php:257 functions.php:467
+msgid "Update"
+msgstr "Atualização"
+
+#: functions.php:258
+msgid "Ex.: General feature updates"
+msgstr "Ex.: Atualizações gerais de recursos"
+
+#: functions.php:262 templates/page-changelogs.php:64
+msgid "Improved"
+msgstr "Melhoria"
+
+#: functions.php:263
+msgid "Ex.: Process or performance improvements"
+msgstr "Ex.: Melhorias de processo ou desempenho"
+
+#: functions.php:267 templates/page-changelogs.php:61
+msgid "Removed"
+msgstr "Removido"
+
+#: functions.php:268
+msgid "Ex.: Removed features or elements"
+msgstr "Ex.: Recursos ou elementos removidos"
+
+#: functions.php:272 templates/page-changelogs.php:63
+msgid "Deprecated"
+msgstr "Descontinuado"
+
+#: functions.php:273
+msgid "Ex.: Features or elements Discontinued"
+msgstr "Ex.: Características ou elementos Descontinuados"
+
+#: functions.php:277 templates/page-changelogs.php:65
+msgid "Compatibility"
+msgstr "Compatibilidade"
+
+#: functions.php:278
+msgid "Ex.: Compatible Features or Elements"
+msgstr "Ex.: Recursos ou elementos compatíveis"
+
+#: functions.php:344
 msgid "POT file not found."
 msgstr "Arquivo POT não encontrado."
 
-#: functions.php:238
+#: functions.php:355
 msgid "PO file was created. Please add your translations now."
 msgstr "O arquivo PO foi criado. Por favor, adicione suas traduções agora."
 
-#: functions.php:260
+#: functions.php:377
 msgid "Translation saved successfully!"
 msgstr "Tradução salva com sucesso!"
 
-#: functions.php:269
+#: functions.php:386
 msgid "PO file not found. Cannot delete translation."
 msgstr "Arquivo PO não encontrado. Não é possível excluir a tradução."
 
-#: functions.php:283
+#: functions.php:400
 msgid "Translation deleted successfully!"
 msgstr "Tradução excluída com sucesso!"
 
-#: functions.php:285
+#: functions.php:402
 msgid "Translation not found for deletion."
 msgstr "Tradução não encontrada para exclusão."
 
-#: functions.php:299
+#: functions.php:416
 msgid "Translation Settings"
 msgstr "Configurações de Tradução"
 
-#: functions.php:302
+#: functions.php:419
 msgid "Select Language"
 msgstr "Selecione o idioma"
 
-#: functions.php:312
+#: functions.php:429
 msgid "Add or Update Translation"
 msgstr "Adicionar ou atualizar tradução"
 
-#: functions.php:315 functions.php:332
+#: functions.php:432 functions.php:449
 msgid "Original String"
 msgstr "Texto Original"
 
-#: functions.php:319 functions.php:333
+#: functions.php:436 functions.php:450
 msgid "Translated String"
 msgstr "Texto Traduzido"
 
-#: functions.php:323
+#: functions.php:440
 msgid "Save Translation"
 msgstr "Salvar Tradução"
 
-#: functions.php:328
+#: functions.php:445
 msgid "Existing Translations"
 msgstr "Traduções existentes"
 
-#: functions.php:334
+#: functions.php:451
 msgid "Actions"
 msgstr "Ações"
 
-#: functions.php:350
-msgid "Update"
-msgstr "Atualizar"
-
-#: functions.php:354
+#: functions.php:471
 msgid "Delete"
 msgstr "Excluir"
 
-#: functions.php:360
+#: functions.php:477
 msgid "No translations found."
 msgstr "Nenhuma tradução encontrada."
 
@@ -202,10 +311,118 @@ msgstr "Nenhuma tradução encontrada."
 msgid "Toggle navigation"
 msgstr "Alternar navegação"
 
-#: templates/page-changelog.php:35 templates/single-changelog.php:11
+#: search.php:18
+#, php-format
+msgid "Search results for: %s"
+msgstr "Resultados da pesquisa para: %s"
+
+#: search.php:33
+msgid "read more"
+msgstr "Leia mais"
+
+#: search.php:43 templates/page-changelogs.php:85
+msgid "« Previous"
+msgstr "« Anterior"
+
+#: search.php:44 templates/page-changelogs.php:86
+msgid "Next »"
+msgstr "Próximo »"
+
+#: search.php:50
+msgid "No results found for:"
+msgstr "Nenhum resultado encontrado para:"
+
+#: search.php:51
+msgid "Try searching for different keywords or see some suggestions below."
+msgstr ""
+"Tente buscar por palavras-chave diferentes ou veja algumas sugestões abaixo."
+
+#: templates/page-changelogs.php:48
 msgid "Version:"
 msgstr "Versão:"
 
-#: templates/page-changelog.php:36 templates/single-changelog.php:14
+#: templates/page-changelogs.php:52
 msgid "Released on:"
 msgstr "Lançado em:"
+
+#: templates/page-changelogs.php:62
+msgid "Updated"
+msgstr "Atualização"
+
+#: templates/page-changelogs.php:92
+msgid "No changelogs found."
+msgstr "Nenhum changelogs encontrado."
+
+#: templates/page-faqs.php:19
+msgid "Search documentation..."
+msgstr "Search documentation..."
+
+#: templates/page-faqs.php:81
+msgid "Nenhuma FAQ disponível para este assunto."
+msgstr ""
+
+#: templates/page-faqs.php:89
+msgid "Nenhum assunto encontrado."
+msgstr ""
+
+#: templates/page-faqs.php:94
+msgid "Por Assuntos"
+msgstr "Por Assuntos"
+
+#: templates/page-faqs.php:114
+msgid "Nenhum assunto disponível no momento."
+msgstr ""
+
+#~ msgid "Leia mais"
+#~ msgstr "Leia mais"
+
+#~ msgid "Cookie Policy"
+#~ msgstr "Política de Cookies"
+
+#~ msgid "Service"
+#~ msgstr "Atendimento"
+
+#~ msgid "« Anterior"
+#~ msgstr "« Anterior"
+
+#~ msgid "Próximo »"
+#~ msgstr "Próximo »"
+
+#~ msgid "All Assuntos"
+#~ msgstr "Todos Assuntos"
+
+#~ msgid "Edit Assunto"
+#~ msgstr "Editar Assunto"
+
+#~ msgid "Add New Assunto"
+#~ msgstr "Adicionar Novo Assunto"
+
+#~ msgid "Add New Changelog"
+#~ msgstr "Adicionar Novo Changelog"
+
+#~ msgid "New Changelog"
+#~ msgstr "Novo Changelog"
+
+#~ msgid "Edit Changelog"
+#~ msgstr "Editar Changelog"
+
+#~ msgid "View Changelog"
+#~ msgstr "Ver Changelog"
+
+#~ msgid "All Changelogs"
+#~ msgstr "Todos os Changelogs"
+
+#~ msgid "Search Changelogs"
+#~ msgstr "Pesquisar Changelogs"
+
+#~ msgid "No changelogs found in Trash."
+#~ msgstr "Nenhum changelogs encontrado na Lixeira."
+
+#~ msgid "Changelog Details"
+#~ msgstr "Detalhes do Changelog"
+
+#~ msgid "Version"
+#~ msgstr "Versão"
+
+#~ msgid "Release Date"
+#~ msgstr "Data de lançamento"

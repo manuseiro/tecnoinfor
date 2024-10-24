@@ -4,7 +4,7 @@ Theme URI: https://github.com/manuseiro/tecnoinfor
 Author: Manunseiro
 Author URI: https://manuseiro.github.io/
 Description: Tema WordPress compatível com Gutenberg para gerenciamento de funerárias, óticas e igrejas.
-Version: 0.0.1 beta
+Version: 0.0.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tecnoinfor
@@ -136,15 +136,96 @@ body{
   color: var(--color-white);
   text-decoration: none;
 }
+/*PAGE CHANGELOGS*/
+.logs-sidebar {
+  position: sticky;
+  top: 20px; /* A distância do topo da viewport */
+  /* Adicione uma cor de fundo se necessário para evitar sobreposição com o conteúdo */
+  background-color: white; /* ou qualquer outra cor que combine com seu design */
+  z-index: 10; /* Certifique-se de que está acima de outros elementos */
+}
+/*PAGE AND SINGLE*/
+/* Listas com estilos de Bootstrap */
+ul, ol {
+  margin-bottom: 1rem; /* Adiciona espaçamento entre os itens */
+  padding-left: 1.5rem; /* Espaçamento à esquerda */
+}
 
-footer .h6 {
-  color: var(--bs-white) !important;
+ul li, ol li {
+  line-height: 1.6; /* Melhor legibilidade */
 }
-footer .footer-content a {
-  text-decoration: none;
+
+/* Parágrafos */
+p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Cabeçalhos */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
   font-weight: 600;
-  color: var(--footer-link-color);
+  line-height: 1.2;
 }
+/*PAGE TERMOS&POLITICA*/
+/* Estilo para o link ativo */
+.nav-link.custom-link {
+  background-color: #f8f9fa; /* Cor de fundo para o link ativo */
+  border: 1px solid #dee2e6; /* Borda padrão para os links */
+  border-radius: 0; /* Remover qualquer arredondamento */
+}
+
+.nav-link.active {
+  background-color: #FFF;
+  border-right: 0;
+  font-weight: bold; /* Destaque visual no link ativo */
+}
+/*FOOTER*/
+/* Estilos personalizados para os links no rodapé */
+footer a {
+  color: #ffffff; /* Altera a cor dos links para branco */
+  text-decoration: none; /* Remove sublinhado dos links */
+  transition: color 0.3s ease; /* Adiciona uma transição suave na cor dos links ao passar o mouse */
+}
+
+/* Estilo para hover (quando o mouse passa por cima do link) */
+footer a:hover {
+  color: #f0a500; /* Cor dos links ao passar o mouse (destaque, exemplo: amarelo) */
+  text-decoration: underline; /* Adiciona sublinhado no hover */
+}
+
+/* Garantindo que os links do menu também sigam a cor correta */
+footer .nav a {
+  color: #ffffff; /* Mantém a cor branca dos links do menu */
+}
+
+footer .nav a:hover {
+  color: #f0a500; /* Altera para amarelo no hover */
+}
+
+footer .link-light:hover i {
+  color: #f0a500!important; /* Cor dos ícones de redes sociais no hover */
+}
+
+/* Delimitadores */
+footer .delimiter-top, .delimiter-bottom {
+  position: relative;
+  border: 0;
+}
+
+footer .delimiter-top::before {
+  content: '';
+  display: block;
+  width: 80%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -40%;
+  height: 1px;
+  background: radial-gradient(ellipse at center, rgba(222, 228, 239, 0.2) 0, rgba(255, 255, 255, 0) 75%);
+}
+
 @media (min-width: 992px) {
   .navbar .nav-item .dropdown-menu {
       display: block;

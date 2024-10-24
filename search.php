@@ -1,14 +1,12 @@
 <?php get_header(); ?>
 <main class="main-content">
 <div class="px-4 py-5 text-center text-white bg-primary">
-  <!--<img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+  
   <h1 class="display-2 pt-5 fw-bold"><?php the_title(); ?></h1>
   <div class="col-lg-8 pb-5 mx-auto">
     <?php if (has_excerpt()) : ?>
-      <p class="lead my-5"><?php echo get_the_excerpt(); ?>
-      </p>
+      <p class="lead my-5"><?php echo get_the_excerpt(); ?></p>
     <?php endif; ?>
-
   </div>
 </div>
 
@@ -17,7 +15,7 @@
     <div class="row">
       <div class="col col-12">
         <?php if (have_posts()) : ?>
-          <h1 class="fw-bold">Resultados da pesquisa por: <?php echo get_search_query(); ?></h1>
+          <h1 class="fw-bold"><?php printf(__('Search results for: %s', 'tecnoinfor'), get_search_query()); ?></h1>
 
           <?php
           // Loop para exibir os resultados da busca
@@ -32,7 +30,7 @@
               <p class="search-excerpt">
                 <?php echo wp_trim_words(get_the_excerpt(), 20, '...'); ?>
               </p>
-              <a href="<?php the_permalink(); ?>" class="btn btn-primary">Leia mais</a>
+              <a href="<?php the_permalink(); ?>" class="btn btn-primary"><?php _e('read more', 'tecnoinfor'); ?></a>
             </div>
 
           <?php endwhile; ?>
@@ -42,15 +40,15 @@
             <?php
             the_posts_pagination(array(
               'mid_size'  => 2,
-              'prev_text' => __('« Anterior', 'textdomain'),
-              'next_text' => __('Próximo »', 'textdomain'),
+              'prev_text' => __('« Previous', 'tecnoinfor'),
+              'next_text' => __('Next »', 'tecnoinfor'),
             ));
             ?>
           </div>
 
         <?php else : ?>
-          <h2 class="fw-bold">Nenhum resultado encontrado para: <?php echo get_search_query(); ?></h2>
-          <p>Tente buscar por palavras-chave diferentes ou veja algumas sugestões abaixo.</p>
+          <h2 class="fw-bold"><?php _e('No results found for:', 'tecnoinfor'); ?> <?php echo get_search_query(); ?></h2>
+          <p><?php _e('Try searching for different keywords or see some suggestions below.', 'tecnoinfor'); ?></p>
 
           <?php
           // Sugestão de posts recentes caso nada seja encontrado

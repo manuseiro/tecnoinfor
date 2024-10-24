@@ -1,7 +1,7 @@
 <?php
 // Definir token do GitHub no wp-config.php
 if (!defined('GITHUB_AUTH_TOKEN')) {
-    define('GITHUB_AUTH_TOKEN', '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');
+    define('GITHUB_AUTH_TOKEN', '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');
 }
 
 // Incluir arquivos necessários
@@ -30,6 +30,10 @@ function tecnoinfor_setup()
     // Registrar menus
     register_nav_menus(array(
         'primary' => __('Primary Menu', 'tecnoinfor'),
+        'secondary' => __('Institutional', 'tecnoinfor'),
+        'three' => __('Contact', 'tecnoinfor'),
+        'fourth' => __('Help', 'tecnoinfor'),
+        'Fifth' => __('Support', 'tecnoinfor'),
     ));
     // Suporte à tradução
     load_theme_textdomain('tecnoinfor', get_template_directory() . '/languages');
@@ -139,17 +143,17 @@ add_action('init', 'registrar_cpt_faqs');
 // Função para registrar a Taxonomia "Assunto"
 function registrar_taxonomia_assunto() {
     $labels = array(
-        'name'              => _x('Assuntos', 'taxonomy general name'),
-        'singular_name'     => _x('Assunto', 'taxonomy singular name'),
-        'search_items'      => __('Search Assuntos'),
-        'all_items'         => __('All Assuntos'),
-        'parent_item'       => __('Parent Assunto'),
-        'parent_item_colon' => __('Parent Assunto:'),
-        'edit_item'         => __('Edit Assunto'),
-        'update_item'       => __('Update Assunto'),
-        'add_new_item'      => __('Add New Assunto'),
-        'new_item_name'     => __('New Assunto Name'),
-        'menu_name'         => __('Assuntos'),
+        'name'              => _x('Subjects', 'taxonomy general name'),
+        'singular_name'     => _x('Subject', 'taxonomy singular name'),
+        'search_items'      => __('Search Subjects'),
+        'all_items'         => __('All Subjects'),
+        'parent_item'       => __('Parent Subject'),
+        'parent_item_colon' => __('Parent Subject:'),
+        'edit_item'         => __('Edit Subject'),
+        'update_item'       => __('Update Subject'),
+        'add_new_item'      => __('Add New Subject'),
+        'new_item_name'     => __('New Subject Name'),
+        'menu_name'         => __('Subjects'),
     );
 
     $args = array(
@@ -167,117 +171,152 @@ function registrar_taxonomia_assunto() {
 // Hook para registrar a Taxonomia
 add_action('init', 'registrar_taxonomia_assunto');
 
-// Função para registrar o Custom Post Type de Changelogs
-function registrar_cpt_changelog()
-{
+// Função para registrar o Custom Post Type Changelog
+function custom_post_type_changelog() {
     $labels = array(
-        'name'                  => _x('Changelogs', 'Post type general name', 'tecnoinfor'),
-        'singular_name'         => _x('Changelog', 'Post type singular name', 'tecnoinfor'),
-        'menu_name'             => _x('Changelogs', 'Admin Menu text', 'tecnoinfor'),
-        'name_admin_bar'        => _x('Changelog', 'Add New on Toolbar', 'tecnoinfor'),
-        'add_new'               => __('Add New', 'tecnoinfor'),
-        'add_new_item'          => __('Add New Changelog', 'tecnoinfor'),
-        'new_item'              => __('New Changelog', 'tecnoinfor'),
-        'edit_item'             => __('Edit Changelog', 'tecnoinfor'),
-        'view_item'             => __('View Changelog', 'tecnoinfor'),
-        'all_items'             => __('All Changelogs', 'tecnoinfor'),
-        'search_items'          => __('Search Changelogs', 'tecnoinfor'),
-        'not_found'             => __('No changelogs found.', 'tecnoinfor'),
-        'not_found_in_trash'    => __('No changelogs found in Trash.', 'tecnoinfor'),
-        'featured_image'        => _x('Changelog Cover Image', 'Overrides the “Featured Image” phrase', 'tecnoinfor'),
-        'set_featured_image'    => _x('Set cover image', 'Overrides the “Set featured image” phrase', 'tecnoinfor'),
-        'remove_featured_image' => _x('Remove cover image', 'tecnoinfor'),
-        'use_featured_image'    => _x('Use as cover image', 'tecnoinfor'),
-        'archives'              => _x('Changelog archives', 'The post type archive label', 'tecnoinfor'),
-        'insert_into_item'      => _x('Insert into changelog', 'Overrides the “Insert into post” phrase', 'tecnoinfor'),
-        'uploaded_to_this_item' => _x('Uploaded to this changelog', 'Overrides the “Uploaded to this post” phrase', 'tecnoinfor'),
+        'name' => 'Changelogs',
+        'singular_name' => 'Changelog',
+        'menu_name' => 'Changelogs',
+        'name_admin_bar' => 'Changelog',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Novo Changelog',
+        'new_item' => 'Novo Changelog',
+        'edit_item' => 'Editar Changelog',
+        'view_item' => 'Ver Changelog',
+        'all_items' => 'Todos os Changelogs',
+        'search_items' => 'Pesquisar Changelog',
+        'not_found' => 'Nenhum Changelog encontrado',
     );
 
     $args = array(
-        'labels'             => $labels,
-        'public'             => true,
-        'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => array('slug' => 'changelog'), // URL amigável
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 20,
-        'menu_icon'          => 'dashicons-list-view', // Ícone do menu no painel
-        'supports'           => array('title', 'editor', 'excerpt', 'custom-fields'),
-        'show_in_rest'       => true, // Habilita o editor Gutenberg
+        'labels' => $labels,
+        'public' => true,
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'changelogs'),
+        'supports' => array('title', 'editor'),
+        'show_in_rest' => true,  // Suporte ao editor Gutenberg
+        'menu_position' => 5,
+        'menu_icon' => 'dashicons-list-view',
     );
 
     register_post_type('changelog', $args);
 }
+add_action('init', 'custom_post_type_changelog');
 
-// Hook para registrar o CPT no 'init'
-add_action('init', 'registrar_cpt_changelog');
+function changelog_meta_boxes() {
+    add_meta_box('changelog_details', 'Detalhes do Changelog', 'changelog_meta_callback', 'changelog', 'normal', 'high');
+}
+add_action('add_meta_boxes', 'changelog_meta_boxes');
 
-// Adiciona meta box personalizada para Changelogs
-function changelog_add_meta_box()
-{
-    add_meta_box(
-        'changelog_meta_box',           // ID da meta box
-        __('Changelog Details', 'tecnoinfor'), // Título da meta box
-        'changelog_meta_box_callback',  // Função de callback que renderiza a box
-        'changelog',                    // Custom Post Type onde a meta box será exibida
-        'normal',                       // Posição (normal, side, etc.)
-        'high'                          // Prioridade
+
+function changelog_meta_callback($post) {
+    // Recupera os valores dos campos meta
+    $added = get_post_meta($post->ID, '_changelog_added', true);
+    $fixed = get_post_meta($post->ID, '_changelog_fixed', true);
+    $updated = get_post_meta($post->ID, '_changelog_updated', true);
+    $improved = get_post_meta($post->ID, '_changelog_improved', true);
+    $removed = get_post_meta($post->ID, '_changelog_removed', true);
+    $deprecated = get_post_meta($post->ID, '_changelog_deprecated', true);
+    $compatibility = get_post_meta($post->ID, '_changelog_compatibility', true);
+    
+    // Estilos CSS para melhorar a organização e visualização
+    ?>
+    <style>
+        .changelog-meta-boxes {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .changelog-meta-boxes label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .changelog-meta-boxes textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+
+    <div class="changelog-meta-boxes">
+        <div class="changelog-meta-field">
+            <label for="changelog_added"><?php echo __('Added','tecnoinfor')?></label>
+            <textarea name="changelog_added" id="changelog_added" rows="5" placeholder="<?php echo __('Ex.: New features or improvements','tecnoinfor')?>"><?php echo esc_textarea($added); ?></textarea>
+        </div>
+
+        <div class="changelog-meta-field">
+            <label for="changelog_fixed"><?php echo __('Fixed','tecnoinfor')?></label>
+            <textarea name="changelog_fixed" id="changelog_fixed" rows="5" placeholder="<?php echo __('Ex.: Bug fixes or known errors','tecnoinfor')?>"><?php echo esc_textarea($fixed); ?></textarea>
+        </div>
+
+        <div class="changelog-meta-field">
+            <label for="changelog_updated"><?php echo __('Update','tecnoinfor')?></label>
+            <textarea name="changelog_updated" id="changelog_updated" rows="5" placeholder="<?php echo __('Ex.: General feature updates','tecnoinfor')?>"><?php echo esc_textarea($updated); ?></textarea>
+        </div>
+
+        <div class="changelog-meta-field">
+            <label for="changelog_improved"><?php echo __('Improved','tecnoinfor')?></label>
+            <textarea name="changelog_improved" id="changelog_improved" rows="5" placeholder="<?php echo __('Ex.: Process or performance improvements','tecnoinfor')?>"><?php echo esc_textarea($improved); ?></textarea>
+        </div>
+
+        <div class="changelog-meta-field">
+            <label for="changelog_removed"><?php echo __('Removed','tecnoinfor')?></label>
+            <textarea name="changelog_removed" id="changelog_removed" rows="5" placeholder="<?php echo __('Ex.: Removed features or elements','tecnoinfor')?>"><?php echo esc_textarea($removed); ?></textarea>
+        </div>
+
+        <div class="changelog-meta-field">
+            <label for="changelog_deprecated"><?php echo __('Deprecated','tecnoinfor')?></label>
+            <textarea name="changelog_deprecated" id="changelog_deprecated" rows="5" placeholder="<?php echo __('Ex.: Features or elements Discontinued','tecnoinfor')?>"><?php echo esc_textarea($deprecated); ?></textarea>
+        </div>
+
+        <div class="changelog-meta-field">
+            <label for="changelog_compatibility"><?php echo __('Compatibility','tecnoinfor')?></label>
+            <textarea name="changelog_compatibility" id="changelog_compatibility" rows="5" placeholder="<?php echo __('Ex.: Compatible Features or Elements','tecnoinfor')?>"><?php echo esc_textarea($compatibility); ?></textarea>
+        </div>
+    </div>
+    <?php
+}
+
+function get_changelog_meta($post_id) {
+    return array(
+        'added'        => get_post_meta($post_id, '_changelog_added', true),
+        'fixed'        => get_post_meta($post_id, '_changelog_fixed', true),
+        'updated'      => get_post_meta($post_id, '_changelog_updated', true),
+        'improved'     => get_post_meta($post_id, '_changelog_improved', true),
+        'removed'      => get_post_meta($post_id, '_changelog_removed', true),
+        'deprecated'   => get_post_meta($post_id, '_changelog_deprecated', true),
+        'compatibility'=> get_post_meta($post_id, '_changelog_compatibility', true)
     );
 }
-add_action('add_meta_boxes', 'changelog_add_meta_box');
-
-// Função que renderiza os campos dentro da meta box
-function changelog_meta_box_callback($post)
-{
-    // Adiciona um nonce para validação
-    wp_nonce_field('save_changelog_meta_box_data', 'changelog_meta_box_nonce');
-
-    // Recupera os valores atuais (se houver)
-    $version = get_post_meta($post->ID, '_changelog_version', true);
-    $release_date = get_post_meta($post->ID, '_changelog_release_date', true);
-
-?>
-    <p>
-        <label for="changelog_version"><?php _e('Version', 'tecnoinfor'); ?></label>
-        <input type="text" id="changelog_version" name="changelog_version" value="<?php echo esc_attr($version); ?>" />
-    </p>
-    <p>
-        <label for="changelog_release_date"><?php _e('Release Date', 'tecnoinfor'); ?></label>
-        <input type="date" id="changelog_release_date" name="changelog_release_date" value="<?php echo esc_attr($release_date); ?>" />
-    </p>
-<?php
-}
-// Salva os dados da meta box
-function save_changelog_meta_box_data($post_id)
-{
-    // Verifica se o nonce é válido
-    if (! isset($_POST['changelog_meta_box_nonce']) || ! wp_verify_nonce($_POST['changelog_meta_box_nonce'], 'save_changelog_meta_box_data')) {
-        return;
+function save_changelog_meta($post_id) {
+    // Salvar os campos personalizados
+    if (isset($_POST['changelog_added'])) {
+        update_post_meta($post_id, '_changelog_added', sanitize_textarea_field($_POST['changelog_added']));
     }
-
-    // Verifica se o usuário pode salvar os dados
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
+    if (isset($_POST['changelog_fixed'])) {
+        update_post_meta($post_id, '_changelog_fixed', sanitize_textarea_field($_POST['changelog_fixed']));
     }
-
-    if (! current_user_can('edit_post', $post_id)) {
-        return;
+    if (isset($_POST['changelog_updated'])) {
+        update_post_meta($post_id, '_changelog_updated', sanitize_textarea_field($_POST['changelog_updated']));
     }
-
-    // Verifica se os campos estão presentes e salva os dados
-    if (isset($_POST['changelog_version'])) {
-        update_post_meta($post_id, '_changelog_version', sanitize_text_field($_POST['changelog_version']));
+    if (isset($_POST['changelog_improved'])) {
+        update_post_meta($post_id, '_changelog_improved', sanitize_textarea_field($_POST['changelog_improved']));
     }
-
-    if (isset($_POST['changelog_release_date'])) {
-        update_post_meta($post_id, '_changelog_release_date', sanitize_text_field($_POST['changelog_release_date']));
+    if (isset($_POST['changelog_removed'])) {
+        update_post_meta($post_id, '_changelog_removed', sanitize_textarea_field($_POST['changelog_removed']));
+    }
+    if (isset($_POST['changelog_deprecated'])) {
+        update_post_meta($post_id, '_changelog_deprecated', sanitize_textarea_field($_POST['changelog_deprecated']));
+    }
+    if (isset($_POST['changelog_compatibility'])) {
+        update_post_meta($post_id, '_changelog_compatibility', sanitize_textarea_field($_POST['changelog_compatibility']));
     }
 }
-add_action('save_post', 'save_changelog_meta_box_data');
+add_action('save_post', 'save_changelog_meta');
 
 // Função para adicionar a página de administração para traduções
 function tecnoinfor_menu()

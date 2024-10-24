@@ -7,8 +7,8 @@
           <h1 class="display-4 fw-bold lh-1 text-emphasis">Gestão de Contratos de Planos Assistenciais e Funerário</h1>
           <p class="lead">Agilize suas tarefas diárias com praticidade e segurança para você cuidar do que realmente importa.</p>
           <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-            <a class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Download Grátis</a>
-            <a class="btn btn-outline-secondary btn-lg px-4">Documentação</a>
+            <a class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Download</a>
+            <a class="btn btn-outline-secondary btn-lg px-4">Como utilizar</a>
           </div>
           <p class="text-body-secondary mb-1">
             <small>Grátis por 30 dias*</small>
