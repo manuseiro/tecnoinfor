@@ -9,7 +9,7 @@
     }
     ?>
     
-    <section class="banner-breadcrumb bg-delp" style="
+    <section id="banner-header" class="banner-breadcrumb bg-delp" style="
         background: linear-gradient(to bottom, rgb(11, 94, 215, 0.3) 0%, rgba(11, 94, 215, 0.4) 50%, rgba(11, 94, 215, 0.8) 100%), url('<?php echo esc_url($banner_image); ?>');
         background-size: cover; 
         background-position: center;">

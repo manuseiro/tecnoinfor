@@ -1,4 +1,122 @@
 <?php
+
+// Adiciona uma página de opções ao menu de administração do WordPress
+function tecnoinfor_add_admin_menu() {
+    add_menu_page(
+        __('Theme Admin', 'tecnoinfor'), // Título da página
+        __('Theme Admin', 'tecnoinfor'), // Título do menu
+        'manage_options', // Capacidade necessária para acessar a página
+        'tecnoinfor_settings', // Slug da página
+        'tecnoinfor_options_page', // Função que renderiza o conteúdo da página
+        'dashicons-admin-generic' // Ícone do menu
+    );
+}
+add_action('admin_menu', 'tecnoinfor_add_admin_menu');
+
+// Renderiza o conteúdo da página de opções
+function tecnoinfor_options_page() {
+    ?>
+    <div class="wrap">
+        <h1><?php _e('Theme Admin', 'tecnoinfor'); ?></h1>
+        <form method="post" action="options.php">
+            <?php
+            settings_fields('tecnoinfor_options_group'); // Define o grupo de opções
+            do_settings_sections('tecnoinfor_settings'); // Renderiza seções
+            submit_button(); // Botão de salvar
+            ?>
+        </form>
+    </div>
+    <?php
+}
+
+// Registra configurações do tema
+function tecnoinfor_settings_init() {
+    // Registra uma nova configuração
+    register_setting('tecnoinfor_options_group', 'tecnoinfor_options');
+
+    // Adiciona uma seção
+    add_settings_section(
+        'tecnoinfor_section', // ID da seção
+        __('Settings', 'tecnoinfor'), // Título da seção
+        'tecnoinfor_section_callback', // Função de callback
+        'tecnoinfor_settings' // Slug da página
+    );
+
+    // Adiciona um campo
+    add_settings_field(
+        'tecnoinfor_field_logo', // ID do campo
+        __('Logo do Tema', 'tecnoinfor'), // Título do campo
+        'tecnoinfor_logo_render', // Função de renderização
+        'tecnoinfor_settings', // Slug da página
+        'tecnoinfor_section' // ID da seção
+    );
+}
+add_action('admin_init', 'tecnoinfor_settings_init');
+
+// Callback para a seção
+function tecnoinfor_section_callback() {
+    echo __('Adjust theme settings.', 'tecnoinfor');
+}
+
+// Renderiza o campo de upload de logotipo
+function tecnoinfor_logo_render() {
+    $options = get_option('tecnoinfor_options');
+    $logo_id = isset($options['logo']) ? $options['logo'] : ''; // Armazena o ID da imagem na Biblioteca de Mídia
+    
+    // URL do logotipo, caso esteja definido
+    $logo_url = $logo_id ? wp_get_attachment_url($logo_id) : '';
+    ?>
+    <!-- Campo de upload de logotipo -->
+    <div>
+        <input type="hidden" name="tecnoinfor_options[logo]" id="tecnoinfor_logo" value="<?php echo esc_attr($logo_id); ?>">
+        <img id="tecnoinfor_logo_preview" src="<?php echo esc_url($logo_url); ?>" style="max-width: 150px; display: <?php echo $logo_url ? 'block' : 'none'; ?>;">
+        <button type="button" class="button" id="tecnoinfor_logo_upload"><?php _e('Select Logo', 'tecnoinfor'); ?></button>
+        <button type="button" class="button" id="tecnoinfor_logo_remove" style="display: <?php echo $logo_url ? 'inline-block' : 'none'; ?>;"><?php _e('Remove Logo', 'tecnoinfor'); ?></button>
+    </div>
+
+    <!-- Script para controlar o upload do logotipo -->
+    <script>
+        jQuery(document).ready(function($) {
+            var mediaUploader;
+
+            $('#tecnoinfor_logo_upload').on('click', function(e) {
+                e.preventDefault();
+                
+                // Se o uploader já foi inicializado, abre a janela
+                if (mediaUploader) {
+                    mediaUploader.open();
+                    return;
+                }
+
+                // Cria o media uploader
+                mediaUploader = wp.media({
+                    title: '<?php _e("Choose Logo", "tecnoinfor"); ?>',
+                    button: { text: '<?php _e("Use this image", "tecnoinfor"); ?>' },
+                    multiple: false // Permite apenas uma imagem
+                });
+
+                mediaUploader.on('select', function() {
+                    var attachment = mediaUploader.state().get('selection').first().toJSON();
+                    $('#tecnoinfor_logo').val(attachment.id);
+                    $('#tecnoinfor_logo_preview').attr('src', attachment.url).show();
+                    $('#tecnoinfor_logo_remove').show();
+                });
+
+                mediaUploader.open();
+            });
+
+            $('#tecnoinfor_logo_remove').on('click', function(e) {
+                e.preventDefault();
+                $('#tecnoinfor_logo').val('');
+                $('#tecnoinfor_logo_preview').hide();
+                $(this).hide();
+            });
+        });
+    </script>
+    <?php
+}
+
+
 // Definir token do GitHub no wp-config.php
 if (!defined('GITHUB_AUTH_TOKEN')) {
     define('GITHUB_AUTH_TOKEN', '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');
@@ -7,7 +125,6 @@ if (!defined('GITHUB_AUTH_TOKEN')) {
 // Incluir arquivos necessários
 require_once get_template_directory() . '/inc/theme-update-checker.php';
 require_once get_template_directory() . '/inc/navbar_walker_custom.php';
-//require_once get_template_directory() . '/inc/theme-admin-functions.php';
 
 // Funções relacionadas à configuração do tema
 function tecnoinfor_setup()
@@ -17,8 +134,6 @@ function tecnoinfor_setup()
 
     // Suporte a thumbnails e excerpts para páginas
     add_theme_support('post-thumbnails');
-    add_image_size( 'post_thumb', 350, 200, true );
-    add_image_size( 'cliente-thumbnail', 241, 200, true );
     add_post_type_support('page', 'thumbnail');
     add_post_type_support('page', 'excerpt');
 
@@ -43,55 +158,13 @@ function tecnoinfor_setup()
 }
 add_action('after_setup_theme', 'tecnoinfor_setup');
 
-//Função para retornar copyright anos, nome, descrição do site e direitos reservados.
-function comicpress_copyright() {
-	global $wpdb;
-
-	// Recupera o nome e a descrição do site configurados no WordPress
-	$company_name = get_bloginfo('name');
-	$slogan = get_bloginfo('description');
-
-	// Texto padrão para "Todos os direitos reservados" com suporte a tradução
-	$rights_reserved_text = __("All rights reserved", "tecnoinfor");
-
-	// Consulta ao banco para obter os anos da primeira e última postagem publicada
-	$copyright_dates = $wpdb->get_results("
-		SELECT
-		YEAR(min(post_date_gmt)) AS firstdate,
-		YEAR(max(post_date_gmt)) AS lastdate
-		FROM
-		$wpdb->posts
-		WHERE
-		post_status = 'publish'
-	");
-
-	$output = '';
-
-	// Verificação se a consulta retornou dados válidos
-	if ($copyright_dates && isset($copyright_dates[0]->firstdate)) {
-		$first_year = $copyright_dates[0]->firstdate;
-		$last_year = $copyright_dates[0]->lastdate;
-
-		// Verificação para exibir intervalo de anos se forem diferentes
-		$year_range = ($first_year != $last_year) ? "$first_year - $last_year" : $first_year;
-	} else {
-		// Define o ano atual caso não haja publicações
-		$year_range = date("Y");
-	}
-
-	// Monta o texto final do rodapé com o nome e descrição do site, além de direitos reservados
-	$output = sprintf("© %s | %s - %s | %s", $year_range, $company_name, $slogan, $rights_reserved_text);
-
-	return $output;
-}
-
 // Adicionar suporte para atualização do tema via GitHub
 function tecnoinfor_theme_update_setup()
 {
     $github_username = 'manuseiro'; // Nome do usuário no github.com
     $repository_name = 'tecnoinfor'; // Nome do repositório usado para hospedar o tema
 
-    add_theme_update_hooks($github_username, $repository_name, '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');
+    add_theme_update_hooks($github_username, $repository_name, GITHUB_AUTH_TOKEN);
     // Opcional: Notificação visual para o administrador
     // notify_theme_update($github_username, $repository_name, GITHUB_AUTH_TOKEN);
 }
@@ -102,16 +175,12 @@ function tecnoinfor_enqueue_assets()
 {
     // Estilos
     wp_enqueue_style('bootstrap-css', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css');
-    wp_enqueue_style('bootstrap-custom', get_template_directory_uri().'/css/custom.css');
     wp_enqueue_style('bootstrap-icons', 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
     wp_enqueue_style('google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-    wp_enqueue_style('animate-css', 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
     wp_enqueue_style('style', get_stylesheet_uri());
 
     // Scripts
     wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
-    wp_enqueue_script('wow', get_template_directory_uri().'/js/wow.min.js', array('jquery'), '1.1.3', true );
-    wp_enqueue_script('wow', get_template_directory_uri().'/js/main.js', array('jquery'), '0.0.3', true );
 }
 add_action('wp_enqueue_scripts', 'tecnoinfor_enqueue_assets');
 
@@ -204,21 +273,6 @@ add_action('wp_enqueue_scripts', 'tecnoinfor_enqueue_assets');
 //     exit();
 // }
 //add_action('template_redirect', 'wp_custom_maintenance');
-// Função para registrar as diferenças dos planos
-function get_plan_differences() {
-    return [
-        ['Módulo', 'Gratuito', 'Profissional', 'Enterprise'],
-        ['Cadastro de Empresas', '1', '2', '5'],
-        ['Numero de usuários', '1', '2', '5'],
-        ['Administração de Contratos (Geração, Alterações)', '❌', '✔️', '✔️'],
-        ['Emissão de Carteiras Personalizadas', '❌', '✔️', '✔️'],
-        ['Emissão de Carnês e Boletos para Vários Bancos', '❌', '✔️', '✔️'],
-        ['Relatórios Avançados de Contratos e Financeiro', '❌', '✔️', '✔️'],
-        ['Fluxo de Caixa e Contas a Pagar', '❌', '❌', '✔️'],
-        ['API para Integrações Externas', '❌', '❌', '✔️'],
-        ['Suporte e Treinamento Personalizado', '❌', '❌', '✔️']
-    ];
-}
 
 // Função para registrar o Custom Post Type "Clientes"
 function registrar_cpt_clientes()
@@ -256,119 +310,6 @@ function registrar_cpt_clientes()
 // Hook para registrar o Custom Post Type
 add_action('init', 'registrar_cpt_clientes');
 
-// Função para registrar o Custom Post Type "Depoimentos"
-function registrar_cpt_depoimentos() {
-    $labels = [
-        'name'                => __('Testimonials', 'tecnoinfor'),
-        'singular_name'       => __('Testimonial', 'tecnoinfor'),
-        'menu_name'          => __('Testimonials', 'tecnoinfor'),
-        'name_admin_bar'      => __('Testimonial', 'tecnoinfor'),
-        'add_new'             => __('Add New', 'tecnoinfor'),
-        'add_new_item'        => __('Add New Testimonial', 'tecnoinfor'),
-        'new_item'            => __('New Testimonial', 'tecnoinfor'),
-        'edit_item'           => __('Edit Testimonial', 'tecnoinfor'),
-        'view_item'           => __('View Testimonial', 'tecnoinfor'),
-        'all_items'           => __('All Testimonials', 'tecnoinfor'),
-        'search_items'        => __('Search Testimonials', 'tecnoinfor'),
-        'not_found'           => __('No testimonials found.', 'tecnoinfor'),
-        'not_found_in_trash'  => __('No testimonials in the trash.', 'tecnoinfor'),
-    ];
-
-    $args = [
-        'labels'             => $labels,
-        'public'             => true,
-        'publicly_queryable' => true,
-        'show_ui'            => true,
-        'show_in_menu'       => true,
-        'query_var'          => true,
-        'rewrite'            => ['slug' => 'depoimentos'],
-        'capability_type'    => 'post',
-        'has_archive'        => true,
-        'hierarchical'       => false,
-        'menu_position'      => 5,
-        'menu_icon'          => 'dashicons-format-quote',
-        'supports'           => ['title', 'editor', 'thumbnail'],
-    ];
-
-    register_post_type('depoimentos', $args);
-}
-add_action('init', 'registrar_cpt_depoimentos');
-
-// Adicionar metabox para campos personalizados dos Depoimentos
-function adicionar_campos_personalizados_depoimentos() {
-    add_meta_box(
-        'informacoes_cliente',
-        __('Client Information', 'tecnoinfor'),
-        'renderizar_campos_personalizados_depoimentos',
-        'depoimentos',
-        'normal',
-        'high'
-    );
-}
-add_action('add_meta_boxes', 'adicionar_campos_personalizados_depoimentos');
-
-function renderizar_campos_personalizados_depoimentos($post) {
-    // Verificação de segurança
-    wp_nonce_field('salvar_campos_depoimentos', 'depoimentos_nonce');
-
-    // Valores dos campos
-    $avaliacao = get_post_meta($post->ID, '_avaliacao', true);
-    $cliente = get_post_meta($post->ID, '_cliente', true);
-    $empresa = get_post_meta($post->ID, '_empresa', true);
-    $cargo = get_post_meta($post->ID, '_cargo', true);
-
-    // Renderização dos campos
-    ?>
-    <label for="avaliacao"><?php _e('Rating (1 to 5)', 'tecnoinfor'); ?></label>
-    <select name="avaliacao" id="avaliacao" class="widefat">
-        <option value="1" <?php selected($avaliacao, '1'); ?>>1</option>
-        <option value="2" <?php selected($avaliacao, '2'); ?>>2</option>
-        <option value="3" <?php selected($avaliacao, '3'); ?>>3</option>
-        <option value="4" <?php selected($avaliacao, '4'); ?>>4</option>
-        <option value="5" <?php selected($avaliacao, '5'); ?>>5</option>
-    </select>
-
-    <label for="cliente"><?php _e('Client Name', 'tecnoinfor'); ?></label>
-    <input type="text" name="cliente" id="cliente" value="<?php echo esc_attr($cliente); ?>" class="widefat">
-
-    <label for="empresa"><?php _e('Company', 'tecnoinfor'); ?></label>
-    <input type="text" name="empresa" id="empresa" value="<?php echo esc_attr($empresa); ?>" class="widefat">
-
-    <label for="cargo"><?php _e('Client Position', 'tecnoinfor'); ?></label>
-    <input type="text" name="cargo" id="cargo" value="<?php echo esc_attr($cargo); ?>" class="widefat">
-    <?php
-}
-
-// Função para salvar os campos personalizados
-function salvar_campos_personalizados_depoimentos($post_id) {
-    // Verifica o nonce para segurança
-    if (!isset($_POST['depoimentos_nonce']) || !wp_verify_nonce($_POST['depoimentos_nonce'], 'salvar_campos_depoimentos')) {
-        return;
-    }
-
-    // Verifica se é uma ação de autosave
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-
-    // Salva os valores dos campos
-    if (isset($_POST['avaliacao'])) {
-        update_post_meta($post_id, '_avaliacao', sanitize_text_field($_POST['avaliacao']));
-    }
-
-    if (isset($_POST['cliente'])) {
-        update_post_meta($post_id, '_cliente', sanitize_text_field($_POST['cliente']));
-    }
-
-    if (isset($_POST['empresa'])) {
-        update_post_meta($post_id, '_empresa', sanitize_text_field($_POST['empresa']));
-    }
-
-    if (isset($_POST['cargo'])) {
-        update_post_meta($post_id, '_cargo', sanitize_text_field($_POST['cargo']));
-    }
-}
-add_action('save_post', 'salvar_campos_personalizados_depoimentos');
 // Função para registrar o Custom Post Type "FAQs"
 function registrar_cpt_faqs()
 {
@@ -586,17 +527,17 @@ add_action('save_post', 'save_changelog_meta');
 
 // Função para adicionar a página de administração para traduções
 function tecnoinfor_menu()
-    {
-        add_menu_page(
-            'Translation Settings',
-            'Translation',
-            'manage_options',
-            'tecnoinfor-traducao',
-            'tecnoinfor_traducao_page',
-            'dashicons-translation',
-            20
-        );
-    }
+{
+    add_menu_page(
+        'Translation Settings',
+        'Translation',
+        'manage_options',
+        'tecnoinfor-traducao',
+        'tecnoinfor_traducao_page',
+        'dashicons-translation',
+        20
+    );
+}
 add_action('admin_menu', 'tecnoinfor_menu');
 
 // Função para a página de administração de traduções
@@ -749,3 +690,138 @@ function tecnoinfor_traducao_page()
 <?php
 }
 
+
+// Additional Fields in Theme Settings
+function tecnoinfor_additional_fields() {
+    // Colors and Typography fields
+    add_settings_field(
+        'theme_primary_color',
+        __('Primary Color', 'tecnoinfor'),
+        'render_primary_color',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    add_settings_field(
+        'theme_typography',
+        __('Typography', 'tecnoinfor'),
+        'render_typography',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    
+    // Social Media fields
+    add_settings_field(
+        'social_facebook',
+        __('Facebook URL', 'tecnoinfor'),
+        'render_social_facebook',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    add_settings_field(
+        'social_instagram',
+        __('Instagram URL', 'tecnoinfor'),
+        'render_social_instagram',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    add_settings_field(
+        'social_linkedin',
+        __('LinkedIn URL', 'tecnoinfor'),
+        'render_social_linkedin',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    
+    // Custom Post Types Settings
+    add_settings_field(
+        'enable_portfolios',
+        __('Enable Portfolios', 'tecnoinfor'),
+        'render_enable_portfolios',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    add_settings_field(
+        'enable_testimonials',
+        __('Enable Testimonials', 'tecnoinfor'),
+        'render_enable_testimonials',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+
+    // Google Analytics
+    add_settings_field(
+        'google_analytics_id',
+        __('Google Analytics ID', 'tecnoinfor'),
+        'render_google_analytics_id',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+
+    // Custom CSS and JavaScript
+    add_settings_field(
+        'custom_css',
+        __('Custom CSS', 'tecnoinfor'),
+        'render_custom_css',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+    add_settings_field(
+        'custom_js',
+        __('Custom JavaScript', 'tecnoinfor'),
+        'render_custom_js',
+        'tecnoinfor_settings',
+        'tecnoinfor_section'
+    );
+}
+add_action('admin_init', 'tecnoinfor_additional_fields');
+
+// Rendering functions for the fields
+function render_primary_color() {
+    $value = get_option('theme_primary_color', '#000000');
+    echo '<input type="text" name="theme_primary_color" value="' . esc_attr($value) . '" class="color-field" />';
+}
+
+function render_typography() {
+    $value = get_option('theme_typography', 'Arial');
+    echo '<input type="text" name="theme_typography" value="' . esc_attr($value) . '" />';
+}
+
+function render_social_facebook() {
+    $value = get_option('social_facebook', '');
+    echo '<input type="url" name="social_facebook" value="' . esc_attr($value) . '" />';
+}
+
+function render_social_instagram() {
+    $value = get_option('social_instagram', '');
+    echo '<input type="url" name="social_instagram" value="' . esc_attr($value) . '" />';
+}
+
+function render_social_linkedin() {
+    $value = get_option('social_linkedin', '');
+    echo '<input type="url" name="social_linkedin" value="' . esc_attr($value) . '" />';
+}
+
+function render_enable_portfolios() {
+    $value = get_option('enable_portfolios', '0');
+    echo '<input type="checkbox" name="enable_portfolios" value="1"' . checked(1, $value, false) . ' />';
+}
+
+function render_enable_testimonials() {
+    $value = get_option('enable_testimonials', '0');
+    echo '<input type="checkbox" name="enable_testimonials" value="1"' . checked(1, $value, false) . ' />';
+}
+
+function render_google_analytics_id() {
+    $value = get_option('google_analytics_id', '');
+    echo '<input type="text" name="google_analytics_id" value="' . esc_attr($value) . '" />';
+}
+
+function render_custom_css() {
+    $value = get_option('custom_css', '');
+    echo '<textarea name="custom_css" rows="5" cols="50">' . esc_textarea($value) . '</textarea>';
+}
+
+function render_custom_js() {
+    $value = get_option('custom_js', '');
+    echo '<textarea name="custom_js" rows="5" cols="50">' . esc_textarea($value) . '</textarea>';
+}

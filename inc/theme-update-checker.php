@@ -25,12 +25,12 @@ function get_theme_info_from_github($github_username, $repository_name, $access_
     }
 
     $data = json_decode(wp_remote_retrieve_body($response));
-
-    // Verifica se os dados são válidos
-    if (!$data) {
+    // Verifica se os dados são válidos e possuem as propriedades necessárias
+    if (!$data || empty($data->tag_name) || empty($data->zipball_url)) {
+        // Log detalhado do que a API retornou
+        error_log('Erro ao obter dados do GitHub: ' . print_r($data, true), 3, __DIR__ . '/debug.log');
         return false;
     }
-
     return [
         'version' => $data->tag_name,
         'download_url' => $data->zipball_url,
@@ -80,10 +80,18 @@ function download_and_install_theme_update($theme_info) {
         return false;
     }
 
-    $temp_file = download_url($theme_info['download_url']);
+    // Adiciona autenticação ao download
+    $temp_file = wp_remote_get($theme_info['download_url'], array(
+        'headers' => array(
+            'Authorization' => 'token SEU_TOKEN_DO_GITHUB_AQUI',
+            'Accept' => 'application/vnd.github.v3+json',
+            'User-Agent' => 'WordPress Theme Update Checker'
+        ),
+    ));
 
     // Verifica se o download foi bem-sucedido
-    if (is_wp_error($temp_file)) {
+    if (is_wp_error($temp_file) || wp_remote_retrieve_response_code($temp_file) !== 200) {
+        error_log('Erro ao baixar atualização: ' . print_r($temp_file, true));
         return false;
     }
 
@@ -95,10 +103,10 @@ function download_and_install_theme_update($theme_info) {
         mkdir($temp_dir, 0755, true);
     }
 
-    $result = unzip_file($temp_file, $temp_dir);
+    $result = unzip_file($temp_file['body'], $temp_dir);
 
-    // Exclui arquivo temporário
-    unlink($temp_file);
+    // Remove arquivo temporário
+    unlink($temp_file['body']);
 
     // Verifica se a extração foi bem-sucedida
     if (is_wp_error($result)) {

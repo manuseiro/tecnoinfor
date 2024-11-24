@@ -4,36 +4,18 @@ Theme URI: https://github.com/manuseiro/tecnoinfor
 Author: Manunseiro
 Author URI: https://manuseiro.github.io/
 Description: Tema WordPress compatível com Gutenberg para gerenciamento de funerárias, óticas e igrejas.
-Version: 0.0.3
+Version: 0.0.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: tecnoinfor
 */
-:root{
-  --bs-navbar-toggler-border-radius:none;
-  --bs-breadcrumb-item-active-color:#FFF;
-  --color-white:#FFF;
-  --footer-link-color:#94b4e2;
-}
-body{
+
+body {
   font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-.bg-light{
-  background-color: #f0f0f0 !important;
-}
-.bg-blue{
-  background: #053494;
-  color: #FFFFFF;
-}
-.btn {
-  font-weight: 500;
-  transition: .5s;
-  border-radius: 0 !important;
-}
-
-.btn.btn-primary {
-  color: #FFFFFF;
+.address {
+  margin-bottom: none;
 }
 
 .btn-sm-square {
@@ -46,16 +28,21 @@ body{
   font-weight: normal;
 }
 
-.navbar-brand{
-  max-width:300px;
+.navbar-brand {
+  max-width: 300px;
 }
-.navbar-brand img.custom-logo{
-  max-width: 100%; /* Para garantir que o logotipo se ajuste ao contêiner */
-  height: auto; /* Mantém a proporção do logotipo */
+
+.navbar-brand img.custom-logo {
+  max-width: 100%;
+  /* Para garantir que o logotipo se ajuste ao contêiner */
+  height: auto;
+  /* Mantém a proporção do logotipo */
 }
-.navbar .dropdown-toggle{
-  border-radius: var(--bs-navbar-toggler-border-radius)!important;
+
+.navbar .dropdown-toggle {
+  border-radius: var(--bs-navbar-toggler-border-radius) !important;
 }
+
 .navbar .dropdown-toggle::after {
   border: none;
   content: "\F282";
@@ -76,7 +63,7 @@ body{
 }
 
 .dropdown-menu a.nav-link {
-  padding: 15px 15px!important;
+  padding: 15px 15px !important;
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
@@ -85,13 +72,13 @@ body{
 }
 
 @media (max-width: 991.98px) {
-  .navbar-light .navbar-nav .nav-link  {
-      margin-right: 0;
-      padding: 10px 0;
+  .navbar-light .navbar-nav .nav-link {
+    margin-right: 0;
+    padding: 10px 0;
   }
 
   .navbar-light .navbar-nav {
-      border-top: 1px solid #EEEEEE;
+    border-top: 1px solid #EEEEEE;
   }
 }
 
@@ -109,17 +96,53 @@ body{
   top: -100px;
   transition: .5s;
 }
+
 /*HERO HOME*/
-.hero-home{
+.hero-home {
   width: 100%;
-  background: url(images/hero-bg.png) top center no-repeat;
+  background: url(assets/images/hero-bg.png) top center no-repeat;
   background-size: auto;
   background-size: cover;
 }
+
+@media (max-width: 2193px) {
+  .custom-img {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 992px) {
+  .custom-img {
+    width: 100%;
+    max-width: none;
+    /* Remove a restrição de max-width */
+  }
+}
+/*INDEX NEWS*/
+.card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+.news .card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.news .card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/*INDEX LICENCE*/
+
 /*PAGE*/
 .banner-breadcrumb {
   position: relative;
-  height: 400px; /* Altura do banner */
+  height: 400px;
+  /* Altura do banner */
   color: #fff !important;
   display: flex;
   align-items: center;
@@ -127,89 +150,204 @@ body{
   background-position: center;
   background-repeat: no-repeat;
   /* Gradiente que faz a sombra e sobrepõe a imagem de fundo */
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url(''); /* O URL da imagem será inserido no HTML 
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url('');
+  /* O URL da imagem será inserido no HTML 
   linear-gradient(#0000 20%, #0008 60%, #000a 80%);
   */
 }
-.breadcrumb-item.active ,.breadcrumb-item a,
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item.active,
+.breadcrumb-item a,
+.breadcrumb-item+.breadcrumb-item::before {
   color: var(--color-white);
+  text-decoration: none;
+}
+
+/*PAGE SEARCH*/
+.recent-posts-list .card {
+  transition: transform 0.3s ease;
+}
+
+.recent-posts-list .card:hover {
+  transform: translateY(-10px);
+}
+
+.recent-posts-list .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+.pagination a{
   text-decoration: none;
 }
 /*PAGE CHANGELOGS*/
 .logs-sidebar {
   position: sticky;
-  top: 20px; /* A distância do topo da viewport */
+  top: 20px;
+  /* A distância do topo da viewport */
   /* Adicione uma cor de fundo se necessário para evitar sobreposição com o conteúdo */
-  background-color: white; /* ou qualquer outra cor que combine com seu design */
-  z-index: 10; /* Certifique-se de que está acima de outros elementos */
-}
-/*PAGE AND SINGLE*/
-/* Listas com estilos de Bootstrap */
-ul, ol {
-  margin-bottom: 1rem; /* Adiciona espaçamento entre os itens */
-  padding-left: 1.5rem; /* Espaçamento à esquerda */
+  background-color: white;
+  /* ou qualquer outra cor que combine com seu design */
+  z-index: 10;
+  /* Certifique-se de que está acima de outros elementos */
 }
 
-ul li, ol li {
-  line-height: 1.6; /* Melhor legibilidade */
+/*PAGE AND SINGLE*/
+/* Listas com estilos de Bootstrap */
+.editor-wp ul,
+.editor-wp ol {
+  margin-bottom: 1rem;
+  /* Adiciona espaçamento entre os itens */
+  padding-left: 1.5rem;
+  /* Espaçamento à esquerda */
+}
+
+.editor-wp ul li,
+.editor-wp ol li {
+  line-height: 1.6;
+  /* Melhor legibilidade */
 }
 
 /* Parágrafos */
-p {
+.editor-wp p {
   margin-bottom: 1rem;
   line-height: 1.6;
 }
 
 /* Cabeçalhos */
-h1, h2, h3, h4, h5, h6 {
+.editor-wp h1,
+.editor-wp h2,
+.editor-wp h3,
+.editor-wp h4,
+.editor-wp h5,
+.editor-wp h6 {
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   font-weight: 600;
   line-height: 1.2;
 }
+
+/*PAGE CHANGELOGS*/
+@media (min-width: 992px) {
+  .bd-toc {
+    position: sticky;
+    top: 5rem;
+    right: 0;
+    z-index: 2;
+    height: calc(100vh - 7rem);
+    overflow-y: auto;
+  }
+}
+/*PAGE CLIENTES*/
+/* Estilos personalizados para o layout de clientes */
+.cliente-card {
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.cliente-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cliente-thumbnail {
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.cliente-card:hover .cliente-thumbnail {
+  transform: scale(1.05);
+}
+
+.cliente-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #333;
+  margin-top: 15px;
+}
+
+.cliente-excerpt {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+}
 /*PAGE TERMOS&POLITICA*/
 /* Estilo para o link ativo */
 .nav-link.custom-link {
-  background-color: #f8f9fa; /* Cor de fundo para o link ativo */
-  border: 1px solid #dee2e6; /* Borda padrão para os links */
-  border-radius: 0; /* Remover qualquer arredondamento */
+  color: rgb(135, 138, 140, .9);
+  border-left: 2px solid rgb(135, 138, 140, .5);
+  /* Borda padrão para os links */
+  /* Remover qualquer arredondamento */
 }
 
-.nav-link.active {
-  background-color: #FFF;
-  border-right: 0;
-  font-weight: bold; /* Destaque visual no link ativo */
+.nav-link.custom-link:hover {
+  color: color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, -1))
 }
+
+.nav-link.active,
+.nav-link.custom-link.active,
+.nav-link.custom-link.active:hover {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+  border-left-color: var(--bs-link-color-rgb);
+  font-weight: bold;
+  /* Destaque visual no link ativo */
+}
+
 /*FOOTER*/
+#goTopBtn{
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}
+
 /* Estilos personalizados para os links no rodapé */
 footer a {
-  color: #ffffff; /* Altera a cor dos links para branco */
-  text-decoration: none; /* Remove sublinhado dos links */
-  transition: color 0.3s ease; /* Adiciona uma transição suave na cor dos links ao passar o mouse */
+  color: #ffffff;
+  /* Altera a cor dos links para branco */
+  text-decoration: none;
+  /* Remove sublinhado dos links */
+  transition: color 0.3s ease;
+  /* Adiciona uma transição suave na cor dos links ao passar o mouse */
 }
 
 /* Estilo para hover (quando o mouse passa por cima do link) */
 footer a:hover {
-  color: #f0a500; /* Cor dos links ao passar o mouse (destaque, exemplo: amarelo) */
-  text-decoration: underline; /* Adiciona sublinhado no hover */
+  color: #f0a500;
+  /* Cor dos links ao passar o mouse (destaque, exemplo: amarelo) */
+  text-decoration: underline;
+  /* Adiciona sublinhado no hover */
+}
+
+/*Logo footer*/
+footer img.custom-logo {
+  max-width: 100%;
+  height: auto;
 }
 
 /* Garantindo que os links do menu também sigam a cor correta */
 footer .nav a {
-  color: #ffffff; /* Mantém a cor branca dos links do menu */
+  color: #ffffff;
+  /* Mantém a cor branca dos links do menu */
 }
 
 footer .nav a:hover {
-  color: #f0a500; /* Altera para amarelo no hover */
+  color: #f0a500;
+  /* Altera para amarelo no hover */
 }
 
 footer .link-light:hover i {
-  color: #f0a500!important; /* Cor dos ícones de redes sociais no hover */
+  color: #f0a500 !important;
+  /* Cor dos ícones de redes sociais no hover */
 }
 
 /* Delimitadores */
-footer .delimiter-top, .delimiter-bottom {
+footer .delimiter-top,
+.delimiter-bottom {
   position: relative;
   border: 0;
 }
@@ -228,20 +366,20 @@ footer .delimiter-top::before {
 
 @media (min-width: 992px) {
   .navbar .nav-item .dropdown-menu {
-      display: block;
-      border: none;
-      margin-top: 0;
-      top: 150%;
-      opacity: 0;
-      visibility: hidden;
-      transition: .5s;
+    display: block;
+    border: none;
+    margin-top: 0;
+    top: 150%;
+    opacity: 0;
+    visibility: hidden;
+    transition: .5s;
   }
 
   .navbar .nav-item:hover .dropdown-menu {
-      top: 100%;
-      visibility: visible;
-      transition: .5s;
-      opacity: 1;
+    top: 100%;
+    visibility: visible;
+    transition: .5s;
+    opacity: 1;
   }
 }
 
@@ -249,11 +387,15 @@ footer .delimiter-top::before {
   .banner-breadcrumb .display-4 {
     font-size: 2.5rem;
   }
+
   .banner-breadcrumb {
-    height: 250px; /* Altura menor para telas pequenas */
+    height: 250px;
+    /* Altura menor para telas pequenas */
   }
+
   .banner-breadcrumb h1 {
-    font-size: 2rem; /* Tamanho do título menor em telas pequenas */
+    font-size: 2rem;
+    /* Tamanho do título menor em telas pequenas */
   }
 }
 
@@ -266,6 +408,7 @@ footer .delimiter-top::before {
   padding: 20px;
   text-align: center;
 }
+
 #lgpd-consent-banner button {
   margin: 0 10px;
   padding: 10px 20px;
@@ -274,6 +417,7 @@ footer .delimiter-top::before {
   border: none;
   cursor: pointer;
 }
+
 #lgpd-consent-banner button:last-child {
   background-color: #dc3545;
 }

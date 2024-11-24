@@ -16,7 +16,7 @@ get_header(); ?>
   <!-- Conteúdo da página -->
   <div class="container my-5 p-5">
     <div class="row">
-      <div class="col-lg-3">
+      <div class="col-lg-3 mb-5">
         <!-- Menu de navegação entre páginas -->
         <nav class="sticky-top">
           <ul class="nav flex-column">
@@ -38,13 +38,14 @@ get_header(); ?>
           </ul>
         </nav>
       </div>
-      
       <div class="col-lg-9">
-        <?php
-          while ( have_posts() ) : the_post();
-            the_content();
-          endwhile;
-        ?>
+        <div class="editor-wp">
+          <?php
+            while ( have_posts() ) : the_post();
+              the_content();
+            endwhile;
+          ?>
+        </div>
       </div>
     </div>
   </div>

@@ -9,8 +9,7 @@
 
 get_header();
 ?>
-<div class="px-4 py-5 text-center text-white bg-primary">
-  <!--<img class="d-block mx-auto mb-4" src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+<div id="banner-header" class="px-4 py-5 text-center text-white bg-primary">
   <h1 class="display-2 pt-5 fw-bold"><?php the_title(); ?></h1>
   <div class="col-lg-8 pb-5 mx-auto">
     <?php if (has_excerpt()) : ?>
@@ -18,68 +17,44 @@ get_header();
       </p>
     <?php endif; ?>
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="<?php echo esc_url(home_url()); ?>/mais-informacoes/" class="btn btn-outline-light btn-lg px-4 gap-3">Contato Comercial</a>
+      <a href="https://www.tecnoinfor.com.br/uploads/downloads/Demo_Sisplan.exe" class="btn btn-success btn-lg me-md-2 py-3 px-5 gap-3" target='_blank' rel='noopener noreferrer' >Baixar Software<i class="bi bi-download ms-3"></i></a>
+      <a href="<?php echo esc_url(home_url()); ?>/contato/" class="btn btn-outline-light btn-lg me-md-2 py-3 px-5 gap-3">Contato Comercial</a>
     </div>
+    </br><small>Baixe a versão de teste do nosso software e aproveite as funcionalidades por 15 dias*</small>
   </div>
 </div>
 <main class="main-content">
   <section class="negocio">
-    <div class="py-5">
+    <div class="pt-5">
       <div class="p-5 text-center">
         <div class="container py-5">
           <h1 class="text-body-emphasis display-6 fw-bold">Foque no seu Negócio</h1>
           <p class="col-lg-12 mx-auto lead text-light-emphasis">
             Simplifique suas tarefas diárias com praticidade e segurança para cuidar do que realmente importa, com uma solução completa para gestão de planos funerários e serviços assistenciais. Automatize e otimize suas operações, desde a gestão de contratos até a emissão de carner, garantindo maior eficiência e satisfação dos clientes.
           </p>
+
         </div>
       </div>
     </div>
-    <div class="px-4" id="featured-3">
+    <div class="pb-3" id="featured-3">
       <div class="container">
-        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-          <div class="feature col p-4 shadow-sm">
-            <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary-subtle fs-2 p-2 px-3 mb-3 rounded">
-              <i class="bi bi-person-bounding-box text-primary"></i>
-            </div>
-            <h3 class="fs-2 text-body-emphasis fw-bold">Cadastros</h3>
-            <p class="text-light-emphasis">Gere contratos personalizados, emita carteiras exclusivas e acompanhe todo o ciclo de vida do contrato, desde a assinatura até a rescisão. O módulo de atendimento ao usuário facilita o processo de comunicação com os clientes, agilizando o atendimento em casos de óbito e outras solicitações.</p>
-          </div>
-          <div class="feature col p-4 shadow-sm">
-            <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary-subtle fs-2 p-2 px-3 mb-3 rounded">
-              <i class="bi bi-person-vcard text-primary"></i>
-            </div>
-            <h3 class="fs-2 text-body-emphasis fw-bold">Administração de Contratos</h3>
-            <p class="text-light-emphasis">Gere contratos personalizados, emita carteiras exclusivas e acompanhe todo o ciclo de vida do contrato, desde a assinatura até a rescisão. O módulo de atendimento ao usuário facilita o processo de comunicação com os clientes, agilizando o atendimento em casos de óbito e outras solicitações.</p>
-          </div>
-          <div class="feature col p-4 shadow-sm">
-            <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary-subtle fs-2 p-2 px-3 mb-3 rounded">
-              <i class="bi bi-piggy-bank text-primary"></i>
-            </div>
-            <h3 class="fs-2 text-body-emphasis fw-bold">Financeiro</h3>
-            <p class="text-light-emphasis">Controle suas receitas e despesas de forma eficiente. Emita boletos bancários para diversos bancos, acompanhe o fluxo de caixa e gere relatórios detalhados sobre as suas finanças.</p>
-          </div>
-          <div class="feature col p-4 shadow-sm">
-            <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary-subtle fs-2 p-2 px-3 mb-3 rounded">
-              <i class="bi bi-journal-plus text-primary"></i>
-            </div>
-            <h3 class="fs-2 text-body-emphasis fw-bold">Cadastros Básicos</h3>
-            <p class="text-light-emphasis">Organize e padronize as informações essenciais para o seu negócio. O módulo de Cadastros Básicos permite a gestão completa de planos de contas, contas bancárias, produtos e fornecedores. Com ele, você garante a precisão dos dados e agiliza a geração de relatórios financeiros.</p>
-          </div>
-          <div class="feature col p-4 shadow-sm">
-            <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary-subtle fs-2 p-2 px-3 mb-3 rounded">
-              <i class="bi bi-cart text-primary"></i>
-            </div>
-            <h3 class="fs-2 text-body-emphasis fw-bold">Venda</h3>
-            <p class="text-light-emphasis">Obtenha insights valiosos sobre o desempenho do seu negócio. O módulo de relatórios do Sisplan oferece uma variedade de opções para gerar relatórios personalizados, como contratos realizados por período, cobranças, controle de títulos e muito mais. Utilize essas informações para identificar oportunidades de melhoria e tomar decisões mais assertivas.</p>
-          </div>
-          <div class="feature col p-4 shadow-sm">
-            <div class="feature-icon d-inline-flex align-items-center justify-content-center bg-primary-subtle fs-2 p-2 px-3 mb-3 rounded">
-              <i class="bi bi-journal-text text-primary"></i>
-            </div>
-            <h3 class="fs-2 text-body-emphasis fw-bold">Relatórios</h3>
-            <p class="text-light-emphasis">Obtenha insights valiosos sobre o desempenho do seu negócio. O módulo de relatórios do Sisplan oferece uma variedade de opções para gerar relatórios personalizados, como contratos realizados por período, cobranças, controle de títulos e muito mais. Utilize essas informações para identificar oportunidades de melhoria e tomar decisões mais assertivas.</p>
+      <!-- Vídeo centralizado usando wp_oembed_get -->
+      <div class="text-center my-5">
+      <?php echo wp_oembed_get("https://www.youtube.com/watch?v=rXo9pKBt8Uk"); ?>
+      </div>
+        <div class="col-12 px-5 pb-3 text-center">
+          <div class="container py-5">
+            <h1 class="display-6 fw-bold text-primary">Principais Módulos</h1>
+            <p class="col-lg-12 mx-auto lead text-light-emphasis">
+            Nosso sistema é composto de módulos estratégicos, que organizam e simplificam as operações da sua funerária
+            </p>
           </div>
         </div>
+        <?php 
+        // Inclui o conteúdo do header puxado do arquivo template-parts/content-features.php
+        get_template_part('template-parts/content', 'features'); 
+        ?>
+
       </div>
     </div>
   </section>
@@ -117,11 +92,15 @@ get_header();
         <img src="<?php bloginfo('template_url'); ?>/assets/images/bootstrap-themes.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
       </div>
       <div class="col-lg-6">
-        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Responsive left-aligned hero with image</h1>
-        <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Por que a
+          Tecnoinfor?</h1>
+        <p class="lead">
+        Optar pela Tecnoinfor significa escolher uma parceira que entende os desafios do seu negócio e oferece soluções que realmente fazem a diferença. Com mais de uma década de experiência no mercado, sabemos que tecnologia só é valiosa quando simplifica, agiliza e transforma o dia a dia da sua empresa. Nosso compromisso é ser um suporte ativo e dedicado ao seu sucesso.
+        </br></br>
+        Solicite uma demonstração gratuita hoje mesmo e descubra como podemos te ajudar a alcançar seus objetivos!
+        </p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
-          <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
+          <a class="btn btn-primary btn-lg px-4 me-md-2" href="#">Entrar em contato</a>
         </div>
       </div>
     </div>
@@ -192,7 +171,7 @@ get_header();
         </div>
 
 
-        
+
       </div>
     </div>
   </section>

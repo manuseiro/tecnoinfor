@@ -9,11 +9,13 @@ get_template_part('template-parts/content', 'header');
   <div class="container my-5 p-5">
     <div class="row">
       <div class="col-lg-12">
-        <?php
-          while ( have_posts() ) : the_post();
-            the_content();
-          endwhile;
-        ?>
+        <div class="editor-wp">
+          <?php
+            while ( have_posts() ) : the_post();
+              the_content();
+            endwhile;
+          ?>
+        </div>
       </div>
     </div>
   </div>

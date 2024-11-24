@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-10-23 21:09-0300\n"
-"PO-Revision-Date: 2024-10-23 21:10-0300\n"
+"POT-Creation-Date: 2024-11-10 11:59-0300\n"
+"PO-Revision-Date: 2024-11-10 11:59-0300\n"
 "Last-Translator: \n"
 "Language-Team: SteelThemes\n"
 "Language: pt_BR\n"
@@ -13,8 +13,7 @@ msgstr ""
 "TesteProject-Id-Version: Engines\n"
 "X-Generator: Poedit 3.5\n"
 "X-Poedit-Basepath: ..\n"
-"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e;"
-"_n\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e;_n\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: languages\n"
 
@@ -38,346 +37,555 @@ msgstr ""
 msgid "Back to Home"
 msgstr "Voltar para Home"
 
-#: footer.php:14
+#: footer.php:20
 msgid "Tecnoinfor"
 msgstr "A Tecnoinfor"
 
-#: footer.php:28
-msgid "Product"
-msgstr "Produto"
+#: footer.php:34
+msgid "Solutions"
+msgstr "Soluções"
 
-#: footer.php:42 functions.php:34
+#: footer.php:48 functions.php:37 functions_custon.php:152
 msgid "Contact"
 msgstr "Contato"
 
-#: footer.php:56 functions.php:36
+#: footer.php:62 functions.php:39 functions_custon.php:154
 msgid "Support"
 msgstr "Suporte"
 
-#: footer.php:71 templates/page-termos_politica.php:35
+#: footer.php:77 templates/page-termos_politica.php:35
 msgid "Terms of Use"
 msgstr "Termos de Uso"
 
-#: footer.php:72 footer.php:73 templates/page-termos_politica.php:25
+#: footer.php:78 templates/page-termos_politica.php:25
 #: templates/page-termos_politica.php:30
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: footer.php:80
-msgid "All rights reserved </br>Designed by "
-msgstr "Todos os direitos reservados </br>Criado por"
+#: footer.php:79
+msgid "Cookie Privacy"
+msgstr "Política de Cookies"
 
-#: functions.php:32
+#: footer.php:86
+msgid "Designed by"
+msgstr "Criado por"
+
+#: functions.php:35 functions_custon.php:150
 msgid "Primary Menu"
 msgstr "Menu Principal"
 
-#: functions.php:33
+#: functions.php:36 functions_custon.php:151
 msgid "Institutional"
 msgstr "Institucional"
 
-#: functions.php:35
+#: functions.php:38 functions_custon.php:153
 msgid "Help"
 msgstr "Ajuda"
 
-#: functions.php:73 functions.php:75
+#: functions.php:55
+msgid "All rights reserved"
+msgstr "Todos os direitos reservados"
+
+#: functions.php:227 functions.php:229 functions_custon.php:281
+#: functions_custon.php:283
 msgid "Clients"
 msgstr "Clientes"
 
-#: functions.php:74 functions.php:76
+#: functions.php:228 functions.php:230 functions_custon.php:282
+#: functions_custon.php:284
 msgid "Client"
 msgstr "Cliente"
 
-#: functions.php:77
+#: functions.php:231 functions.php:266 functions_custon.php:285
 msgid "Add New"
 msgstr "Adicionar Novo"
 
-#: functions.php:78
+#: functions.php:232 functions_custon.php:286
 msgid "Add New Client"
 msgstr "Adicionar Novo Cliente"
 
-#: functions.php:79
+#: functions.php:233 functions_custon.php:287
 msgid "New Client"
 msgstr "Novo Cliente"
 
-#: functions.php:80
+#: functions.php:234 functions_custon.php:288
 msgid "Edit Client"
 msgstr "Editar Cliente"
 
-#: functions.php:81
+#: functions.php:235 functions_custon.php:289
 msgid "View Client"
 msgstr "Ver Cliente"
 
-#: functions.php:82
+#: functions.php:236 functions_custon.php:290
 msgid "All Clients"
 msgstr "Todos os Clientes"
 
-#: functions.php:83
+#: functions.php:237 functions_custon.php:291
 msgid "Search Clients"
 msgstr "Pesquisar Clientes"
 
-#: functions.php:84
+#: functions.php:238 functions_custon.php:292
 msgid "No clients found."
 msgstr "Nenhum cliente encontrado."
 
-#: functions.php:85
+#: functions.php:239 functions_custon.php:293
 msgid "No clients found in trash."
 msgstr "Nenhum cliente encontrado na Lixeira."
 
-#: functions.php:112
+#: functions.php:262 functions.php:264
+msgid "Testimonials"
+msgstr "Depoimentos"
+
+#: functions.php:263 functions.php:265
+msgid "Testimonial"
+msgstr "Depoimento"
+
+#: functions.php:267
+msgid "Add New Testimonial"
+msgstr "Adicionar Novo Depoimento"
+
+#: functions.php:268
+msgid "New Testimonial"
+msgstr "Novo Depoimento"
+
+#: functions.php:269
+msgid "Edit Testimonial"
+msgstr "Editar Depoimento"
+
+#: functions.php:270
+msgid "View Testimonial"
+msgstr "Visualizar Depoimento"
+
+#: functions.php:271
+msgid "All Testimonials"
+msgstr "Todos Depoimentos"
+
+#: functions.php:272
+msgid "Search Testimonials"
+msgstr "Buscar Depoimentos"
+
+#: functions.php:273 index.php:149
+msgid "No testimonials found."
+msgstr "Nenhum depoimento encontrado."
+
+#: functions.php:274
+msgid "No testimonials in the trash."
+msgstr "Nenhum depoimento na lixeira."
+
+#: functions.php:301
+msgid "Client Information"
+msgstr "Informações do Cliente"
+
+#: functions.php:322
+msgid "Rating (1 to 5)"
+msgstr "Avaliação (1 a 5)"
+
+#: functions.php:331
+msgid "Client Name"
+msgstr "Nome do Cliente"
+
+#: functions.php:334
+msgid "Company"
+msgstr "Empresa"
+
+#: functions.php:337
+msgid "Client Position"
+msgstr "Cargo do Cliente"
+
+#: functions.php:379 functions_custon.php:320
 msgid "Add New FAQ"
 msgstr "Adicionar Novo FAQ"
 
-#: functions.php:113
+#: functions.php:380 functions_custon.php:321
 msgid "Edit FAQ"
 msgstr "Editar FAQ"
 
-#: functions.php:114
+#: functions.php:381 functions_custon.php:322
 msgid "New FAQ"
 msgstr "Nova FAQ"
 
-#: functions.php:115
+#: functions.php:382 functions_custon.php:323
 msgid "View FAQ"
 msgstr "Ver FAQ"
 
-#: functions.php:116
+#: functions.php:383 functions_custon.php:324
 msgid "Search FAQs"
 msgstr "Pesquisar FAQs"
 
-#: functions.php:117
+#: functions.php:384 functions_custon.php:325
 msgid "No FAQs Found"
 msgstr "Nenhuma FAQs encontrada."
 
-#: functions.php:118
+#: functions.php:385 functions_custon.php:326
 msgid "No FAQs found in the Trash"
-msgstr "Nenhuma FAQs encontrada na Lixeira."
+msgstr "Nenhuma FAQs encontrada na Lixeira"
 
-#: functions.php:148
+#: functions.php:415 functions_custon.php:356
 msgid "Search Subjects"
 msgstr "Pesquisar Assuntos"
 
-#: functions.php:149
+#: functions.php:416 functions_custon.php:357
 msgid "All Subjects"
 msgstr "Todos os Assuntos"
 
-#: functions.php:150
+#: functions.php:417 functions_custon.php:358
 msgid "Parent Subject"
 msgstr "Assunto Pai"
 
-#: functions.php:151
+#: functions.php:418 functions_custon.php:359
 msgid "Parent Subject:"
 msgstr "Assunto Pai:"
 
-#: functions.php:152
+#: functions.php:419 functions_custon.php:360
 msgid "Edit Subject"
 msgstr "Editar Assunto"
 
-#: functions.php:153
+#: functions.php:420 functions_custon.php:361
 msgid "Update Subject"
 msgstr "Atualizar Assunto"
 
-#: functions.php:154
+#: functions.php:421 functions_custon.php:362
 msgid "Add New Subject"
 msgstr "Adicionar Novo Assunto"
 
-#: functions.php:155
+#: functions.php:422 functions_custon.php:363
 msgid "New Subject Name"
 msgstr "Novo Nome do Assunto"
 
-#: functions.php:156
+#: functions.php:423 functions_custon.php:364
 msgid "Subjects"
 msgstr "Assuntos"
 
-#: functions.php:247 templates/page-changelogs.php:59
+#: functions.php:513 functions_custon.php:454 templates/page-changelogs.php:101
 msgid "Added"
 msgstr "Adicionado"
 
-#: functions.php:248
+#: functions.php:514 functions_custon.php:455
 msgid "Ex.: New features or improvements"
 msgstr "Ex.: Novos recursos ou melhorias"
 
-#: functions.php:252 templates/page-changelogs.php:60
+#: functions.php:518 functions_custon.php:459 templates/page-changelogs.php:102
 msgid "Fixed"
 msgstr "Correção"
 
-#: functions.php:253
+#: functions.php:519 functions_custon.php:460
 msgid "Ex.: Bug fixes or known errors"
 msgstr "Ex.: Correções de bugs ou erros conhecidos"
 
-#: functions.php:257 functions.php:467
+#: functions.php:523 functions.php:733 functions_custon.php:464
+#: functions_custon.php:674
 msgid "Update"
 msgstr "Atualização"
 
-#: functions.php:258
+#: functions.php:524 functions_custon.php:465
 msgid "Ex.: General feature updates"
 msgstr "Ex.: Atualizações gerais de recursos"
 
-#: functions.php:262 templates/page-changelogs.php:64
+#: functions.php:528 functions_custon.php:469 templates/page-changelogs.php:106
 msgid "Improved"
 msgstr "Melhoria"
 
-#: functions.php:263
+#: functions.php:529 functions_custon.php:470
 msgid "Ex.: Process or performance improvements"
 msgstr "Ex.: Melhorias de processo ou desempenho"
 
-#: functions.php:267 templates/page-changelogs.php:61
+#: functions.php:533 functions_custon.php:474 templates/page-changelogs.php:103
 msgid "Removed"
 msgstr "Removido"
 
-#: functions.php:268
+#: functions.php:534 functions_custon.php:475
 msgid "Ex.: Removed features or elements"
 msgstr "Ex.: Recursos ou elementos removidos"
 
-#: functions.php:272 templates/page-changelogs.php:63
+#: functions.php:538 functions_custon.php:479 templates/page-changelogs.php:105
 msgid "Deprecated"
 msgstr "Descontinuado"
 
-#: functions.php:273
+#: functions.php:539 functions_custon.php:480
 msgid "Ex.: Features or elements Discontinued"
 msgstr "Ex.: Características ou elementos Descontinuados"
 
-#: functions.php:277 templates/page-changelogs.php:65
+#: functions.php:543 functions_custon.php:484 templates/page-changelogs.php:107
 msgid "Compatibility"
 msgstr "Compatibilidade"
 
-#: functions.php:278
+#: functions.php:544 functions_custon.php:485
 msgid "Ex.: Compatible Features or Elements"
 msgstr "Ex.: Recursos ou elementos compatíveis"
 
-#: functions.php:344
+#: functions.php:610 functions_custon.php:551
 msgid "POT file not found."
 msgstr "Arquivo POT não encontrado."
 
-#: functions.php:355
+#: functions.php:621 functions_custon.php:562
 msgid "PO file was created. Please add your translations now."
 msgstr "O arquivo PO foi criado. Por favor, adicione suas traduções agora."
 
-#: functions.php:377
+#: functions.php:643 functions_custon.php:584
 msgid "Translation saved successfully!"
 msgstr "Tradução salva com sucesso!"
 
-#: functions.php:386
+#: functions.php:652 functions_custon.php:593
 msgid "PO file not found. Cannot delete translation."
 msgstr "Arquivo PO não encontrado. Não é possível excluir a tradução."
 
-#: functions.php:400
+#: functions.php:666 functions_custon.php:607
 msgid "Translation deleted successfully!"
 msgstr "Tradução excluída com sucesso!"
 
-#: functions.php:402
+#: functions.php:668 functions_custon.php:609
 msgid "Translation not found for deletion."
 msgstr "Tradução não encontrada para exclusão."
 
-#: functions.php:416
+#: functions.php:682 functions_custon.php:623
 msgid "Translation Settings"
 msgstr "Configurações de Tradução"
 
-#: functions.php:419
+#: functions.php:685 functions_custon.php:626
 msgid "Select Language"
 msgstr "Selecione o idioma"
 
-#: functions.php:429
+#: functions.php:695 functions_custon.php:636
 msgid "Add or Update Translation"
 msgstr "Adicionar ou atualizar tradução"
 
-#: functions.php:432 functions.php:449
+#: functions.php:698 functions.php:715 functions_custon.php:639
+#: functions_custon.php:656
 msgid "Original String"
 msgstr "Texto Original"
 
-#: functions.php:436 functions.php:450
+#: functions.php:702 functions.php:716 functions_custon.php:643
+#: functions_custon.php:657
 msgid "Translated String"
 msgstr "Texto Traduzido"
 
-#: functions.php:440
+#: functions.php:706 functions_custon.php:647
 msgid "Save Translation"
 msgstr "Salvar Tradução"
 
-#: functions.php:445
+#: functions.php:711 functions_custon.php:652
 msgid "Existing Translations"
 msgstr "Traduções existentes"
 
-#: functions.php:451
+#: functions.php:717 functions_custon.php:658
 msgid "Actions"
 msgstr "Ações"
 
-#: functions.php:471
+#: functions.php:737 functions_custon.php:678
 msgid "Delete"
 msgstr "Excluir"
 
-#: functions.php:477
+#: functions.php:743 functions_custon.php:684
 msgid "No translations found."
 msgstr "Nenhuma tradução encontrada."
 
-#: header.php:56
+#: functions_custon.php:6 functions_custon.php:7 functions_custon.php:20
+#: inc/theme-admin-functions.php:8 inc/theme-admin-functions.php:9
+msgid "Theme Admin"
+msgstr "Theme Admin"
+
+#: functions_custon.php:40
+msgid "Settings"
+msgstr "Configurações"
+
+#: functions_custon.php:48
+msgid "Logo do Tema"
+msgstr "Logo Tema"
+
+#: functions_custon.php:58
+msgid "Adjust theme settings."
+msgstr "Ajuste as configurações do tema."
+
+#: functions_custon.php:73
+msgid "Select Logo"
+msgstr "Selecionar Logo"
+
+#: functions_custon.php:74
+msgid "Remove Logo"
+msgstr "Remover Logo"
+
+#: functions_custon.php:93
+msgid "Choose Logo"
+msgstr "Escolha o Logo"
+
+#: functions_custon.php:94
+msgid "Use this image"
+msgstr "Use está imagem"
+
+#: functions_custon.php:699
+msgid "Primary Color"
+msgstr "Cor Principal"
+
+#: functions_custon.php:706
+msgid "Typography"
+msgstr "Tipografia"
+
+#: functions_custon.php:715
+msgid "Facebook URL"
+msgstr "URL Facebook"
+
+#: functions_custon.php:722
+msgid "Instagram URL"
+msgstr "URL Instagram"
+
+#: functions_custon.php:729
+msgid "LinkedIn URL"
+msgstr "URL Linkedin"
+
+#: functions_custon.php:738
+msgid "Enable Portfolios"
+msgstr "Habilitar Portfólios"
+
+#: functions_custon.php:745
+msgid "Enable Testimonials"
+msgstr "Habilitar Depoimentos"
+
+#: functions_custon.php:754
+msgid "Google Analytics ID"
+msgstr "ID do Google Analytics"
+
+#: functions_custon.php:763
+msgid "Custom CSS"
+msgstr "CSS Personalizado"
+
+#: functions_custon.php:770
+msgid "Custom JavaScript"
+msgstr "JavaScript Personalizado"
+
+#: header.php:57
 msgid "Toggle navigation"
 msgstr "Alternar navegação"
 
-#: search.php:18
-#, php-format
-msgid "Search results for: %s"
-msgstr "Resultados da pesquisa para: %s"
-
-#: search.php:33
+#: index.php:16 index.php:210
 msgid "read more"
+msgstr "leia mais"
+
+#: index.php:58
+msgid "Learn more"
+msgstr "Saiba mais"
+
+#: index.php:93
+msgid "We help entrepreneurs simplify their businesses"
+msgstr "Ajudamos empreendedores a simplificar seus negócios"
+
+#: index.php:94
+msgid "See what they say about our solution!"
+msgstr "Veja o que falam da nossa solução!"
+
+#: index.php:181
+msgid "Latest News"
+msgstr "Últimas Notícias"
+
+#: index.php:224
+msgid "View All Posts"
+msgstr "Ver todas as postagens"
+
+#: index.php:224
+msgid "Ver todas as postagens"
+msgstr "Ver todas as postagens"
+
+#: search.php:4
+#, php-format
+msgid "Search results for: \"%s\""
+msgstr "Resultados da busca por: \"%s\""
+
+#: search.php:27
+msgid "Read more"
 msgstr "Leia mais"
 
-#: search.php:43 templates/page-changelogs.php:85
-msgid "« Previous"
-msgstr "« Anterior"
+#: search.php:33
+msgid "Pagination"
+msgstr "Paginação"
 
-#: search.php:44 templates/page-changelogs.php:86
-msgid "Next »"
-msgstr "Próximo »"
-
-#: search.php:50
+#: search.php:57
 msgid "No results found for:"
 msgstr "Nenhum resultado encontrado para:"
 
-#: search.php:51
+#: search.php:58
 msgid "Try searching for different keywords or see some suggestions below."
 msgstr ""
 "Tente buscar por palavras-chave diferentes ou veja algumas sugestões abaixo."
 
-#: templates/page-changelogs.php:48
-msgid "Version:"
-msgstr "Versão:"
+#: templates/page-changelogs.php:30
+msgid "On this page"
+msgstr "Nesta página"
 
-#: templates/page-changelogs.php:52
-msgid "Released on:"
-msgstr "Lançado em:"
-
-#: templates/page-changelogs.php:62
-msgid "Updated"
-msgstr "Atualização"
-
-#: templates/page-changelogs.php:92
+#: templates/page-changelogs.php:54 templates/page-changelogs.php:136
 msgid "No changelogs found."
 msgstr "Nenhum changelogs encontrado."
 
+#: templates/page-changelogs.php:90
+msgid "Version:"
+msgstr "Versão:"
+
+#: templates/page-changelogs.php:94
+msgid "Released on:"
+msgstr "Lançado em:"
+
+#: templates/page-changelogs.php:104
+msgid "Updated"
+msgstr "Atualização"
+
+#: templates/page-changelogs.php:129
+msgid "« Previous"
+msgstr "« Anterior"
+
+#: templates/page-changelogs.php:130
+msgid "Next »"
+msgstr "Próximo »"
+
+#: templates/page-clientes.php:42
+msgid "No customers found."
+msgstr "Nenhum cliente encontrado."
+
 #: templates/page-faqs.php:19
 msgid "Search documentation..."
-msgstr "Search documentation..."
+msgstr "Pesquisar documentação..."
 
-#: templates/page-faqs.php:81
-msgid "Nenhuma FAQ disponível para este assunto."
-msgstr ""
+#: templates/page-faqs.php:90
+msgid "No FAQ available for this topic."
+msgstr "Não há FAQs disponíveis para este tópico."
 
-#: templates/page-faqs.php:89
+#: templates/page-faqs.php:98
 msgid "Nenhum assunto encontrado."
-msgstr ""
+msgstr "Nenhum tópico encontrado."
 
-#: templates/page-faqs.php:94
-msgid "Por Assuntos"
-msgstr "Por Assuntos"
+#: templates/page-faqs.php:103
+msgid "By Topics"
+msgstr "Por Topicos"
 
-#: templates/page-faqs.php:114
-msgid "Nenhum assunto disponível no momento."
-msgstr ""
+#: templates/page-faqs.php:120
+msgid "No topics available at this time."
+msgstr "Nenhum tópico disponível no momento."
+
+#, fuzzy
+#~| msgid "Edit Client"
+#~ msgid "Editar Depoimento"
+#~ msgstr "Editar Cliente"
+
+#, fuzzy
+#~| msgid "Nenhum assunto encontrado."
+#~ msgid "Nenhum depoimento encontrado."
+#~ msgstr "Nenhum tópico encontrado."
+
+#, fuzzy
+#~| msgid "New Client"
+#~ msgid "Nome do Cliente"
+#~ msgstr "Novo Cliente"
+
+#, fuzzy
+#~| msgid "Search Clients"
+#~ msgid "Cargo do Cliente"
+#~ msgstr "Pesquisar Clientes"
+
+#~ msgid "Product"
+#~ msgstr "Produto"
+
+#~ msgid "Por Assuntos"
+#~ msgstr "Por Assuntos"
 
 #~ msgid "Leia mais"
 #~ msgstr "Leia mais"
-
-#~ msgid "Cookie Policy"
-#~ msgstr "Política de Cookies"
 
 #~ msgid "Service"
 #~ msgstr "Atendimento"
