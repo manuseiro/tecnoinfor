@@ -27,7 +27,7 @@ get_header(); ?>
             </li>
             <li class="nav-item">
               <a href="<?php echo get_permalink(get_page_by_path('politica-de-cookies')); ?>" class="nav-link  custom-link py-3 <?php if ( is_page('politica-de-cookies') ) echo 'active'; ?>">
-              <?php _e('Privacy Policy', 'tecnoinfor'); ?>
+              <?php _e('Cookie Policy', 'tecnoinfor'); ?>
               </a>
             </li>
             <li class="nav-item">

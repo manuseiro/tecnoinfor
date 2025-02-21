@@ -10,6 +10,7 @@ get_template_part('template-parts/content', 'header');
     <div class="row">
       <div class="col-lg-12">
         <div class="editor-wp">
+          
           <?php
             while ( have_posts() ) : the_post();
               the_content();

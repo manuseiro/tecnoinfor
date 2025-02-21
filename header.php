@@ -21,6 +21,7 @@
                   </div>
                   <div class="h-100 d-inline-flex align-items-center py-3">
                       <small class="bi bi-clock text-primary me-2"></small>
+                      
                       <small>Seg - Sex: 09:00 AM - 17:00 PM</small>
                   </div>
               </div>
@@ -29,7 +30,9 @@
                       <small class="bi bi-telephone-fill text-primary me-2"></small>
                       <small class="fw-bold">+55 85 99970.1025</small>
                   </div>
+
                   <div class="h-100 d-inline-flex align-items-center">
+                  
                         <a class="btn btn-sm-square bg-white text-primary me-0" href="https://www.instagram.com/tecnoinfor9/"><i class="bi bi-instagram"></i></a>
                       <a class="btn btn-sm-square bg-white text-primary me-1" href="https://twitter.com/tecnoinfor_/"><i class="bi bi-twitter-x"></i></a>
                       <a class="btn btn-sm-square bg-white text-primary me-1" href="https://www.facebook.com/tecnoinfor.com.br/"><i class="bi bi-facebook"></i></a>

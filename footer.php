@@ -1,7 +1,6 @@
-
 <!-- Botão Voltar ao Topo -->
 <a href="#goTop" id="goTopBtn" class="btn btn-primary position-fixed py-2 shadow">
-  <i class="bi bi-arrow-up"></i>
+    <i class="bi bi-arrow-up"></i>
 </a>
 <footer class="bg-primary text-white pt-5">
     <div class="container ">
@@ -11,7 +10,8 @@
                 <div class="footer-logo c-white">
                     <?php echo get_custom_logo('img-fluid'); ?>
                 </div>
-                <p class="small"><?php echo comicpress_copyright(); ?></p>
+                <p class="small"><?php echo comicpress_copyright(); ?>
+                <?php                  echo exibir_rede_social('instagram', true, false); // Mostra só o ícone do Instagram?></p>
 
             </div>
 
@@ -74,17 +74,22 @@
             <!-- Links no centro (ocupa toda a largura em todas as telas, centralizado) -->
             <div class="col-12 text-center ">
                 <p class="small text-body-warning">
-                    <a href="<?php echo get_bloginfo('url'); ?>/termos-de-uso" class="px-2"><?php _e('Terms of Use', 'tecnoinfor'); ?></a> |
-                    <a href="<?php echo get_bloginfo('url'); ?>/politica-de-privacidade" class="px-2"><?php _e('Privacy Policy', 'tecnoinfor'); ?></a> |
-                    <a href="<?php echo get_bloginfo('url'); ?>/politica-de-cookies" class="px-2"><?php _e('Cookie Privacy', 'tecnoinfor'); ?></a>
+                    <a href="<?php echo get_bloginfo('url'); ?>/termos-de-uso"
+                        class="px-2"><?php _e('Terms of Use', 'tecnoinfor'); ?></a> |
+                    <a href="<?php echo get_bloginfo('url'); ?>/politica-de-privacidade"
+                        class="px-2"><?php _e('Privacy Policy', 'tecnoinfor'); ?></a> |
+                    <a href="<?php echo get_bloginfo('url'); ?>/politica-de-cookies"
+                        class="px-2"><?php _e('Cookie Privacy', 'tecnoinfor'); ?></a>
                 </p>
             </div>
         </div>
 
         <!-- Rodapé inferior com redes sociais e direitos (Responsivo, centraliza em telas pequenas) -->
         <div class="d-flex flex-column flex-sm-row justify-content-between delimiter-top text-center text-sm-start">
-            <span class="small text-sm text-md-left pt-4 "><?php _e('Designed by', 'tecnoinfor'); ?> <a class="link-light" href="https://manuseiro.github.io/" target="_blank"> @manuseiro</a></span>
-            <ul class="social-midia list-unstyled d-flex justify-content-center justify-content-sm-start pt-4 text-white">
+            <span class="small text-sm text-md-left pt-4 "><?php _e('Designed by', 'tecnoinfor'); ?> <a
+                    class="link-light" href="https://manuseiro.github.io/" target="_blank"> @manuseiro</a></span>
+            <ul
+                class="social-midia list-unstyled d-flex justify-content-center justify-content-sm-start pt-4 text-white">
                 <li class="ms-3"><a class="link-light btn" href="#"><i class="bi bi-instagram"></i></a></li>
                 <li class="ms-3"><a class="link-light btn" href="#"><i class="bi bi-twitter-x"></i></a></li>
                 <li class="ms-3"><a class="link-light btn" href="#"><i class="bi bi-facebook"></i></a></li>
@@ -111,7 +116,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // Rolagem suave ao clicar no botão
     goTopBtn.addEventListener("click", function(event) {
         event.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
 });
 </script>

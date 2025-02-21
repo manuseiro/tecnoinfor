@@ -1,22 +1,20 @@
 <?php
-// Definir token do GitHub no wp-config.php
-if (!defined('GITHUB_AUTH_TOKEN')) {
-    define('GITHUB_AUTH_TOKEN', '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');
-}
+
 
 // Incluir arquivos necessários
 require_once get_template_directory() . '/inc/theme-update-checker.php';
 require_once get_template_directory() . '/inc/navbar_walker_custom.php';
 //require_once get_template_directory() . '/inc/theme-admin-functions.php';
+require_once get_template_directory() . '/inc/theme-custom-business.php';
 
 // Funções relacionadas à configuração do tema
-function tecnoinfor_setup()
-{
+function tecnoinfor_setup(){
     // Suporte a títulos gerenciados pelo WordPress
     add_theme_support('title-tag');
 
     // Suporte a thumbnails e excerpts para páginas
     add_theme_support('post-thumbnails');
+    add_image_size( 'download_thumb', 1280, 720, true );
     add_image_size( 'post_thumb', 350, 200, true );
     add_image_size( 'cliente-thumbnail', 241, 200, true );
     add_post_type_support('page', 'thumbnail');
@@ -86,16 +84,8 @@ function comicpress_copyright() {
 }
 
 // Adicionar suporte para atualização do tema via GitHub
-function tecnoinfor_theme_update_setup()
-{
-    $github_username = 'manuseiro'; // Nome do usuário no github.com
-    $repository_name = 'tecnoinfor'; // Nome do repositório usado para hospedar o tema
+add_theme_update_hooks('manuseiro', 'tecnoinfor');
 
-    add_theme_update_hooks($github_username, $repository_name, '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');
-    // Opcional: Notificação visual para o administrador
-    // notify_theme_update($github_username, $repository_name, GITHUB_AUTH_TOKEN);
-}
-add_action('after_setup_theme', 'tecnoinfor_theme_update_setup');
 
 // Registrar e adicionar scripts e estilos ao tema
 function tecnoinfor_enqueue_assets()
@@ -111,115 +101,179 @@ function tecnoinfor_enqueue_assets()
     // Scripts
     wp_enqueue_script('bootstrap-js', 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', array('jquery'), null, true);
     wp_enqueue_script('wow', get_template_directory_uri().'/js/wow.min.js', array('jquery'), '1.1.3', true );
-    wp_enqueue_script('wow', get_template_directory_uri().'/js/main.js', array('jquery'), '0.0.3', true );
+    wp_enqueue_script('main-js', get_template_directory_uri().'/js/main.js', array('jquery'), '0.0.3', true );
+    wp_enqueue_script('custom-logo-script', get_template_directory_uri().'/js/custom-logo.js', array('jquery'), '0.0.3', true );
 }
 add_action('wp_enqueue_scripts', 'tecnoinfor_enqueue_assets');
+// Função para registrar os Custom Post Type 'Planos'
+function criar_cpt_planos() {
+    $labels = array(
+        'name' => 'Planos',
+        'singular_name' => 'Plano',
+        'menu_name' => 'Planos',
+        'name_admin_bar' => 'Plano',
+        'add_new' => 'Adicionar Novo',
+        'add_new_item' => 'Adicionar Novo Plano',
+        'new_item' => 'Novo Plano',
+        'edit_item' => 'Editar Plano',
+        'view_item' => 'Ver Plano',
+        'all_items' => 'Todos os Planos',
+        'search_items' => 'Buscar Planos',
+        'not_found' => 'Nenhum plano encontrado',
+        'featured_image' => 'Imagem Destacada',
+        'parent_item_colon' => '',
+    );
 
-// function wp_custom_maintenance() {
-//     // Verifique se o usuário está logado ou possui acesso de administrador
-//     if (is_user_logged_in() || current_user_can('manage_options')) {
-//         return;
-//     }
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'publicly_queryable' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'planos'),
+        'capability_type' => 'post',
+        'has_archive' => true,
+        'hierarchical' => false,
+        'menu_position' => 5,
+        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
+        'show_in_rest' => true,
+    );
 
-//     // Defina os estilos e scripts necessários
-//     echo '
-//     <!DOCTYPE html>
-//     <html lang="pt-br">
-//     <head>
-//         <meta charset="UTF-8">
-//         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//         <title>Estamos em Manutenção - Em breve de volta!</title>
-//         <!-- Bootstrap CSS -->
-//         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-//         <style>
-//             body {
-//                 background-color: #f4f4f9;
-//                 color: #333;
-//                 display: flex;
-//                 align-items: center;
-//                 justify-content: center;
-//                 min-height: 100vh;
-//                 text-align: center;
-//             }
-//             .countdown-timer {
-//                 font-size: 1.5rem;
-//                 margin: 20px 0;
-//             }
-//         </style>
-//     </head>
-//     <body>
-//         <div class="container">
-//             <h1 class="mt-5">Estamos em manutenção!</h1>
-//             <p class="lead">Estamos trabalhando em melhorias e estaremos de volta em breve.</p>
+    register_post_type('planos', $args);
+}
+add_action('init', 'criar_cpt_planos', 0);
 
-//             <!-- Contador regressivo -->
-//             <div id="countdown" class="countdown-timer"></div>
+// Criar Meta Box
+function criar_meta_box_planos() {
+    add_meta_box(
+        'informacoes_plano',
+        'Informações do Plano',
+        'exibir_meta_box_planos',
+        'planos',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'criar_meta_box_planos');
 
-//             <!-- Formulário de inscrição -->
-//             <form id="signup-form" class="mt-3" method="POST" action="">
-//                 <div class="mb-3">
-//                     <input type="email" class="form-control" name="email" placeholder="Digite seu e-mail" required>
-//                 </div>
-//                 <button type="submit" class="btn btn-primary">Inscreva-se</button>
-//             </form>
+// Callback para exibir os campos da Meta Box
+function exibir_meta_box_planos($post) {
+    wp_nonce_field('informacoes_plano_nonce', 'informacoes_plano_nonce');
 
-//             <!-- Ícones de mídia social -->
-//             <div class="social-icons mt-4">
-//                 <a href="#"><img src="icone_facebook.png" alt="Facebook"></a>
-//                 <a href="#"><img src="icone_twitter.png" alt="Twitter"></a>
-//                 <a href="#"><img src="icone_instagram.png" alt="Instagram"></a>
-//             </div>
-//         </div>
+    $preco = get_post_meta($post->ID, 'preco', true);
+    $funcionalidades = get_post_meta($post->ID, 'funcionalidades', true);
+    $texto_botao = get_post_meta($post->ID, 'texto_botao', true);
+    $classe_botao = get_post_meta($post->ID, 'classe_botao', true);
+    $desconto = get_post_meta($post->ID, 'desconto', true); // Campo Desconto
+    ?>
+    <label for="preco">Preço:</label>
+    <input type="text" id="preco" name="preco" value="<?php echo esc_attr($preco); ?>" /><br><br>
 
-//         <!-- Scripts -->
-//         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-//         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-//         <script>
-//             // Contador regressivo
-//             function countdownTimer() {
-//                 const countdownDate = new Date("Dec 31, 2024 23:59:59").getTime();
-//                 const interval = setInterval(function () {
-//                     const now = new Date().getTime();
-//                     const distance = countdownDate - now;
+    <label for="funcionalidades">Funcionalidades:</label>
+    <table id="funcionalidades-table">
+        <thead>
+            <tr>
+                <th>Quantidade</th>
+                <th>Funcionalidade</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if (!empty($funcionalidades)) {
+                $funcionalidades = unserialize($funcionalidades);
+                foreach ($funcionalidades as $func) {
+                    echo '<tr>';
+                    echo '<td><input type="number" name="funcionalidades_quantidade[]" value="' . esc_attr($func['quantidade']) . '" min="0"></td>';
+                    echo '<td><input type="text" name="funcionalidades_nome[]" value="' . esc_attr($func['nome']) . '"></td>';
+                    echo '<td><button type="button" class="remover-func">Remover</button></td>';
+                    echo '</tr>';
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+    <button type="button" id="adicionar-func">Adicionar Funcionalidade</button>
+    <br><br>
 
-//                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//                     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//                     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    <label for="texto_botao">Texto do Botão:</label>
+    <input type="text" id="texto_botao" name="texto_botao" value="<?php echo esc_attr($texto_botao); ?>" /><br><br>
 
-//                     document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    <label for="classe_botao">Classe do Botão:</label>
+    <input type="text" id="classe_botao" name="classe_botao" value="<?php echo esc_attr($classe_botao); ?>" /><br><br>
 
-//                     if (distance < 0) {
-//                         clearInterval(interval);
-//                         document.getElementById("countdown").innerHTML = "Estamos de volta!";
-//                     }
-//                 }, 1000);
-//             }
-//             countdownTimer();
+    <label for="desconto">Desconto (%):</label>
+    <input type="number" id="desconto" name="desconto" value="<?php echo esc_attr($desconto); ?>" min="0" max="100" />
 
-//         </script>
-//     </body>
-//     </html>
-//     ';
-//     exit();
-// }
-//add_action('template_redirect', 'wp_custom_maintenance');
-// Função para registrar as diferenças dos planos
-function get_plan_differences() {
-    return [
-        ['Módulo', 'Gratuito', 'Profissional', 'Enterprise'],
-        ['Cadastro de Empresas', '1', '2', '5'],
-        ['Numero de usuários', '1', '2', '5'],
-        ['Administração de Contratos (Geração, Alterações)', '❌', '✔️', '✔️'],
-        ['Emissão de Carteiras Personalizadas', '❌', '✔️', '✔️'],
-        ['Emissão de Carnês e Boletos para Vários Bancos', '❌', '✔️', '✔️'],
-        ['Relatórios Avançados de Contratos e Financeiro', '❌', '✔️', '✔️'],
-        ['Fluxo de Caixa e Contas a Pagar', '❌', '❌', '✔️'],
-        ['API para Integrações Externas', '❌', '❌', '✔️'],
-        ['Suporte e Treinamento Personalizado', '❌', '❌', '✔️']
-    ];
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('adicionar-func').addEventListener('click', function() {
+                let table = document.getElementById('funcionalidades-table').getElementsByTagName('tbody')[0];
+                let row = table.insertRow();
+                row.innerHTML = `
+                    <td><input type="number" name="funcionalidades_quantidade[]" value="1" min="0"></td>
+                    <td><input type="text" name="funcionalidades_nome[]" value=""></td>
+                    <td><button type="button" class="remover-func">Remover</button></td>
+                `;
+                row.querySelector('.remover-func').addEventListener('click', function() {
+                    row.remove();
+                });
+            });
+
+            document.querySelectorAll('.remover-func').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.parentElement.remove();
+                });
+            });
+        });
+    </script>
+    <?php
 }
 
+// Função para salvar os valores da Meta Box
+function salvar_meta_box_planos($post_id) {
+    if (!isset($_POST['informacoes_plano_nonce']) || !wp_verify_nonce($_POST['informacoes_plano_nonce'], 'informacoes_plano_nonce')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['preco'])) {
+        update_post_meta($post_id, 'preco', sanitize_text_field($_POST['preco']));
+    }
+
+    if (isset($_POST['funcionalidades_quantidade']) && isset($_POST['funcionalidades_nome'])) {
+        $funcionalidades = [];
+        foreach ($_POST['funcionalidades_nome'] as $key => $nome) {
+            $quantidade = $_POST['funcionalidades_quantidade'][$key] ?: 0;
+            $funcionalidades[] = [
+                'quantidade' => sanitize_text_field($quantidade),
+                'nome' => sanitize_text_field($nome)
+            ];
+        }
+        update_post_meta($post_id, 'funcionalidades', serialize($funcionalidades)); // Serializa o array
+    }
+
+    if (isset($_POST['texto_botao'])) {
+        update_post_meta($post_id, 'texto_botao', sanitize_text_field($_POST['texto_botao']));
+    }
+
+    if (isset($_POST['classe_botao'])) {
+        update_post_meta($post_id, 'classe_botao', sanitize_text_field($_POST['classe_botao']));
+    }
+
+    if (isset($_POST['desconto'])) { // Salva o desconto
+        update_post_meta($post_id, 'desconto', sanitize_text_field($_POST['desconto']));
+    }
+}
+add_action('save_post', 'salvar_meta_box_planos');
 // Função para registrar o Custom Post Type "Clientes"
 function registrar_cpt_clientes()
 {
@@ -242,19 +296,53 @@ function registrar_cpt_clientes()
     $args = array(
         'labels'             => $labels,
         'public'             => true,
-        'publicly_queryable'  => true,
+        'publicly_queryable' => true,
         'show_in_menu'       => true,
         'menu_icon'          => 'dashicons-businessman',  // Ícone do menu
         'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
-        'has_archive'        => true,
-        'rewrite'            => array('slug' => 'clientes'), // Slug da URL
-        'show_in_rest'       => true,  // Habilita o Gutenberg
+        'has_archive'        => true, // Habilita o arquivo de posts
+        'hierarchical'       => false, // Estrutura não hierárquica como posts
+        'rewrite'            => array('slug' => 'clientes', 'with_front' => false), // Slug da URL
+        'capability_type' => 'post', // Alterado para 'post' para permissões mais amplas
+        'show_in_rest'       => true,  // Habilita o Gutenberg e API REST
+        'query_var'          => true,  // Permite consultas usando query_var
     );
 
     register_post_type('clientes', $args);
 }
 // Hook para registrar o Custom Post Type
 add_action('init', 'registrar_cpt_clientes');
+// Função para registrar a Taxonomia "Tipo Cliente"
+function registrar_taxonomia_tipo_cliente() {
+    $labels = array(
+        'name'              => _x('Types', 'taxonomy general name', 'tecnoinfor'),
+        'singular_name'     => _x('Type', 'taxonomy singular name', 'tecnoinfor'),
+        'search_items'      => __('Search Types', 'tecnoinfor'),
+        'all_items'         => __('All Types', 'tecnoinfor'),
+        'parent_item'       => __('Parent Type', 'tecnoinfor'),
+        'parent_item_colon' => __('Parent Type:', 'tecnoinfor'),
+        'edit_item'         => __('Edit Type', 'tecnoinfor'),
+        'update_item'       => __('Update Type', 'tecnoinfor'),
+        'add_new_item'      => __('Add New Type', 'tecnoinfor'),
+        'new_item_name'     => __('New Type Name', 'tecnoinfor'),
+        'menu_name'         => __('Type of Clients', 'tecnoinfor'),
+    );
+
+    $args = array(
+        'hierarchical'      => true, // Como categorias, use true para hierarquia
+        'labels'            => $labels,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'show_in_rest'      => true, // Habilita o Gutenberg e API REST
+        'query_var'         => true,
+        'rewrite'           => array('slug' => 'tipo-cliente'),
+    );
+
+    register_taxonomy('tipo-cliente', array('clientes'), $args);
+}
+
+// Hook para registrar a Taxonomia
+add_action('init', 'registrar_taxonomia_tipo_cliente');
 
 // Função para registrar o Custom Post Type "Depoimentos"
 function registrar_cpt_depoimentos() {
@@ -370,8 +458,7 @@ function salvar_campos_personalizados_depoimentos($post_id) {
 }
 add_action('save_post', 'salvar_campos_personalizados_depoimentos');
 // Função para registrar o Custom Post Type "FAQs"
-function registrar_cpt_faqs()
-{
+function registrar_cpt_faqs(){
     $labels = array(
         'name' => _x('FAQs', 'post type general name'),
         'singular_name' => _x('FAQ', 'post type singular name'),
@@ -400,7 +487,7 @@ function registrar_cpt_faqs()
         'has_archive' => true,
     );
 
-    register_post_type('faq', $args);
+    register_post_type('faqs', $args);
 }
 
 // Hook para registrar o Custom Post Type
@@ -432,11 +519,83 @@ function registrar_taxonomia_assunto() {
         'rewrite'           => array('slug' => 'assunto'),
     );
 
-    register_taxonomy('assunto', array('faq'), $args);
+    register_taxonomy('assunto', array('faqs'), $args);
 }
 
 // Hook para registrar a Taxonomia
 add_action('init', 'registrar_taxonomia_assunto');
+
+// Função para registrar o Custom Post Type "Clientes"
+function registrar_cpt_downloads(){
+    $labels = array(
+        'name'               => __('Downloads', 'tecnoinfor'),
+        'singular_name'      => __('Download', 'tecnoinfor'),
+        'menu_name'          => __('Downloads', 'tecnoinfor'),
+        'name_admin_bar'     => __('Client', 'tecnoinfor'),
+        'add_new'            => __('Add New', 'tecnoinfor'),
+        'add_new_item'       => __('Add New Download', 'tecnoinfor'),
+        'new_item'           => __('New Download', 'tecnoinfor'),
+        'edit_item'          => __('Edit Download', 'tecnoinfor'),
+        'view_item'          => __('View Download', 'tecnoinfor'),
+        'all_items'          => __('All Downloads', 'tecnoinfor'),
+        'search_items'       => __('Search Downloads', 'tecnoinfor'),
+        'not_found'          => __('No clients found.', 'tecnoinfor'),
+        'not_found_in_trash' => __('No clients found in trash.', 'tecnoinfor'),
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_in_menu'       => true,
+        'menu_icon'          => 'dashicons-download',  // Ícone do menu
+        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'has_archive'        => true, // Habilita o arquivo de posts
+        'hierarchical'       => false, // Estrutura não hierárquica como posts
+        'rewrite'            => array('slug' => 'downloads', 'with_front' => false), // Slug da URL
+        'capability_type' => 'post', // Alterado para 'post' para permissões mais amplas
+        'show_in_rest'       => true,  // Habilita o Gutenberg e API REST
+        'query_var'          => true,  // Permite consultas usando query_var
+    );
+
+    register_post_type('downloads', $args);
+}
+// Hook para registrar o Custom Post Type
+add_action('init', 'registrar_cpt_downloads');
+
+
+// Adiciona o meta box para o link de download
+function adicionar_meta_box_download() {
+    add_meta_box(
+        'link_download_meta_box', // ID da meta box
+        'Link de Download',       // Título da meta box
+        'exibir_meta_box_download', // Função que exibe o conteúdo da meta box
+        'downloads',              // Tipo de post onde a meta box será exibida
+        'normal',                 // Contexto da meta box (padrão)
+        'high'                    // Prioridade da meta box
+    );
+}
+add_action('add_meta_boxes', 'adicionar_meta_box_download');
+
+// Exibe o campo do link de download na meta box
+function exibir_meta_box_download($post) {
+    // Obtém o valor do link de download do post atual
+    $link_download = get_post_meta($post->ID, 'link_download', true);
+
+    // Exibe o campo de input para o link de download
+    echo '<label for="link_download">URL do programa (Link para download):</label>';
+    echo '<input type="text" id="link_download" name="link_download" value="' . esc_attr($link_download) . '" style="width:100%;"/>';
+}
+
+// Salva o valor do campo personalizado
+function salvar_meta_box_download($post_id) {
+    // Verifica se o valor do campo foi enviado
+    if (isset($_POST['link_download'])) {
+        // Atualiza o campo personalizado com o link de download
+        update_post_meta($post_id, 'link_download', sanitize_text_field($_POST['link_download']));
+    }
+}
+add_action('save_post', 'salvar_meta_box_download');
 
 // Função para registrar o Custom Post Type Changelog
 function custom_post_type_changelog() {
@@ -466,7 +625,7 @@ function custom_post_type_changelog() {
         'menu_icon' => 'dashicons-list-view',
     );
 
-    register_post_type('changelog', $args);
+    register_post_type('changelogs', $args);
 }
 add_action('init', 'custom_post_type_changelog');
 

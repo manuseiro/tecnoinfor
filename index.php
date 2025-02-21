@@ -13,7 +13,7 @@
             <a href="<?php echo get_bloginfo('url'); ?>/planos-e-precos" class="btn btn-outline-primary btn-lg py-3 px-5">Veja planos e preços</a>
           </div>
           <p class="text-body-secondary mb-1">
-            <small>Baixe a versão de teste do nosso software e aproveite as funcionalidades por 15 dias*, <a href="#" class="text-primary" title="saiba mais"><?php echo __('read more','tecnoinfor');?></a></small>
+            <small>Baixe a versão de teste do nosso software e aproveite as funcionalidades por 15 dias*, <a href="#" class="text-primary" title="<?php echo __('learn more','tecnoinfor');?>"><?php echo __('read more','tecnoinfor');?></a></small>
           </p>
         </div>
         <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
@@ -230,7 +230,7 @@
   <!-- Seção Comunidade -->
   <section class="comunidade wow fadeIn py-5">
     <div class="container">
-      <h3 class="display-6 fw-bold text-center mb-4 py-5">Junte-se à nossa comunidade</h3>
+      <h3 class="display-6 fw-bold text-center mb-4 py-5"><?php echo __('Join our community','tecnoinfor');?></h3>
       <div class="row g-4 row-cols-3 row-cols-lg-5 justify-content-center">
         <?php
         $social_links = [
