@@ -1,0 +1,43 @@
+.validacao-mensagem {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.validacao-mensagem.erro {
+    color: #d63638;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+}
+
+.validacao-mensagem.sucesso {
+    color: #15803d;
+    background-color: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+.updated,
+.error {
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.updated {
+    background-color: #dcfce7;
+    border-left: 4px solid #15803d;
+}
+
+.error {
+    background-color: #fee2e2;
+    border-left: 4px solid #d63638;
+}
+
+.updated p,
+.error p {
+    margin: 5px 0;
+}

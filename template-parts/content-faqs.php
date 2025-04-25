@@ -1,5 +1,5 @@
 <section class="faq wow fadeIn py-5">
-    <div class="container py-5">
+    <div class="container my-5 px-4 px-lg-5">
       <div class="text-center mb-5">
         <h3 class="display-6 fw-bold text-primary">Perguntas frequentes</h3>
         <p class="lead text-light-emphasis">Consulte a lista das perguntas mais frequentes ou entre em contato conosco.</p>

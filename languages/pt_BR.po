@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-01-12 20:08-0300\n"
-"PO-Revision-Date: 2025-01-13 01:35-0300\n"
+"POT-Creation-Date: 2025-04-22 08:47-0300\n"
+"PO-Revision-Date: 2025-04-22 08:48-0300\n"
 "Last-Translator: \n"
 "Language-Team: SteelThemes\n"
 "Language: pt_BR\n"
@@ -21,431 +21,242 @@ msgstr ""
 msgid "Page not found"
 msgstr "Pagina não existe"
 
-#: 404.php:11
+#: 404.php:9
 msgid "Error 404. Page not found"
 msgstr "Erro 404, Pagina não existe"
 
-#: 404.php:12
+#: 404.php:10
 msgid ""
 "The post or page that you are looking for either has just moved or doesn't "
-"exists in this server."
+"exist in this server."
 msgstr ""
 "O post ou página que você está procurando foi movida recentemente ou não "
 "existe neste servidor."
 
-#: 404.php:16
+#: 404.php:12
 msgid "Back to Home"
 msgstr "Voltar para Home"
 
-#: footer.php:20
-msgid "Tecnoinfor"
-msgstr "A Tecnoinfor"
+#: 404.php:14
+msgid "Search..."
+msgstr "Pesquisar..."
 
-#: footer.php:34
+#: archive-changelog.php:19
+msgid "On this page"
+msgstr "Nesta página"
+
+#: archive-changelog.php:40 archive-changelog.php:103
+msgid "No changelogs found."
+msgstr "Nenhum changelogs encontrado."
+
+#: archive-changelog.php:67 inc/functions/cpt_downloads.php:122
+#: single-changelogs.php:16 single-downloads.php:46
+msgid "Version:"
+msgstr "Versão:"
+
+#: archive-changelog.php:67 single-changelogs.php:17
+msgid "Released on:"
+msgstr "Lançado em:"
+
+#: archive-changelog.php:97 archive-software.php:87
+#: templates/archive-downloads.php:141
+msgid "<i class=\"bi bi-chevron-left\"></i> Previous"
+msgstr "<i class=\"bi bi-chevron-left\"></i> Anterior"
+
+#: archive-changelog.php:98 archive-software.php:88
+#: templates/archive-downloads.php:142
+msgid "Next <i class=\"bi bi-chevron-right\"></i>"
+msgstr "Próximo <i class=\"bi bi-chevron-right\"></i>"
+
+#: archive-software.php:53
+msgid "Find out more"
+msgstr "Descubra mais"
+
+#: archive-software.php:99
+msgid "No software found."
+msgstr "Nenhum software encontrado."
+
+#: footer.php:2
+msgid "Back to top"
+msgstr "Voltar ao Topo"
+
+#: footer.php:15
+msgid "Tecnoinfor"
+msgstr "Tecnoinfor"
+
+#: footer.php:19
 msgid "Solutions"
 msgstr "Soluções"
 
-#: footer.php:48 functions.php:34 functions_custon.php:152
+#: footer.php:23 functions.php:55 functions_custon.php:152
 msgid "Contact"
 msgstr "Contato"
 
-#: footer.php:62 functions.php:36 functions_custon.php:154
+#: footer.php:27 functions.php:57 functions_custon.php:154
 msgid "Support"
 msgstr "Suporte"
 
-#: footer.php:77 templates/page-termos_politica.php:35
+#: footer.php:32 templates/page-termos_politica.php:35
 msgid "Terms of Use"
 msgstr "Termos de Uso"
 
-#: footer.php:78 templates/page-termos_politica.php:25
+#: footer.php:33 templates/page-termos_politica.php:25
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: footer.php:79
+#: footer.php:34
 msgid "Cookie Privacy"
 msgstr "Política de Cookies"
 
-#: footer.php:86
+#: footer.php:39
 msgid "Designed by"
 msgstr "Criado por"
 
-#: functions.php:32 functions_custon.php:150
+#: functions.php:53 functions_custon.php:150
 msgid "Primary Menu"
 msgstr "Menu Principal"
 
-#: functions.php:33 functions_custon.php:151
+#: functions.php:54 functions_custon.php:151
 msgid "Institutional"
 msgstr "Institucional"
 
-#: functions.php:35 functions_custon.php:153
+#: functions.php:56 functions_custon.php:153
 msgid "Help"
 msgstr "Ajuda"
 
-#: functions.php:52
+#: functions.php:110 single-software.php:77
+msgid "Home"
+msgstr "Home"
+
+#: functions.php:156
+msgid "Archive"
+msgstr "Arquitetura"
+
+#: functions.php:180
+msgid "Search Results for: "
+msgstr "Resultados da busca por: "
+
+#: functions.php:182
+msgid "404 - Not Found"
+msgstr "Erro 404, Pagina não existe"
+
+#: functions.php:194
+msgid "Unnamed Site"
+msgstr "Site sem Nome"
+
+#: functions.php:195
+msgid "No description set"
+msgstr "Nenhuma descrição definida"
+
+#: functions.php:198
 msgid "All rights reserved"
 msgstr "Todos os direitos reservados"
 
-#: functions.php:149 functions.php:151 functions_custon.php:281
-#: functions_custon.php:283
-msgid "Clients"
-msgstr "Clientes"
-
-#: functions.php:150 functions.php:152 functions.php:404
-#: functions_custon.php:282 functions_custon.php:284
-msgid "Client"
-msgstr "Cliente"
-
-#: functions.php:153 functions.php:222 functions.php:405
-#: functions_custon.php:285
-msgid "Add New"
-msgstr "Adicionar Novo"
-
-#: functions.php:154 functions_custon.php:286
-msgid "Add New Client"
-msgstr "Adicionar Novo Cliente"
-
-#: functions.php:155 functions_custon.php:287
-msgid "New Client"
-msgstr "Novo Cliente"
-
-#: functions.php:156 functions_custon.php:288
-msgid "Edit Client"
-msgstr "Editar Cliente"
-
-#: functions.php:157 functions_custon.php:289
-msgid "View Client"
-msgstr "Ver Cliente"
-
-#: functions.php:158 functions_custon.php:290
-msgid "All Clients"
-msgstr "Todos os Clientes"
-
-#: functions.php:159 functions_custon.php:291
-msgid "Search Clients"
-msgstr "Pesquisar Clientes"
-
-#: functions.php:160 functions.php:412 functions_custon.php:292
-msgid "No clients found."
-msgstr "Nenhum cliente encontrado."
-
-#: functions.php:161 functions.php:413 functions_custon.php:293
-msgid "No clients found in trash."
-msgstr "Nenhum cliente encontrado na Lixeira."
-
-#: functions.php:188
-msgid "Search Types"
-msgstr "Pesquisar Tipos"
-
-#: functions.php:189
-msgid "All Types"
-msgstr "Todos os Tipos"
-
-#: functions.php:190
-msgid "Parent Type"
-msgstr "Tipo Pai"
-
-#: functions.php:191
-msgid "Parent Type:"
-msgstr "Tipo Pai:"
-
-#: functions.php:192
-msgid "Edit Type"
-msgstr "Editar Tipo"
-
-#: functions.php:193
-msgid "Update Type"
-msgstr "Atualizar Tipo"
-
-#: functions.php:194
-msgid "Add New Type"
-msgstr "Adicionar Novo Tipo"
-
-#: functions.php:195
-msgid "New Type Name"
-msgstr "Novo Nome do Tipo"
-
-#: functions.php:196
-msgid "Type of Clients"
-msgstr "Tipo de Clientes"
-
-#: functions.php:218 functions.php:220
-msgid "Testimonials"
-msgstr "Depoimentos"
-
-#: functions.php:219 functions.php:221
-msgid "Testimonial"
-msgstr "Depoimento"
-
-#: functions.php:223
-msgid "Add New Testimonial"
-msgstr "Adicionar Novo Depoimento"
-
-#: functions.php:224
-msgid "New Testimonial"
-msgstr "Novo Depoimento"
-
-#: functions.php:225
-msgid "Edit Testimonial"
-msgstr "Editar Depoimento"
-
-#: functions.php:226
-msgid "View Testimonial"
-msgstr "Visualizar Depoimento"
-
-#: functions.php:227
-msgid "All Testimonials"
-msgstr "Todos Depoimentos"
-
-#: functions.php:228
-msgid "Search Testimonials"
-msgstr "Buscar Depoimentos"
-
-#: functions.php:229 index.php:149
-msgid "No testimonials found."
-msgstr "Nenhum depoimento encontrado."
-
-#: functions.php:230
-msgid "No testimonials in the trash."
-msgstr "Nenhum depoimento na lixeira."
-
-#: functions.php:257
-msgid "Client Information"
-msgstr "Informações do Cliente"
-
-#: functions.php:278
-msgid "Rating (1 to 5)"
-msgstr "Avaliação (1 a 5)"
-
-#: functions.php:287
-msgid "Client Name"
-msgstr "Nome do Cliente"
-
-#: functions.php:290
-msgid "Company"
-msgstr "Empresa"
-
-#: functions.php:293
-msgid "Client Position"
-msgstr "Cargo do Cliente"
-
-#: functions.php:335 functions_custon.php:320
-msgid "Add New FAQ"
-msgstr "Adicionar Novo FAQ"
-
-#: functions.php:336 functions_custon.php:321
-msgid "Edit FAQ"
-msgstr "Editar FAQ"
-
-#: functions.php:337 functions_custon.php:322
-msgid "New FAQ"
-msgstr "Nova FAQ"
-
-#: functions.php:338 functions_custon.php:323
-msgid "View FAQ"
-msgstr "Ver FAQ"
-
-#: functions.php:339 functions_custon.php:324
-msgid "Search FAQs"
-msgstr "Pesquisar FAQs"
-
-#: functions.php:340 functions_custon.php:325
-msgid "No FAQs Found"
-msgstr "Nenhuma FAQs encontrada."
-
-#: functions.php:341 functions_custon.php:326
-msgid "No FAQs found in the Trash"
-msgstr "Nenhuma FAQs encontrada na Lixeira"
-
-#: functions.php:371 functions_custon.php:356
-msgid "Search Subjects"
-msgstr "Pesquisar Assuntos"
-
-#: functions.php:372 functions_custon.php:357
-msgid "All Subjects"
-msgstr "Todos os Assuntos"
-
-#: functions.php:373 functions_custon.php:358
-msgid "Parent Subject"
-msgstr "Assunto Pai"
-
-#: functions.php:374 functions_custon.php:359
-msgid "Parent Subject:"
-msgstr "Assunto Pai:"
-
-#: functions.php:375 functions_custon.php:360
-msgid "Edit Subject"
-msgstr "Editar Assunto"
-
-#: functions.php:376 functions_custon.php:361
-msgid "Update Subject"
-msgstr "Atualizar Assunto"
-
-#: functions.php:377 functions_custon.php:362
-msgid "Add New Subject"
-msgstr "Adicionar Novo Assunto"
-
-#: functions.php:378 functions_custon.php:363
-msgid "New Subject Name"
-msgstr "Novo Nome do Assunto"
-
-#: functions.php:379 functions_custon.php:364
-msgid "Subjects"
-msgstr "Assuntos"
-
-#: functions.php:401 functions.php:403
-msgid "Downloads"
-msgstr "Downloads"
-
-#: functions.php:402
-msgid "Download"
-msgstr "Download"
-
-#: functions.php:406
-msgid "Add New Download"
-msgstr "Adicionar Novo Download"
-
-#: functions.php:407
-msgid "New Download"
-msgstr "Novo Download"
-
-#: functions.php:408
-msgid "Edit Download"
-msgstr "Editar Download"
-
-#: functions.php:409
-msgid "View Download"
-msgstr "Ver Download"
-
-#: functions.php:410
-msgid "All Downloads"
-msgstr "Todos os Downloads"
-
-#: functions.php:411
-msgid "Search Downloads"
-msgstr "Pesquisar Downloads"
-
-#: functions.php:542 functions_custon.php:454 templates/page-changelogs.php:101
-msgid "Added"
-msgstr "Adicionado"
-
-#: functions.php:543 functions_custon.php:455
-msgid "Ex.: New features or improvements"
-msgstr "Ex.: Novos recursos ou melhorias"
-
-#: functions.php:547 functions_custon.php:459 templates/page-changelogs.php:102
-msgid "Fixed"
-msgstr "Correção"
-
-#: functions.php:548 functions_custon.php:460
-msgid "Ex.: Bug fixes or known errors"
-msgstr "Ex.: Correções de bugs ou erros conhecidos"
-
-#: functions.php:552 functions.php:762 functions_custon.php:464
-#: functions_custon.php:674
-msgid "Update"
-msgstr "Atualização"
-
-#: functions.php:553 functions_custon.php:465
-msgid "Ex.: General feature updates"
-msgstr "Ex.: Atualizações gerais de recursos"
-
-#: functions.php:557 functions_custon.php:469 templates/page-changelogs.php:106
-msgid "Improved"
-msgstr "Melhoria"
-
-#: functions.php:558 functions_custon.php:470
-msgid "Ex.: Process or performance improvements"
-msgstr "Ex.: Melhorias de processo ou desempenho"
-
-#: functions.php:562 functions_custon.php:474 templates/page-changelogs.php:103
-msgid "Removed"
-msgstr "Removido"
-
-#: functions.php:563 functions_custon.php:475
-msgid "Ex.: Removed features or elements"
-msgstr "Ex.: Recursos ou elementos removidos"
-
-#: functions.php:567 functions_custon.php:479 templates/page-changelogs.php:105
-msgid "Deprecated"
-msgstr "Descontinuado"
-
-#: functions.php:568 functions_custon.php:480
-msgid "Ex.: Features or elements Discontinued"
-msgstr "Ex.: Características ou elementos Descontinuados"
-
-#: functions.php:572 functions_custon.php:484 templates/page-changelogs.php:107
-msgid "Compatibility"
-msgstr "Compatibilidade"
-
-#: functions.php:573 functions_custon.php:485
-msgid "Ex.: Compatible Features or Elements"
-msgstr "Ex.: Recursos ou elementos compatíveis"
-
-#: functions.php:639 functions_custon.php:551
+#: functions.php:295 functions_custon.php:551
 msgid "POT file not found."
 msgstr "Arquivo POT não encontrado."
 
-#: functions.php:650 functions_custon.php:562
+#: functions.php:306 functions_custon.php:562
 msgid "PO file was created. Please add your translations now."
 msgstr "O arquivo PO foi criado. Por favor, adicione suas traduções agora."
 
-#: functions.php:672 functions_custon.php:584
+#: functions.php:328 functions_custon.php:584
 msgid "Translation saved successfully!"
 msgstr "Tradução salva com sucesso!"
 
-#: functions.php:681 functions_custon.php:593
+#: functions.php:337 functions_custon.php:593
 msgid "PO file not found. Cannot delete translation."
 msgstr "Arquivo PO não encontrado. Não é possível excluir a tradução."
 
-#: functions.php:695 functions_custon.php:607
+#: functions.php:351 functions_custon.php:607
 msgid "Translation deleted successfully!"
 msgstr "Tradução excluída com sucesso!"
 
-#: functions.php:697 functions_custon.php:609
+#: functions.php:353 functions_custon.php:609
 msgid "Translation not found for deletion."
 msgstr "Tradução não encontrada para exclusão."
 
-#: functions.php:711 functions_custon.php:623
+#: functions.php:367 functions_custon.php:623
 msgid "Translation Settings"
 msgstr "Configurações de Tradução"
 
-#: functions.php:714 functions_custon.php:626
+#: functions.php:370 functions_custon.php:626
 msgid "Select Language"
 msgstr "Selecione o idioma"
 
-#: functions.php:724 functions_custon.php:636
+#: functions.php:380 functions_custon.php:636
 msgid "Add or Update Translation"
 msgstr "Adicionar ou atualizar tradução"
 
-#: functions.php:727 functions.php:744 functions_custon.php:639
+#: functions.php:383 functions.php:402 functions_custon.php:639
 #: functions_custon.php:656
 msgid "Original String"
 msgstr "Texto Original"
 
-#: functions.php:731 functions.php:745 functions_custon.php:643
+#: functions.php:387 functions.php:403 functions_custon.php:643
 #: functions_custon.php:657
 msgid "Translated String"
 msgstr "Texto Traduzido"
 
-#: functions.php:735 functions_custon.php:647
+#: functions.php:393 functions_custon.php:647
 msgid "Save Translation"
 msgstr "Salvar Tradução"
 
-#: functions.php:740 functions_custon.php:652
+#: functions.php:398 functions_custon.php:652
 msgid "Existing Translations"
 msgstr "Traduções existentes"
 
-#: functions.php:746 functions_custon.php:658
+#: functions.php:404 functions_custon.php:658
 msgid "Actions"
 msgstr "Ações"
 
-#: functions.php:766 functions_custon.php:678
+#: functions.php:420 functions_custon.php:464 functions_custon.php:674
+#: inc/functions/cpt_changelogs.php:80
+msgid "Update"
+msgstr "Atualização"
+
+#: functions.php:424 functions_custon.php:678
 msgid "Delete"
 msgstr "Excluir"
 
-#: functions.php:772 functions_custon.php:684
+#: functions.php:430 functions_custon.php:684
 msgid "No translations found."
 msgstr "Nenhuma tradução encontrada."
+
+#: functions.php:441
+msgid "About Stats"
+msgstr "Status Sobre"
+
+#: functions.php:446 index.php:120
+msgid "Satisfied Clients"
+msgstr "Clientes Satisfeitos"
+
+#: functions.php:447
+msgid "Years of Experience"
+msgstr "Anos de Experiência"
+
+#: functions.php:448 index.php:137
+msgid "Managed Contracts"
+msgstr "Contratos Gerenciados"
+
+#: functions.php:468
+#, php-format
+msgid "Downloads - %s"
+msgstr "Downloads - %s"
+
+#: functions.php:468 inc/functions/cpt_downloads.php:14
+msgid "All Downloads"
+msgstr "Todos os Downloads"
+
+#: functions.php:469
+#, php-format
+msgid "Browse downloads in the %s category at %s."
+msgstr "Navegue pelos downloads na categoria %s em %s."
+
+#: functions.php:469
+#, php-format
+msgid "Explore all available downloads at %s."
+msgstr "Explore todos os downloads disponíveis em %s."
 
 #: functions_custon.php:6 functions_custon.php:7 functions_custon.php:20
 #: inc/theme-admin-functions.php:8 inc/theme-admin-functions.php:9
@@ -479,6 +290,170 @@ msgstr "Escolha o Logo"
 #: functions_custon.php:94
 msgid "Use this image"
 msgstr "Use está imagem"
+
+#: functions_custon.php:281 functions_custon.php:283
+#: inc/functions/cpt_clientes.php:5 inc/functions/cpt_clientes.php:7
+msgid "Clients"
+msgstr "Clientes"
+
+#: functions_custon.php:282 functions_custon.php:284
+#: inc/functions/cpt_clientes.php:6 inc/functions/cpt_clientes.php:8
+msgid "Client"
+msgstr "Cliente"
+
+#: functions_custon.php:285 inc/functions/cpt_clientes.php:9
+#: inc/functions/cpt_depoimentos.php:9 inc/functions/cpt_downloads.php:9
+#: inc/functions/cpt_software.php:9
+msgid "Add New"
+msgstr "Adicionar Novo"
+
+#: functions_custon.php:286 inc/functions/cpt_clientes.php:10
+msgid "Add New Client"
+msgstr "Adicionar Novo Cliente"
+
+#: functions_custon.php:287 inc/functions/cpt_clientes.php:11
+msgid "New Client"
+msgstr "Novo Cliente"
+
+#: functions_custon.php:288 inc/functions/cpt_clientes.php:12
+msgid "Edit Client"
+msgstr "Editar Cliente"
+
+#: functions_custon.php:289 inc/functions/cpt_clientes.php:13
+msgid "View Client"
+msgstr "Ver Cliente"
+
+#: functions_custon.php:290 inc/functions/cpt_clientes.php:14
+msgid "All Clients"
+msgstr "Todos os Clientes"
+
+#: functions_custon.php:291 inc/functions/cpt_clientes.php:15
+msgid "Search Clients"
+msgstr "Pesquisar Clientes"
+
+#: functions_custon.php:292 inc/functions/cpt_clientes.php:16
+msgid "No clients found."
+msgstr "Nenhum cliente encontrado."
+
+#: functions_custon.php:293 inc/functions/cpt_clientes.php:17
+msgid "No clients found in trash."
+msgstr "Nenhum cliente encontrado na Lixeira."
+
+#: functions_custon.php:320 inc/functions/cpt_faqs.php:8
+msgid "Add New FAQ"
+msgstr "Adicionar Novo FAQ"
+
+#: functions_custon.php:321 inc/functions/cpt_faqs.php:9
+msgid "Edit FAQ"
+msgstr "Editar FAQ"
+
+#: functions_custon.php:322 inc/functions/cpt_faqs.php:10
+msgid "New FAQ"
+msgstr "Nova FAQ"
+
+#: functions_custon.php:323 inc/functions/cpt_faqs.php:11
+msgid "View FAQ"
+msgstr "Ver FAQ"
+
+#: functions_custon.php:324 inc/functions/cpt_faqs.php:12
+msgid "Search FAQs"
+msgstr "Pesquisar FAQs"
+
+#: functions_custon.php:325 inc/functions/cpt_faqs.php:13
+msgid "No FAQs Found"
+msgstr "Nenhuma FAQs encontrada."
+
+#: functions_custon.php:326 inc/functions/cpt_faqs.php:14
+msgid "No FAQs found in the Trash"
+msgstr "Nenhuma FAQs encontrada na Lixeira"
+
+#: functions_custon.php:356 inc/functions/cpt_faqs.php:43
+msgid "Search Subjects"
+msgstr "Pesquisar Assuntos"
+
+#: functions_custon.php:357 inc/functions/cpt_faqs.php:44
+msgid "All Subjects"
+msgstr "Todos os Assuntos"
+
+#: functions_custon.php:358 inc/functions/cpt_faqs.php:45
+msgid "Parent Subject"
+msgstr "Assunto Pai"
+
+#: functions_custon.php:359 inc/functions/cpt_faqs.php:46
+msgid "Parent Subject:"
+msgstr "Assunto Pai:"
+
+#: functions_custon.php:360 inc/functions/cpt_faqs.php:47
+msgid "Edit Subject"
+msgstr "Editar Assunto"
+
+#: functions_custon.php:361 inc/functions/cpt_faqs.php:48
+msgid "Update Subject"
+msgstr "Atualizar Assunto"
+
+#: functions_custon.php:362 inc/functions/cpt_faqs.php:49
+msgid "Add New Subject"
+msgstr "Adicionar Novo Assunto"
+
+#: functions_custon.php:363 inc/functions/cpt_faqs.php:50
+msgid "New Subject Name"
+msgstr "Novo Nome do Assunto"
+
+#: functions_custon.php:364 inc/functions/cpt_faqs.php:51
+msgid "Subjects"
+msgstr "Assuntos"
+
+#: functions_custon.php:454 inc/functions/cpt_changelogs.php:72
+msgid "Added"
+msgstr "Adicionado"
+
+#: functions_custon.php:455 inc/functions/cpt_changelogs.php:73
+msgid "Ex.: New features or improvements"
+msgstr "Ex.: Novos recursos ou melhorias"
+
+#: functions_custon.php:459 inc/functions/cpt_changelogs.php:76
+msgid "Fixed"
+msgstr "Correção"
+
+#: functions_custon.php:460 inc/functions/cpt_changelogs.php:77
+msgid "Ex.: Bug fixes or known errors"
+msgstr "Ex.: Correções de bugs ou erros conhecidos"
+
+#: functions_custon.php:465 inc/functions/cpt_changelogs.php:81
+msgid "Ex.: General feature updates"
+msgstr "Ex.: Atualizações gerais de recursos"
+
+#: functions_custon.php:469 inc/functions/cpt_changelogs.php:84
+msgid "Improved"
+msgstr "Melhoria"
+
+#: functions_custon.php:470 inc/functions/cpt_changelogs.php:85
+msgid "Ex.: Process or performance improvements"
+msgstr "Ex.: Melhorias de processo ou desempenho"
+
+#: functions_custon.php:474 inc/functions/cpt_changelogs.php:88
+msgid "Removed"
+msgstr "Removido"
+
+#: functions_custon.php:475 inc/functions/cpt_changelogs.php:89
+msgid "Ex.: Removed features or elements"
+msgstr "Ex.: Recursos ou elementos removidos"
+
+#: functions_custon.php:479 inc/functions/cpt_changelogs.php:92
+msgid "Deprecated"
+msgstr "Descontinuado"
+
+#: functions_custon.php:480 inc/functions/cpt_changelogs.php:93
+msgid "Ex.: Features or elements Discontinued"
+msgstr "Ex.: Características ou elementos Descontinuados"
+
+#: functions_custon.php:484 inc/functions/cpt_changelogs.php:96
+msgid "Compatibility"
+msgstr "Compatibilidade"
+
+#: functions_custon.php:485 inc/functions/cpt_changelogs.php:97
+msgid "Ex.: Compatible Features or Elements"
+msgstr "Ex.: Recursos ou elementos compatíveis"
 
 #: functions_custon.php:699
 msgid "Primary Color"
@@ -520,113 +495,737 @@ msgstr "CSS Personalizado"
 msgid "Custom JavaScript"
 msgstr "JavaScript Personalizado"
 
-#: header.php:57
+#: header.php:71
 msgid "Toggle navigation"
 msgstr "Alternar navegação"
 
-#: index.php:16
-msgid "learn more"
-msgstr "saiba mais"
+#: inc/functions/cpt_changelogs.php:109
+msgid "Select Software"
+msgstr "Selecione um Software"
 
-#: index.php:16 index.php:210
-msgid "read more"
-msgstr "leia mais"
+#: inc/functions/cpt_changelogs.php:111 inc/functions/cpt_faqs.php:89
+msgid "None"
+msgstr "Nenhum"
 
-#: index.php:58
-msgid "Learn more"
-msgstr "Saiba mais"
+#: inc/functions/cpt_clientes.php:44
+msgid "Search Types"
+msgstr "Pesquisar Tipos"
 
-#: index.php:93
+#: inc/functions/cpt_clientes.php:45
+msgid "All Types"
+msgstr "Todos os Tipos"
+
+#: inc/functions/cpt_clientes.php:46
+msgid "Parent Type"
+msgstr "Tipo Pai"
+
+#: inc/functions/cpt_clientes.php:47
+msgid "Parent Type:"
+msgstr "Tipo Pai:"
+
+#: inc/functions/cpt_clientes.php:48
+msgid "Edit Type"
+msgstr "Editar Tipo"
+
+#: inc/functions/cpt_clientes.php:49
+msgid "Update Type"
+msgstr "Atualizar Tipo"
+
+#: inc/functions/cpt_clientes.php:50
+msgid "Add New Type"
+msgstr "Adicionar Novo Tipo"
+
+#: inc/functions/cpt_clientes.php:51
+msgid "New Type Name"
+msgstr "Novo Nome do Tipo"
+
+#: inc/functions/cpt_clientes.php:52
+msgid "Type of Clients"
+msgstr "Tipo de Clientes"
+
+#: inc/functions/cpt_depoimentos.php:5 inc/functions/cpt_depoimentos.php:7
+msgid "Testimonials"
+msgstr "Depoimentos"
+
+#: inc/functions/cpt_depoimentos.php:6 inc/functions/cpt_depoimentos.php:8
+msgid "Testimonial"
+msgstr "Depoimento"
+
+#: inc/functions/cpt_depoimentos.php:10
+msgid "Add New Testimonial"
+msgstr "Adicionar Novo Depoimento"
+
+#: inc/functions/cpt_depoimentos.php:11
+msgid "New Testimonial"
+msgstr "Novo Depoimento"
+
+#: inc/functions/cpt_depoimentos.php:12
+msgid "Edit Testimonial"
+msgstr "Editar Depoimento"
+
+#: inc/functions/cpt_depoimentos.php:13
+msgid "View Testimonial"
+msgstr "Visualizar Depoimento"
+
+#: inc/functions/cpt_depoimentos.php:14
+msgid "All Testimonials"
+msgstr "Todos Depoimentos"
+
+#: inc/functions/cpt_depoimentos.php:15
+msgid "Search Testimonials"
+msgstr "Buscar Depoimentos"
+
+#: inc/functions/cpt_depoimentos.php:16 index.php:275
+#: template-parts/content-testimonial.php:105
+msgid "No testimonials found."
+msgstr "Nenhum depoimento encontrado."
+
+#: inc/functions/cpt_depoimentos.php:17
+msgid "No testimonials found in Trash."
+msgstr "Nenhum depoimento encontrado na Lixeira."
+
+#: inc/functions/cpt_depoimentos.php:45
+msgid "Client Information"
+msgstr "Informações do Cliente"
+
+#: inc/functions/cpt_depoimentos.php:68
+msgid "Rating (1 to 5)"
+msgstr "Avaliação (1 a 5)"
+
+#: inc/functions/cpt_depoimentos.php:74
+msgid "Select the rating given by the client."
+msgstr "Selecione a classificação dada pelo cliente."
+
+#: inc/functions/cpt_depoimentos.php:78
+msgid "Client Name"
+msgstr "Nome do Cliente"
+
+#: inc/functions/cpt_depoimentos.php:80
+msgid "Enter the name of the client."
+msgstr "Insira o nome do cliente."
+
+#: inc/functions/cpt_depoimentos.php:84
+msgid "Company"
+msgstr "Empresa"
+
+#: inc/functions/cpt_depoimentos.php:86
+msgid "Enter the company name (optional)."
+msgstr "Insira o nome da empresa (opcional)."
+
+#: inc/functions/cpt_depoimentos.php:90
+msgid "Client Position"
+msgstr "Cargo do Cliente"
+
+#: inc/functions/cpt_depoimentos.php:92
+msgid "Enter the client’s job title (optional)."
+msgstr "Insira o cargo do cliente (opcional)."
+
+#: inc/functions/cpt_downloads.php:5 inc/functions/cpt_downloads.php:7
+msgid "Downloads"
+msgstr "Downloads"
+
+#: inc/functions/cpt_downloads.php:6 inc/functions/cpt_downloads.php:8
+#: single-downloads.php:65 single-downloads.php:66
+#: templates/archive-downloads.php:112
+msgid "Download"
+msgstr "Download"
+
+#: inc/functions/cpt_downloads.php:10
+msgid "Add New Download"
+msgstr "Adicionar Novo Download"
+
+#: inc/functions/cpt_downloads.php:11
+msgid "New Download"
+msgstr "Novo Download"
+
+#: inc/functions/cpt_downloads.php:12
+msgid "Edit Download"
+msgstr "Editar Download"
+
+#: inc/functions/cpt_downloads.php:13
+msgid "View Download"
+msgstr "Ver Download"
+
+#: inc/functions/cpt_downloads.php:15
+msgid "Search Downloads"
+msgstr "Pesquisar Downloads"
+
+#: inc/functions/cpt_downloads.php:16
+msgid "No downloads found."
+msgstr "Nenhum downloads encontrado."
+
+#: inc/functions/cpt_downloads.php:17
+msgid "No downloads found in trash."
+msgstr "Nenhum downloads encontrado na Lixeira."
+
+#: inc/functions/cpt_downloads.php:46 inc/functions/cpt_software.php:50
+msgid "Categories"
+msgstr "Categoria"
+
+#: inc/functions/cpt_downloads.php:59 inc/functions/cpt_software.php:92
+msgid "Download Link"
+msgstr "Link para download"
+
+#: inc/functions/cpt_downloads.php:73
+msgid "Program URL (Download Link):"
+msgstr "URL do programa (Link para download):"
+
+#: inc/functions/cpt_downloads.php:94
+msgid "Download Information"
+msgstr "Informações do Download"
+
+#: inc/functions/cpt_downloads.php:112 single-downloads.php:44
+msgid "Operating System:"
+msgstr "Sistema Operacional:"
+
+#: inc/functions/cpt_downloads.php:117 single-downloads.php:45
+msgid "Architecture:"
+msgstr "Arquitetura:"
+
+#: inc/functions/cpt_downloads.php:127 single-downloads.php:47
+msgid "Size:"
+msgstr "Tamanho:"
+
+#: inc/functions/cpt_faqs.php:73
+msgid "Related Software"
+msgstr "Software Relacionado"
+
+#: inc/functions/cpt_faqs.php:87
+msgid "Select a Software"
+msgstr "Selecione um Software"
+
+#: inc/functions/cpt_software.php:10
+msgid "Add New Software"
+msgstr "Adicionar Novo Software"
+
+#: inc/functions/cpt_software.php:11
+msgid "Edit Software"
+msgstr "Editar Software"
+
+#: inc/functions/cpt_software.php:12
+msgid "New Software"
+msgstr "Novo Software"
+
+#: inc/functions/cpt_software.php:13
+msgid "View Software"
+msgstr "Ver Software"
+
+#: inc/functions/cpt_software.php:14
+msgid "All Softwares"
+msgstr "Todos os Softwares"
+
+#: inc/functions/cpt_software.php:15
+msgid "Search Softwares"
+msgstr "Pesquisar Softwares"
+
+#: inc/functions/cpt_software.php:16
+msgid "No softwares found."
+msgstr "Nenhum software encontrado."
+
+#: inc/functions/cpt_software.php:44
+msgid "Search Categories"
+msgstr "Pesquisar Categoria"
+
+#: inc/functions/cpt_software.php:45 templates/archive-downloads.php:25
+msgid "All Categories"
+msgstr "Todas Categorias"
+
+#: inc/functions/cpt_software.php:46
+msgid "Edit Category"
+msgstr "Editar Categoria"
+
+#: inc/functions/cpt_software.php:47
+msgid "Update Category"
+msgstr "Atualizar Categoria"
+
+#: inc/functions/cpt_software.php:48
+msgid "Add New Category"
+msgstr "Adicionar Nova Categoria"
+
+#: inc/functions/cpt_software.php:49
+msgid "New Category Name"
+msgstr "Novo Nome da Categoria"
+
+#: inc/functions/cpt_software.php:71
+msgid "Software Details"
+msgstr "Detalhes do Software"
+
+#: inc/functions/cpt_software.php:96
+msgid "Video URL (YouTube)"
+msgstr "URL do Vídeo (YouTube)"
+
+#: inc/functions/cpt_software.php:100
+msgid "Trial Period (e.g. 15 days)"
+msgstr "Período de Teste (ex.: 15 dias)"
+
+#: inc/functions/cpt_software.php:103
+msgid "Features"
+msgstr "Funcionalidades"
+
+#: inc/functions/cpt_software.php:108 inc/functions/cpt_software.php:131
+msgid "Feature Title"
+msgstr "Título da Funcionalidade"
+
+#: inc/functions/cpt_software.php:112 inc/functions/cpt_software.php:133
+msgid "Description"
+msgstr "Descrição"
+
+#: inc/functions/cpt_software.php:116 inc/functions/cpt_software.php:135
+msgid "Ícone (Bootstrap Icons, ex.: bi-gear)"
+msgstr "Ícone (Bootstrap Icons, ex.: bi-gear)"
+
+#: inc/functions/cpt_software.php:118
+msgid "See more at"
+msgstr "Veja mais em"
+
+#: inc/functions/cpt_software.php:120 inc/functions/cpt_software.php:138
+msgid "Remove"
+msgstr "Remover"
+
+#: inc/functions/cpt_software.php:124
+msgid "Add Feature"
+msgstr "Adicionar Funcionalidade"
+
+#: index.php:49 single-software.php:39
+#, php-format
+msgid "Download the trial version and enjoy it for %s days*"
+msgstr "Baixe a versão de teste e aproveite por %s dias*"
+
+#: index.php:109
+msgid "Meet Tecnoinfor"
+msgstr "Conheça a Tecnoinfor"
+
+#: index.php:127
+msgid "years"
+msgstr "anos"
+
+#: index.php:129
+msgid "of Experience"
+msgstr "de Experiência"
+
+#: index.php:176 template-parts/content-testimonial.php:6
 msgid "We help entrepreneurs simplify their businesses"
 msgstr "Ajudamos empreendedores a simplificar seus negócios"
 
-#: index.php:94
+#: index.php:177 template-parts/content-testimonial.php:7
 msgid "See what they say about our solution!"
 msgstr "Veja o que falam da nossa solução!"
 
-#: index.php:181
+#: index.php:232 search.php:38 template-parts/content-testimonial.php:62
+msgid "Read more"
+msgstr "Leia mais"
+
+#: index.php:257 template-parts/content-testimonial.php:87
+msgid "Previous"
+msgstr "Anterior"
+
+#: index.php:262 template-parts/content-testimonial.php:92
+msgid "Next"
+msgstr "Próximo"
+
+#: index.php:268 template-parts/content-testimonial.php:98
+#, php-format
+msgid "Slide %d"
+msgstr "Slide %d"
+
+#: index.php:346
 msgid "Latest News"
 msgstr "Últimas Notícias"
 
-#: index.php:224
+#: index.php:377
+msgid "read more"
+msgstr "leia mais"
+
+#: index.php:393
 msgid "View All Posts"
 msgstr "Ver todas as postagens"
 
-#: index.php:224
+#: index.php:393
 msgid "Ver todas as postagens"
 msgstr "Ver todas as postagens"
 
-#: index.php:233
-msgid "Join our community"
-msgstr "Junte-se à nossa comunidade"
+#: index.php:402
+msgid "Do you already follow our social networks?"
+msgstr "Já acompanha nossas redes sociais?"
+
+#: page-about.php:55
+msgid "Our History"
+msgstr "Nossa História"
+
+#: page-about.php:67
+msgid "Our Systems"
+msgstr "Nossos Sistemas"
+
+#: page-about.php:86
+#, php-format
+msgid "Learn more about %s"
+msgstr "Saiba mais sobre %s"
+
+#: page-about.php:87
+msgid "Learn More"
+msgstr "Saiba Mais"
+
+#: page-about.php:96
+msgid "No software available at the moment."
+msgstr "Nenhum software disponível no momento."
+
+#: page-about.php:105
+msgid "Our Differentials"
+msgstr "Nossos Diferenciais"
+
+#: page-about.php:109
+msgid ""
+"Our differential is <strong>personalized service</strong> and "
+"<strong>commitment to quality</strong> in every project. We develop tailored "
+"solutions that meet our clients' specific needs."
+msgstr ""
+"Nosso diferencial é o <strong>atendimento personalizado</strong> e o "
+"<strong>comprometimento com a qualidade</strong> em cada projeto. "
+"Desenvolvemos soluções sob medida que atendem às necessidades específicas de "
+"nossos clientes."
+
+#: page-about.php:119
+msgid "Mission, Vision, and Values"
+msgstr "Missão, Visão e Valores"
+
+#: page-about.php:124
+msgid "Mission"
+msgstr "Missão"
+
+#: page-about.php:125
+msgid ""
+"Boost our clients' productivity through innovative and personalized "
+"technological solutions."
+msgstr ""
+"Aumentar a produtividade dos nossos clientes por meio de soluções "
+"tecnológicas inovadoras e personalizadas."
+
+#: page-about.php:131
+msgid "Vision"
+msgstr "Visão"
+
+#: page-about.php:132
+msgid ""
+"Be a reference in developing innovative technological solutions, recognized "
+"for excellence and commitment to our clients' success."
+msgstr ""
+"Ser referência no desenvolvimento de soluções tecnológicas inovadoras, "
+"reconhecida pela excelência e comprometimento com o sucesso dos nossos "
+"clientes."
+
+#: page-about.php:138
+msgid "Values"
+msgstr "Valores"
+
+#: page-about.php:140
+msgid "Commitment to the client"
+msgstr "Compromisso com o cliente"
+
+#: page-about.php:141
+msgid "Ethics and transparency"
+msgstr "Ética e transparência"
+
+#: page-about.php:142
+msgid "Quality and excellence"
+msgstr "Qualidade e excelência"
+
+#: page-about.php:143
+msgid "Innovation and creativity"
+msgstr "Inovação e criatividade"
+
+#: page-about.php:154
+msgid "Ready to Transform Your Business?"
+msgstr "Pronto para transformar seu negócio?"
+
+#: page-about.php:155
+msgid "Contact us and discover how our solutions can boost your productivity!"
+msgstr ""
+"Entre em contato conosco e descubra como nossas soluções podem aumentar sua "
+"produtividade!"
+
+#: page-about.php:157
+msgid "Request a Quote"
+msgstr "Solicite um Orçamento"
+
+#: page-contact.php:24
+msgid "Contact Information and Form"
+msgstr "Informações de contato e formulário"
+
+#: page-contact.php:29
+msgid "Send Us a Message"
+msgstr "Envie-nos uma mensagem"
+
+#: page-contact.php:40
+msgid "Contact Details"
+msgstr "Dados de contato"
+
+#: page-contact.php:45
+msgid "Address"
+msgstr "Endereço"
+
+#: page-contact.php:52
+msgid "Phone"
+msgstr "Telefone"
+
+#: page-contact.php:61
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+#: page-contact.php:74
+msgid "Email"
+msgstr "E-mail"
+
+#: page-contact.php:83
+msgid "Opening Hours"
+msgstr "Horário de funcionamento"
+
+#: page-contact.php:92
+msgid "Follow Us"
+msgstr "Siga-nos"
+
+#: page-contact.php:109
+msgid "Our Location"
+msgstr "Nossa localização"
+
+#: page-contact.php:113
+msgid "Map showing our location"
+msgstr "Mapa mostrando nossa localização"
 
 #: search.php:4
 #, php-format
 msgid "Search results for: \"%s\""
 msgstr "Resultados da busca por: \"%s\""
 
-#: search.php:39
-msgid "Read more"
-msgstr "Leia mais"
-
-#: search.php:48
+#: search.php:47
 msgid "Pagination"
 msgstr "Paginação"
 
-#: search.php:72
+#: search.php:70
 msgid "No results found for:"
 msgstr "Nenhum resultado encontrado para:"
 
-#: search.php:73
+#: search.php:71
 msgid "Try searching for different keywords or see some suggestions below."
 msgstr ""
 "Tente buscar por palavras-chave diferentes ou veja algumas sugestões abaixo."
 
-#: templates/page-changelogs.php:30
-msgid "On this page"
-msgstr "Nesta página"
+#: single-changelogs.php:88 single.php:90 templates/single.php:90
+msgid "No related posts found."
+msgstr "Nenhum post relacionado encontrado."
 
-#: templates/page-changelogs.php:54 templates/page-changelogs.php:136
-msgid "No changelogs found."
-msgstr "Nenhum changelogs encontrado."
+#: single-changelogs.php:94 single.php:96 templates/single.php:96
+msgid "No categories associated with this post."
+msgstr "Nenhuma categoria associada a este post."
 
-#: templates/page-changelogs.php:90
-msgid "Version:"
-msgstr "Versão:"
+#: single-downloads.php:23
+msgid "Back to Downloads List"
+msgstr "Voltar para a lista de downloads"
 
-#: templates/page-changelogs.php:94
-msgid "Released on:"
-msgstr "Lançado em:"
+#: single-downloads.php:24
+msgid "Back to Downloads"
+msgstr "Retorna para Downloads"
 
-#: templates/page-changelogs.php:104
-msgid "Updated"
-msgstr "Atualização"
+#: single-downloads.php:31
+msgid "Information about"
+msgstr "Informações sobre"
 
-#: templates/page-changelogs.php:129
-msgid "« Previous"
+#: single-downloads.php:40 single-downloads.php:42 single-software.php:96
+msgid "Category:"
+msgstr "Categoria:"
+
+#: single-downloads.php:42 single-downloads.php:44 single-downloads.php:45
+#: single-downloads.php:46 single-downloads.php:47
+msgid "Not specified"
+msgstr "Não especificado"
+
+#: single-downloads.php:52
+msgid "Note:"
+msgstr "Nota:"
+
+#: single-downloads.php:52
+msgid "This program is compatible with desktop operating systems only."
+msgstr ""
+"Este programa é compatível apenas com sistemas operacionais de desktop."
+
+#: single-downloads.php:53 single-software.php:164 single-software.php:184
+msgid "Close"
+msgstr "Fechar"
+
+#: single-downloads.php:72
+msgid "Download link unavailable or invalid."
+msgstr "Link para download indisponível ou inválido."
+
+#: single-downloads.php:78
+msgid "Related Downloads"
+msgstr "Downloads relacionados"
+
+#: single-downloads.php:100 templates/archive-downloads.php:167
+msgid "N/A"
+msgstr "N/A"
+
+#: single-downloads.php:106
+msgid "No related downloads found."
+msgstr "Nenhum downloads relacionado encontrado."
+
+#: single-software.php:27 single-software.php:28
+msgid "Download Software"
+msgstr "Baixar Software"
+
+#: single-software.php:33 single-software.php:34
+msgid "Commercial Contact"
+msgstr "Contato Comercial"
+
+#: single-software.php:60
+#, php-format
+msgid "Current Version: <a href=\"%s\" class=\"text-white\">%s</a>"
+msgstr "Versão atual: <a href=\"%s\" class=\"text-white\">%s</a>"
+
+#: single-software.php:78
+msgid "Softwares"
+msgstr "Softwares"
+
+#: single-software.php:87
+#, php-format
+msgid "Discover %s"
+msgstr "Descubra %s"
+
+#: single-software.php:122
+msgid "Key Features"
+msgstr "Principais Funcionalidades"
+
+#: single-software.php:124
+#, php-format
+msgid "Learn about the features that make %s special."
+msgstr "Saiba mais sobre as funcionalidades que tornam %s especial."
+
+#: single-software.php:148
+msgid "View All Features"
+msgstr "Ver todas Funcionalidades"
+
+#: single-software.php:152
+msgid "No features registered yet."
+msgstr "Nenhum recurso registrado ainda."
+
+#: single-software.php:163
+#, php-format
+msgid "All Features of %s"
+msgstr "Todos as Funcionalidades de %s"
+
+#: single-software.php:180
+msgid "No features available."
+msgstr "Nenhuma funcionalidade disponível."
+
+#: single-software.php:193
+msgid "Related Products"
+msgstr "Produtos Relaiconados"
+
+#: single-software.php:229
+msgid "No related software found."
+msgstr "Nenhum software relacionado encontrado."
+
+#: single-software.php:238
+#, php-format
+msgid "Ready to Try %s?"
+msgstr "Pronto para Experimentar %s?"
+
+#: single-software.php:239
+msgid "Try it now and see how it can optimize your processes."
+msgstr "Experimente agora e veja como ele pode otimizar seus processos."
+
+#: single-software.php:244 single-software.php:245
+msgid "Try for Free"
+msgstr "Experimente Grátis"
+
+#: single-software.php:254
+msgid "Frequently Asked Questions"
+msgstr "Perguntas Frequentes"
+
+#: single-software.php:256
+#, php-format
+msgid "Check out FAQs related to %s."
+msgstr "Confira as perguntas frequentes relacionadas a %s."
+
+#: single-software.php:289
+msgid "No FAQs related to this software."
+msgstr "Nenhuma FAQ relacionada a este software."
+
+#: single.php:48 templates/single.php:48
+msgid "Recent Posts"
+msgstr "Posts Recentes"
+
+#: templates/archive-clientes.php:75
+#, php-format
+msgid "Client image %s"
+msgstr "Imagem do cliente %s"
+
+#: templates/archive-clientes.php:83
+#, php-format
+msgid "Default client image %s"
+msgstr "Imagem padrão do cliente %s"
+
+#: templates/archive-clientes.php:105
+msgid "« Anterior"
 msgstr "« Anterior"
 
-#: templates/page-changelogs.php:130
-msgid "Next »"
+#: templates/archive-clientes.php:106
+msgid "Próximo »"
 msgstr "Próximo »"
 
-#: templates/page-faqs.php:19
+#: templates/archive-downloads.php:24
+msgid "Filter by category"
+msgstr "Filtrar por Categoria"
+
+#: templates/archive-downloads.php:75
+#, php-format
+msgid "Download image %s"
+msgstr "Download image %s"
+
+#: templates/archive-downloads.php:111
+#, php-format
+msgid "Download %s, size %s"
+msgstr "Download %s, tamanho %s"
+
+#: templates/archive-downloads.php:118
+msgid "View details"
+msgstr "Ver detalhes"
+
+#: templates/archive-downloads.php:123
+msgid "Link unavailable."
+msgstr "Link indisponível."
+
+#: templates/archive-downloads.php:125
+msgid "report"
+msgstr "reporte"
+
+#: templates/archive-downloads.php:136
+msgid "Downloads pagination"
+msgstr "Paginação de Downloads"
+
+#: templates/archive-downloads.php:157
+msgid "No downloads available at the moment. Check back later!"
+msgstr "Nenhum download disponível no momento. Volte mais tarde!"
+
+#: templates/archive-downloads.php:159
+msgid "Featured Downloads"
+msgstr "Downloads em destaque"
+
+#: templates/page-faqs.php:24 templates/page-faqs.php:25
 msgid "Search documentation..."
 msgstr "Pesquisar documentação..."
 
-#: templates/page-faqs.php:90
+#: templates/page-faqs.php:104
 msgid "No FAQ available for this topic."
 msgstr "Não há FAQs disponíveis para este tópico."
 
-#: templates/page-faqs.php:98
+#: templates/page-faqs.php:112
 msgid "Nenhum assunto encontrado."
 msgstr "Nenhum tópico encontrado."
 
-#: templates/page-faqs.php:103
+#: templates/page-faqs.php:117
 msgid "By Topics"
 msgstr "Por Topicos"
 
-#: templates/page-faqs.php:120
+#: templates/page-faqs.php:134
 msgid "No topics available at this time."
 msgstr "Nenhum tópico disponível no momento."
 
@@ -634,13 +1233,143 @@ msgstr "Nenhum tópico disponível no momento."
 msgid "Cookie Policy"
 msgstr "Política de Cookies"
 
-#~ msgid "No customers found."
-#~ msgstr "Nenhum cliente encontrado."
+#~ msgid ""
+#~ "System for managing contracts for assistance and funeral plans, optimized "
+#~ "for small and medium-sized businesses."
+#~ msgstr ""
+#~ "Sistema de gestão de contratos de assistência e planos funerários, "
+#~ "otimizado para pequenas e médias empresas."
+
+#~ msgid ""
+#~ "Complete system for managing evangelical churches, developed based on "
+#~ "real daily needs."
+#~ msgstr ""
+#~ "Sistema completo para gestão de igrejas evangélicas, desenvolvido com "
+#~ "base nas necessidades reais do dia a dia."
+
+#~ msgid ""
+#~ "Sales, inventory, and payment booklet management system, ideal for small "
+#~ "and medium retail with credit sales."
+#~ msgstr ""
+#~ "Sistema de gestão de vendas, estoque e carnês, ideal para pequenas e "
+#~ "médias empresas do varejo com vendas a prazo."
+
+#~ msgid "Get in Touch"
+#~ msgstr "Entre em contato"
+
+#~ msgid ""
+#~ "Have questions or need support? Contact our team and we’ll get back to "
+#~ "you promptly."
+#~ msgstr ""
+#~ "Tem dúvidas ou precisa de suporte? Entre em contato com nossa equipe e "
+#~ "entraremos em contato o mais breve possível."
+
+#, php-format
+#~ msgid "Follow us on %s"
+#~ msgstr "Siga-nos em %s"
+
+#~ msgid "« Previous"
+#~ msgstr "« Anterior"
+
+#~ msgid "Next »"
+#~ msgstr "Próximo »"
+
+#~ msgid "Nenhum software encontrado."
+#~ msgstr "Nenhum software encontrado."
+
+#, php-format
+#~ msgid "Try the free version for %s*"
+#~ msgstr "Experimente a versão gratuita por %s*"
+
+#~ msgid "&laquo; Anterior"
+#~ msgstr "« Anterior"
+
+#~ msgid "Próximo &raquo;"
+#~ msgstr "Próximo &raquo;"
+
+#, fuzzy
+#~| msgid "Search Downloads"
+#~ msgid "Search downloads..."
+#~ msgstr "Pesquisar Downloads"
+
+#, fuzzy
+#~| msgid "Search Downloads"
+#~ msgid "Search downloads"
+#~ msgstr "Pesquisar Downloads"
+
+#, fuzzy
+#~| msgid "Search FAQs"
+#~ msgid "Search"
+#~ msgstr "Pesquisar FAQs"
+
+#~ msgid "Saiba mais"
+#~ msgstr "Leia mais"
 
 #, fuzzy
 #~| msgid "Nenhum assunto encontrado."
-#~ msgid "Nenhum depoimento encontrado."
+#~ msgid "Nenhum post relacionado encontrado."
 #~ msgstr "Nenhum tópico encontrado."
+
+#, fuzzy
+#~| msgid "Removed"
+#~ msgid "Remover"
+#~ msgstr "Removido"
+
+#~ msgid "Link de Download"
+#~ msgstr "Link de Download"
+
+#~ msgid "Company Statistics"
+#~ msgstr "Estatísticas da empresa"
+
+#~ msgid "Join our community"
+#~ msgstr "Junte-se à nossa comunidade"
+
+#, php-format
+#~ msgid "Imagem do cliente %s"
+#~ msgstr "Imagem do cliente %s"
+
+#, php-format
+#~ msgid "Imagem padrão do cliente %s"
+#~ msgstr "Imagem padrão do cliente%s"
+
+#~ msgid "No testimonials in the trash."
+#~ msgstr "Nenhum depoimento na lixeira."
+
+#~ msgid "learn more"
+#~ msgstr "saiba mais"
+
+#, php-format
+#~ msgid "Baixar %s, tamanho %s"
+#~ msgstr "Baixar %s, tamanho %s"
+
+#~ msgid "Planos"
+#~ msgstr "Planos"
+
+#~ msgid "Depoimentos"
+#~ msgstr "Depoimentos"
+
+#~ msgid "Changelogs"
+#~ msgstr "Changelogs"
+
+#~ msgid "Blog"
+#~ msgstr "Blog"
+
+#~ msgid "Updated"
+#~ msgstr "Atualização"
+
+#, fuzzy
+#~| msgid "Version:"
+#~ msgid "Versão:"
+#~ msgstr "Versão:"
+
+#~ msgid "File Size:"
+#~ msgstr "Tamanho do Arquivo:"
+
+#~ msgid "URL do programa (Link para download):"
+#~ msgstr "URL do programa (Link para download):"
+
+#~ msgid "No customers found."
+#~ msgstr "Nenhum cliente encontrado."
 
 #, fuzzy
 #~| msgid "Search Clients"
@@ -653,17 +1382,8 @@ msgstr "Política de Cookies"
 #~ msgid "Por Assuntos"
 #~ msgstr "Por Assuntos"
 
-#~ msgid "Leia mais"
-#~ msgstr "Leia mais"
-
 #~ msgid "Service"
 #~ msgstr "Atendimento"
-
-#~ msgid "« Anterior"
-#~ msgstr "« Anterior"
-
-#~ msgid "Próximo »"
-#~ msgstr "Próximo »"
 
 #~ msgid "All Assuntos"
 #~ msgstr "Todos Assuntos"
@@ -683,17 +1403,11 @@ msgstr "Política de Cookies"
 #~ msgid "View Changelog"
 #~ msgstr "Ver Changelog"
 
-#~ msgid "All Changelogs"
-#~ msgstr "Todos os Changelogs"
-
 #~ msgid "No changelogs found in Trash."
 #~ msgstr "Nenhum changelogs encontrado na Lixeira."
 
 #~ msgid "Changelog Details"
 #~ msgstr "Detalhes do Changelog"
-
-#~ msgid "Version"
-#~ msgstr "Versão"
 
 #~ msgid "Release Date"
 #~ msgstr "Data de lançamento"

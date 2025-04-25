@@ -1,0 +1,77 @@
+/* Estilo para mensagens de validação em tempo real */
+.validacao-mensagem {
+    display: block;
+    font-size: 12px;
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.validacao-mensagem.erro {
+    color: #d63638;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+}
+
+.validacao-mensagem.sucesso {
+    color: #15803d;
+    background-color: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+/* Estilo para mensagens de erro do WordPress (settings_errors) */
+.updated,
+.error {
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.updated {
+    background-color: #dcfce7;
+    border-left: 4px solid #15803d;
+}
+
+.error {
+    background-color: #fee2e2;
+    border-left: 4px solid #d63638;
+}
+
+.updated p,
+.error p {
+    margin: 5px 0;
+}
+/*DEPOIMENTOS*/
+.tecnoinfor-depoimentos-metabox label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.tecnoinfor-depoimentos-metabox select,
+.tecnoinfor-depoimentos-metabox input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.tecnoinfor-depoimentos-metabox small {
+    display: block;
+    color: #666;
+    font-size: 12px;
+}
+.testimonial-text {
+    transition: all 0.3s ease;
+  }
+  
+  .read-more {
+    cursor: pointer;
+  }
+  
+  .read-more:hover {
+    text-decoration: underline;
+  }
