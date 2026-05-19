@@ -5,7 +5,8 @@
  * Verifica e atualiza temas WordPress a partir de um repositório GitHub.
  */
 
-function get_theme_info_from_github($github_username, $repository_name, $access_token = null) {
+function get_theme_info_from_github($github_username, $repository_name, $access_token = null)
+{
     if (empty($access_token) && !defined('GITHUB_AUTH_TOKEN')) {
         error_log('Erro: Token de autenticação do GitHub não definido.');
         return false;
@@ -42,11 +43,13 @@ function get_theme_info_from_github($github_username, $repository_name, $access_
     ];
 }
 
-function check_for_theme_update($current_version, $theme_info) {
+function check_for_theme_update($current_version, $theme_info)
+{
     return ($theme_info && version_compare($current_version, $theme_info['version'], '<')) ? $theme_info : false;
 }
 
-function delete_directory($dir) {
+function delete_directory($dir)
+{
     if (!is_dir($dir)) {
         return false;
     }
@@ -58,7 +61,8 @@ function delete_directory($dir) {
     return rmdir($dir);
 }
 
-function download_and_install_theme_update($theme_info) {
+function download_and_install_theme_update($theme_info)
+{
     if (!$theme_info || empty($theme_info['download_url']) || empty($theme_info['access_token'])) {
         error_log('Erro: URL de download ou token de acesso inválidos.');
         return false;
@@ -137,7 +141,8 @@ function download_and_install_theme_update($theme_info) {
     return true;
 }
 
-function update_theme_from_github($github_username, $repository_name, $access_token = GITHUB_AUTH_TOKEN) {
+function update_theme_from_github($github_username, $repository_name, $access_token = GITHUB_AUTH_TOKEN)
+{
     $current_version = wp_get_theme()->get('Version');
     $theme_info = get_theme_info_from_github($github_username, $repository_name, $access_token);
 
@@ -152,13 +157,15 @@ function update_theme_from_github($github_username, $repository_name, $access_to
     }
 }
 
-function debug_theme_update_process($message) {
+function debug_theme_update_process($message)
+{
     if (defined('WP_DEBUG') && WP_DEBUG) {
         error_log($message);
     }
 }
 
-function check_for_theme_updates($checked_data, $github_username, $repository_name, $access_token) {
+function check_for_theme_updates($checked_data, $github_username, $repository_name, $access_token)
+{
     if (empty($checked_data->checked)) {
         return $checked_data;
     }
@@ -186,7 +193,8 @@ function check_for_theme_updates($checked_data, $github_username, $repository_na
     return $checked_data;
 }
 
-function theme_api_check($false, $action, $response, $github_username, $repository_name, $access_token) {
+function theme_api_check($false, $action, $response, $github_username, $repository_name, $access_token)
+{
     if ($action === 'theme_information' && isset($response->slug) && $response->slug === $repository_name) {
         $theme_info = get_theme_info_from_github($github_username, $repository_name, $access_token);
 
@@ -212,7 +220,8 @@ function theme_api_check($false, $action, $response, $github_username, $reposito
     return $response;
 }
 
-function add_theme_update_hooks($github_username, $repository_name, $access_token = GITHUB_AUTH_TOKEN) {
+function add_theme_update_hooks($github_username, $repository_name, $access_token = GITHUB_AUTH_TOKEN)
+{
     add_filter('pre_set_site_transient_update_themes', fn($checked_data) => check_for_theme_updates($checked_data, $github_username, $repository_name, $access_token));
     add_filter('themes_api', fn($false, $action, $response) => theme_api_check($false, $action, $response, $github_username, $repository_name, $access_token), 10, 3);
 }
@@ -240,7 +249,8 @@ add_filter('upgrader_pre_download', function ($reply, $package, $upgrader) {
 }, 10, 3);
 
 // Adiciona um menu no admin para atualização manual
-function tecnoinfor_add_update_menu() {
+function tecnoinfor_add_update_menu()
+{
     add_submenu_page(
         'themes.php',
         'Atualizar Tema Tecnoinfor',
@@ -252,7 +262,8 @@ function tecnoinfor_add_update_menu() {
 }
 add_action('admin_menu', 'tecnoinfor_add_update_menu');
 
-function tecnoinfor_update_page() {
+function tecnoinfor_update_page()
+{
     if (isset($_POST['update_theme']) && check_admin_referer('tecnoinfor_update_theme')) {
         $result = update_theme_from_github('manuseiro', 'tecnoinfor', GITHUB_AUTH_TOKEN);
         echo '<div class="notice notice-' . ($result === 'Nenhuma atualização disponível.' ? 'info' : ($result ? 'success' : 'error')) . '"><p>' . esc_html($result) . '</p></div>';
@@ -262,7 +273,8 @@ function tecnoinfor_update_page() {
         <h1>Atualizar Tema Tecnoinfor</h1>
         <form method="post">
             <?php wp_nonce_field('tecnoinfor_update_theme'); ?>
-            <p><input type="submit" name="update_theme" class="button button-primary" value="Verificar e Atualizar Tema"></p>
+            <p><input type="submit" name="update_theme" class="button button-primary" value="Verificar e Atualizar Tema">
+            </p>
         </form>
     </div>
     <?php

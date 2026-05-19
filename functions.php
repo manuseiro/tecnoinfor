@@ -56,5 +56,33 @@ function tecnoinfor_customize_register($wp_customize) {
         'type'    => 'number',
       ]);
     }
+
+    // Section for Benefits
+    $wp_customize->add_section('tecnoinfor_benefits', [
+      'title'    => __('Benefits Settings', 'tecnoinfor'),
+      'priority' => 35,
+    ]);
+
+    for ($i = 1; $i <= 3; $i++) {
+        $wp_customize->add_setting("benefit_title_$i", [
+            'default' => $i == 1 ? 'Eficiência' : ($i == 2 ? 'Confiança' : 'Controle'),
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        $wp_customize->add_control("benefit_title_$i", [
+            'label' => sprintf('Título do Benefício %d', $i),
+            'section' => 'tecnoinfor_benefits',
+            'type' => 'text',
+        ]);
+
+        $wp_customize->add_setting("benefit_desc_$i", [
+            'default' => $i == 1 ? 'O Sisplan ajuda a organizar e automatizar as principais rotinas de uma funerária, reduzindo o tempo gasto com tarefas administrativas e melhorando a eficiência do negócio.' : ($i == 2 ? 'Utilizamos um poderoso banco de dados SQL Open Source, garantindo a segurança e integridade dos dados.' : 'O Sisplan fornece relatórios detalhados e em tempo real sobre contratos e aspectos importantes do negócio.'),
+            'sanitize_callback' => 'sanitize_textarea_field',
+        ]);
+        $wp_customize->add_control("benefit_desc_$i", [
+            'label' => sprintf('Descrição do Benefício %d', $i),
+            'section' => 'tecnoinfor_benefits',
+            'type' => 'textarea',
+        ]);
+    }
 }
 add_action('customize_register', 'tecnoinfor_customize_register');

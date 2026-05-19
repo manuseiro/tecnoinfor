@@ -125,3 +125,23 @@ function tecnoinfor_copyright() {
 
     return $output;
 }
+
+// Handler para inscrição de Newsletter via AJAX
+add_action('wp_ajax_subscribe_newsletter', 'tecnoinfor_subscribe_newsletter');
+add_action('wp_ajax_nopriv_subscribe_newsletter', 'tecnoinfor_subscribe_newsletter');
+function tecnoinfor_subscribe_newsletter() {
+    if (isset($_POST['email'])) {
+        $email = sanitize_email($_POST['email']);
+        if (is_email($email)) {
+            $to = get_option('admin_email');
+            $subject = 'Nova Inscrição na Newsletter - Tecnoinfor';
+            $message = "Olá Administrador,\n\nUm novo usuário se inscreveu na sua newsletter:\n\nE-mail: $email\n\nAtenciosamente,\nSistema Tecnoinfor";
+            wp_mail($to, $subject, $message);
+            wp_send_json_success(__('Obrigado por se inscrever!', 'tecnoinfor'));
+        } else {
+            wp_send_json_error(__('E-mail inválido.', 'tecnoinfor'));
+        }
+    }
+    wp_send_json_error(__('Nenhum e-mail enviado.', 'tecnoinfor'));
+}
+

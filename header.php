@@ -53,7 +53,7 @@
         <div class="navbar-principal shadow">
             <!-- Navbar Start -->
             <div class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
-                <nav class="navbar navbar-expand-lg bg-white navbar-light p-0">
+                <nav class="navbar navbar-expand-lg bg-white p-0" data-bs-theme="light">
                     <a class="navbar-brand d-flex align-items-center px-4 px-lg-5"
                         href="<?php echo esc_url(home_url('/')); ?>" rel="home">
                         <?php 
@@ -71,7 +71,7 @@
                         aria-label="<?php esc_attr_e('Toggle navigation', 'tecnoinfor'); ?>">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-
+ 
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <?php
               wp_nav_menu(array(
@@ -83,10 +83,21 @@
                   'walker'         => new navbar_walker_custom(), // Caso precise de uma customização adicional com walker
               ));
               ?>
-                        <a href="<?php echo esc_url(home_url('/contato')); ?>" class="btn btn-primary py-4 px-lg-4 d-none d-lg-block rounded-0">Fale Conosco<i class="bi bi-arrow-right ms-3"></i></a>
+                        <div class="d-flex align-items-center ms-auto gap-2 py-3 py-lg-0">
+                            <?php
+                            $whatsapp = get_informacao_empresa('whatsapp');
+                            $whatsapp_clean = preg_replace('/[^0-9]/', '', $whatsapp);
+                            if ($whatsapp_clean) :
+                            ?>
+                            <a href="https://wa.me/<?php echo esc_attr($whatsapp_clean); ?>" class="btn btn-outline-success rounded-pill py-2 px-3 d-none d-lg-inline-flex align-items-center" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-whatsapp me-2"></i> WhatsApp
+                            </a>
+                            <?php endif; ?>
+                            <a href="<?php echo esc_url(home_url('/contato')); ?>" class="btn btn-primary py-2 px-4 d-none d-lg-block rounded-pill">Fale Conosco<i class="bi bi-arrow-right ms-2"></i></a>
+                        </div>
                     </div>
                 </nav>
-
+ 
             </div>
             <!-- Navbar End -->
         </div>

@@ -105,6 +105,7 @@ function tecnoinfor_enqueue_assets() {
     wp_localize_script('main-js', 'tecnoinforStrings', array(
         'readMore' => __('Read more', 'tecnoinfor'),
         'readLess' => __('Read less', 'tecnoinfor'),
+        'ajaxurl'  => admin_url('admin-ajax.php'),
     ));
     wp_enqueue_script('custom-logo-script', get_template_directory_uri().'/js/custom-logo.js', array('jquery'), '0.0.3', true );
     wp_enqueue_script('tecnoinfor_empresa-admin', get_template_directory_uri().'/assets/js/empresa-admin.js', array('jquery'), '0.0.1', true );

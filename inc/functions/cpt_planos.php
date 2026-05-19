@@ -90,6 +90,7 @@ function exibir_meta_box_planos($post) {
     $max_companies = get_post_meta($post->ID, 'max_companies', true);
     $is_recommended = get_post_meta($post->ID, 'is_recommended', true);
     $highlight_color = get_post_meta($post->ID, 'highlight_color', true) ?: 'primary';
+    $plano_software_id = get_post_meta($post->ID, '_plano_software_id', true);
     ?>
     <style>
         .meta-box-container { max-width: 600px; }
@@ -103,6 +104,20 @@ function exibir_meta_box_planos($post) {
     </style>
 
     <div class="meta-box-container">
+        <label for="plano_software_id">Software Relacionado:</label>
+        <select id="plano_software_id" name="plano_software_id">
+            <option value=""><?php _e('-- Nenhum / Todos os Softwares --', 'tecnoinfor'); ?></option>
+            <?php
+            $softwares = new WP_Query(array('post_type' => 'software', 'posts_per_page' => -1, 'post_status' => 'publish'));
+            if ($softwares->have_posts()) :
+                while ($softwares->have_posts()) : $softwares->the_post();
+                    echo '<option value="' . get_the_ID() . '" ' . selected($plano_software_id, get_the_ID(), false) . '>' . get_the_title() . '</option>';
+                endwhile;
+                wp_reset_postdata();
+            endif;
+            ?>
+        </select>
+
         <label for="preco">Preço Mensal (R$):</label>
         <input type="number" id="preco" name="preco" value="<?php echo esc_attr($preco); ?>" step="0.01" min="0" />
 
@@ -200,6 +215,10 @@ function salvar_meta_box_planos($post_id) {
         if (isset($_POST[$field])) {
             update_post_meta($post_id, $field, sanitize_text_field($_POST[$field]));
         }
+    }
+
+    if (isset($_POST['plano_software_id'])) {
+        update_post_meta($post_id, '_plano_software_id', sanitize_text_field($_POST['plano_software_id']));
     }
 
     if (isset($_POST['funcionalidades_nome']) && is_array($_POST['funcionalidades_nome'])) {

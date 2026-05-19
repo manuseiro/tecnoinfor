@@ -232,6 +232,190 @@ get_header();
         </div>
     </section>
 
+    <!-- Planos de Assinatura -->
+    <?php
+    $planos_args = array(
+        'post_type' => 'planos',
+        'posts_per_page' => -1,
+        'orderby' => 'menu_order',
+        'order' => 'ASC',
+        'meta_query' => array(
+            array(
+                'key' => '_plano_software_id',
+                'value' => get_the_ID(),
+                'compare' => '='
+            )
+        )
+    );
+    $planos_query = new WP_Query($planos_args);
+    $max_discount = 0;
+    
+    if ($planos_query->have_posts()) :
+    ?>
+        <section class="software-pricing py-5 bg-white">
+            <div class="container my-5 px-4 px-lg-5">
+                <h2 class="display-6 fw-bold text-primary text-center mb-2"><?php _e('Subscription Plans', 'tecnoinfor'); ?></h2>
+                <p class="col-lg-10 mx-auto lead text-muted text-center mb-5"><?php _e('Choose the ideal plan to scale your operation with complete security.', 'tecnoinfor'); ?></p>
+                
+                <div class="text-center mb-5">
+                    <label class="form-check form-switch d-inline-block">
+                        <input class="form-check-input" type="checkbox" id="toggle-software-pricing">
+                        <span class="ms-2 fw-semibold text-muted"><?php _e('Cobrança Anual (com desconto)', 'tecnoinfor'); ?></span>
+                    </label>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-3 g-4 mb-5 text-center justify-content-center">
+                    <?php
+                    while ($planos_query->have_posts()) : $planos_query->the_post();
+                        $preco_mensal = floatval(get_post_meta(get_the_ID(), 'preco', true)) ?: 0;
+                        $desconto = floatval(get_post_meta(get_the_ID(), 'desconto', true)) ?: 0;
+                        $preco_anual = $preco_mensal ? $preco_mensal * 12 * (1 - $desconto / 100) : 0;
+                        $funcionalidades = maybe_unserialize(get_post_meta(get_the_ID(), 'funcionalidades', true)) ?: [];
+                        $classe_botao = get_post_meta(get_the_ID(), 'classe_botao', true) ?: 'btn-primary';
+                        $texto_botao = get_post_meta(get_the_ID(), 'texto_botao', true) ?: 'Assinar';
+                        $is_recommended = get_post_meta(get_the_ID(), 'is_recommended', true);
+                        $highlight_color = get_post_meta(get_the_ID(), 'highlight_color', true) ?: 'primary';
+                        $max_users = get_post_meta(get_the_ID(), 'max_users', true);
+                        $max_companies = get_post_meta(get_the_ID(), 'max_companies', true);
+                        $is_free = $preco_mensal == 0;
+                        $max_discount = $is_free ? $max_discount : max($max_discount, $desconto);
+
+                        // Dynamic Contact URL with Plan Details
+                        $contact_url = add_query_arg(array(
+                            'assunto' => sprintf(__('Interesse no plano %s (%s)', 'tecnoinfor'), get_the_title(), get_the_title(wp_get_post_parent_id(get_the_ID())))
+                        ), home_url('/contato/'));
+                    ?>
+                        <div class="col">
+                            <div class="card h-100 rounded-3 shadow-sm border <?php echo $is_recommended ? "border-2 border-$highlight_color" : 'border-light'; ?> transition-hover">
+                                <?php if ($is_recommended) : ?>
+                                    <div class="card-header py-3 text-white bg-<?php echo esc_attr($highlight_color); ?> border-0">
+                                        <h4 class="my-0 fw-bold fs-5"><?php _e('Recomendado', 'tecnoinfor'); ?></h4>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="card-header py-3 bg-light border-0">
+                                        <h4 class="my-0 fw-normal fs-5"><?php the_title(); ?></h4>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <h3 class="card-title pricing-card-title mb-4">
+                                        <?php if ($is_free) : ?>
+                                            <span class="fs-2 fw-bold text-success"><?php _e('Grátis', 'tecnoinfor'); ?></span>
+                                        <?php else : ?>
+                                            <div class="preco-mensal-soft">
+                                                <span class="fs-1 fw-bold">R$ <?php echo number_format($preco_mensal, 2, ',', '.'); ?></span>
+                                                <small class="text-muted fw-light">/mês</small>
+                                            </div>
+                                            <div class="preco-anual-soft" style="display: none;">
+                                                <span class="fs-1 fw-bold">R$ <?php echo number_format($preco_anual, 2, ',', '.'); ?></span>
+                                                <small class="text-muted fw-light">/ano</small>
+                                                <?php if ($desconto) : ?>
+                                                    <div class="badge bg-danger mt-2"><?php echo esc_html($desconto); ?>% OFF</div>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </h3>
+                                    <ul class="list-unstyled text-start mb-4 flex-grow-1">
+                                        <li class="mb-2">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            <strong><?php echo $max_users ?: 'Ilimitado'; ?></strong> <?php _e('usuários', 'tecnoinfor'); ?>
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                            <strong><?php echo $max_companies ?: 'Ilimitado'; ?></strong> <?php _e('empresas', 'tecnoinfor'); ?>
+                                        </li>
+                                        <?php foreach ($funcionalidades as $func) : ?>
+                                            <?php if (!empty($func['nome'])) : ?>
+                                                <li class="mb-2">
+                                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                    <?php echo !empty($func['no_quantity']) ? esc_html($func['nome']) : esc_html($func['quantidade'] . ' ' . $func['nome']); ?>
+                                                </li>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <a href="<?php echo esc_url($contact_url); ?>" class="w-100 btn btn-lg py-3 rounded-pill <?php echo esc_attr($classe_botao); ?>"><?php echo esc_html($texto_botao); ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; wp_reset_postdata(); ?>
+                </div>
+
+                <!-- Comparação de Planos do Software -->
+                <h3 class="display-7 fw-bold text-primary text-center mb-4 mt-5"><?php _e('Compare Plans', 'tecnoinfor'); ?></h3>
+                <?php
+                $planos_query->rewind_posts();
+                $nomes_planos = [];
+                $dados_funcionalidades = [];
+                $funcionalidades_unicas = [];
+
+                while ($planos_query->have_posts()) : $planos_query->the_post();
+                    $nomes_planos[] = get_the_title();
+                    $funcionalidades = maybe_unserialize(get_post_meta(get_the_ID(), 'funcionalidades', true)) ?: [];
+                    foreach ($funcionalidades as $func) {
+                        if (!empty($func['nome']) && !in_array($func['nome'], $funcionalidades_unicas)) {
+                            $funcionalidades_unicas[] = $func['nome'];
+                        }
+                    }
+                endwhile;
+
+                foreach ($funcionalidades_unicas as $func) {
+                    $dados_funcionalidades[$func] = array_fill(0, count($nomes_planos), '<i class="bi bi-x-lg text-danger"></i>');
+                }
+
+                $index = 0;
+                $planos_query->rewind_posts();
+                while ($planos_query->have_posts()) : $planos_query->the_post();
+                    $funcionalidades = maybe_unserialize(get_post_meta(get_the_ID(), 'funcionalidades', true)) ?: [];
+                    foreach ($funcionalidades as $func) {
+                        if (!empty($func['nome']) && in_array($func['nome'], $funcionalidades_unicas)) {
+                            $dados_funcionalidades[$func['nome']][$index] = !empty($func['no_quantity']) ? '<i class="bi bi-check-lg text-success fs-4"></i>' : esc_html($func['quantidade']);
+                        }
+                    }
+                    $index++;
+                endwhile;
+                wp_reset_postdata();
+                ?>
+
+                <div class="table-responsive col-lg-10 mx-auto shadow-sm rounded border">
+                    <table class="table text-center table-bordered align-middle mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th class="text-start py-3" style="position: sticky; left: 0; background: #212529; color: white;"><?php _e('Features', 'tecnoinfor'); ?></th>
+                                <?php foreach ($nomes_planos as $plano) : ?>
+                                    <th style="width: <?php echo 60 / count($nomes_planos); ?>%;"><?php echo esc_html($plano); ?></th>
+                                <?php endforeach; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($dados_funcionalidades as $func => $values) : ?>
+                                <tr>
+                                    <th scope="row" class="text-start py-3" style="position: sticky; left: 0; background: #f8f9fa;"><?php echo esc_html($func); ?></th>
+                                    <?php foreach ($values as $value) : ?>
+                                        <td><?php echo $value; ?></td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const toggle = document.getElementById('toggle-software-pricing');
+                const mensalPrices = document.querySelectorAll('.preco-mensal-soft');
+                const anualPrices = document.querySelectorAll('.preco-anual-soft');
+                if (toggle) {
+                    toggle.addEventListener('change', function() {
+                        const isAnual = this.checked;
+                        mensalPrices.forEach(price => price.style.display = isAnual ? 'none' : 'block');
+                        anualPrices.forEach(price => price.style.display = isAnual ? 'block' : 'none');
+                    });
+                }
+            });
+        </script>
+    <?php endif; ?>
+
     <!-- CTA -->
     <section class="cta py-5 bg-primary text-white text-center">
         <div class="container my-5 px-4 px-lg-5">

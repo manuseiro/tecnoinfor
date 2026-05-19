@@ -1,0 +1,649 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .wrap { padding: 1.5rem 0; }
+  .section-block { margin-bottom: 2rem; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; }
+  .section-header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: var(--color-background-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); cursor: pointer; user-select: none; }
+  .section-header i { font-size: 16px; color: var(--color-text-secondary); }
+  .section-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 500; }
+  .badge-high { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .badge-med  { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .badge-low  { background: var(--color-background-success); color: var(--color-text-success); }
+  .chevron { font-size: 14px; color: var(--color-text-secondary); transition: transform .2s; }
+  .chevron.open { transform: rotate(180deg); }
+  .section-body { display: none; padding: 16px; }
+  .section-body.open { display: block; }
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .compare-col { border-radius: var(--border-radius-md); overflow: hidden; }
+  .compare-label { font-size: 11px; font-weight: 500; padding: 4px 10px; }
+  .label-before { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .label-after  { background: var(--color-background-success); color: var(--color-text-success); }
+  .mock { padding: 12px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); }
+  .improvements { margin-top: 8px; }
+  .improvement-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; color: var(--color-text-secondary); }
+  .improvement-item:last-child { border-bottom: none; }
+  .improvement-item i { font-size: 15px; color: var(--color-text-success); margin-top: 1px; flex-shrink: 0; }
+  /* Mock UI elements */
+  .mock-navbar { display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: var(--color-background-secondary); border-radius: 4px; font-size: 11px; gap: 6px; }
+  .mock-logo { width: 48px; height: 8px; background: var(--color-border-secondary); border-radius: 2px; }
+  .mock-links { display: flex; gap: 10px; }
+  .mock-link { width: 24px; height: 6px; background: var(--color-border-tertiary); border-radius: 2px; }
+  .mock-btn { font-size: 10px; padding: 3px 8px; background: #2687e9; color: #fff; border-radius: 3px; white-space: nowrap; }
+  .mock-topbar { background: var(--color-background-info); padding: 4px 10px; font-size: 10px; color: var(--color-text-info); border-radius: 4px 4px 0 0; display: flex; justify-content: space-between; }
+  .mock-sticky { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  /* Hero mocks */
+  .mock-hero { border-radius: 6px; padding: 14px 12px; min-height: 70px; display: flex; align-items: center; gap: 10px; background: var(--color-background-info); }
+  .mock-hero-text { flex: 1; }
+  .mock-hero-badge { font-size: 9px; background: #ffc107; color: #7a5700; padding: 2px 6px; border-radius: 99px; display: inline-block; margin-bottom: 4px; }
+  .mock-hero-h1 { height: 10px; background: var(--color-border-secondary); border-radius: 2px; margin-bottom: 4px; width: 85%; }
+  .mock-hero-h2 { height: 7px; background: var(--color-border-tertiary); border-radius: 2px; margin-bottom: 6px; width: 70%; }
+  .mock-hero-btns { display: flex; gap: 5px; }
+  .mock-hero-btn1 { font-size: 9px; padding: 3px 7px; background: #26b547; color: #fff; border-radius: 3px; }
+  .mock-hero-btn2 { font-size: 9px; padding: 3px 7px; border: 0.5px solid #2687e9; color: #2687e9; border-radius: 3px; }
+  .mock-hero-img { width: 50px; height: 50px; background: var(--color-border-secondary); border-radius: 6px; flex-shrink: 0; }
+  .mock-dots { display: flex; gap: 4px; justify-content: center; margin-top: 8px; }
+  .mock-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--color-border-tertiary); }
+  .mock-dot.active { background: #2687e9; }
+  .mock-progress { height: 2px; background: var(--color-border-tertiary); border-radius: 1px; margin-top: 4px; overflow: hidden; }
+  .mock-progress-bar { height: 100%; background: #2687e9; border-radius: 1px; width: 33%; }
+  /* Stats */
+  .mock-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .mock-stat { text-align: center; padding: 8px 4px; background: var(--color-background-secondary); border-radius: 6px; }
+  .mock-stat-num { font-size: 14px; font-weight: 500; color: #2687e9; }
+  .mock-stat-lbl { font-size: 9px; color: var(--color-text-secondary); margin-top: 2px; }
+  .mock-stat-icon { font-size: 16px; color: #2687e9; margin-bottom: 2px; }
+  .mock-stat-bar { height: 3px; background: #2687e9; border-radius: 2px; margin: 4px auto 0; width: 0%; transition: width 1.5s ease-out; }
+  /* Benefits */
+  .mock-benefits { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .mock-benefit { padding: 8px; background: var(--color-background-secondary); border-radius: 6px; }
+  .mock-benefit-icon { font-size: 18px; color: #2687e9; margin-bottom: 4px; }
+  .mock-benefit-title { font-size: 10px; font-weight: 500; margin-bottom: 2px; }
+  .mock-benefit-text { font-size: 9px; color: var(--color-text-secondary); line-height: 1.4; }
+  .mock-benefit-arrow { font-size: 10px; color: #2687e9; margin-top: 4px; }
+  /* Testimonials */
+  .mock-testimonial { padding: 10px; background: var(--color-background-secondary); border-radius: 6px; text-align: center; }
+  .mock-testi-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--color-border-secondary); margin: 0 auto 6px; border: 2px solid #2687e9; }
+  .mock-testi-stars { font-size: 10px; color: #ffc107; margin-bottom: 4px; }
+  .mock-testi-quote { font-size: 9px; color: var(--color-text-secondary); line-height: 1.4; margin-bottom: 6px; font-style: italic; }
+  .mock-testi-name { font-size: 10px; font-weight: 500; }
+  .mock-testi-role { font-size: 9px; color: var(--color-text-secondary); }
+  .mock-multi-testi { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+  /* FAQ */
+  .mock-faq { }
+  .mock-faq-item { border-bottom: 0.5px solid var(--color-border-tertiary); padding: 7px 0; }
+  .mock-faq-q { font-size: 10px; font-weight: 500; display: flex; justify-content: space-between; }
+  .mock-faq-a { font-size: 9px; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.4; }
+  .mock-faq-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  /* CTA */
+  .mock-cta { text-align: center; padding: 14px; background: var(--color-background-info); border-radius: 6px; }
+  .mock-cta-title { font-size: 11px; font-weight: 500; margin-bottom: 4px; }
+  .mock-cta-sub { font-size: 9px; color: var(--color-text-secondary); margin-bottom: 8px; }
+  .mock-cta-btns { display: flex; gap: 6px; justify-content: center; }
+  .mock-cta-btn1 { font-size: 9px; padding: 4px 10px; background: #2687e9; color: #fff; border-radius: 4px; }
+  .mock-cta-btn2 { font-size: 9px; padding: 4px 10px; border: 0.5px solid #2687e9; color: #2687e9; border-radius: 4px; }
+  /* News */
+  .mock-news { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+  .mock-news-card { background: var(--color-background-secondary); border-radius: 6px; overflow: hidden; }
+  .mock-news-img { height: 36px; background: var(--color-border-secondary); position: relative; }
+  .mock-news-cat { position: absolute; top: 4px; left: 4px; font-size: 8px; background: rgba(0,0,0,0.6); color: #fff; padding: 1px 4px; border-radius: 2px; }
+  .mock-news-date { position: absolute; top: 4px; right: 4px; font-size: 8px; background: #2687e9; color: #fff; padding: 1px 4px; border-radius: 2px; }
+  .mock-news-body { padding: 6px; }
+  .mock-news-title { font-size: 9px; font-weight: 500; margin-bottom: 3px; }
+  .mock-news-text { font-size: 8px; color: var(--color-text-secondary); margin-bottom: 4px; line-height: 1.4; }
+  .mock-news-footer { display: flex; justify-content: space-between; align-items: center; }
+  .mock-news-read { font-size: 8px; color: #2687e9; }
+  .mock-news-time { font-size: 8px; color: var(--color-text-secondary); }
+  /* Footer */
+  .mock-footer { background: #2687e9; border-radius: 6px; padding: 10px; color: #fff; }
+  .mock-footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+  .mock-footer-logo { height: 14px; background: rgba(255,255,255,0.3); border-radius: 3px; margin-bottom: 4px; }
+  .mock-footer-copy { font-size: 8px; opacity: 0.7; }
+  .mock-footer-title { font-size: 9px; font-weight: 500; margin-bottom: 4px; }
+  .mock-footer-link { height: 5px; background: rgba(255,255,255,0.3); border-radius: 1px; margin-bottom: 3px; }
+  .mock-footer-bottom { border-top: 0.5px solid rgba(255,255,255,0.2); padding-top: 6px; display: flex; justify-content: space-between; align-items: center; }
+  .mock-footer-bottom-txt { font-size: 8px; opacity: 0.7; }
+  .mock-footer-social { display: flex; gap: 4px; }
+  .mock-footer-social-btn { width: 16px; height: 16px; background: rgba(255,255,255,0.2); border-radius: 50%; }
+  .mock-footer-newsletter { background: rgba(255,255,255,0.12); border-radius: 4px; padding: 6px; margin-bottom: 6px; }
+  .mock-footer-newsletter-input { height: 14px; background: rgba(255,255,255,0.2); border-radius: 3px; margin-bottom: 4px; }
+  .mock-footer-newsletter-btn { font-size: 8px; background: rgba(255,255,255,0.9); color: #2687e9; padding: 2px 6px; border-radius: 2px; display: inline-block; }
+  /* LGPD */
+  .mock-lgpd { position: relative; }
+  .mock-lgpd-banner { background: #222; color: #fff; border-radius: 6px; padding: 8px 10px; font-size: 9px; margin-top: 8px; }
+  .mock-lgpd-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .mock-lgpd-text { opacity: 0.85; flex: 1; line-height: 1.4; }
+  .mock-lgpd-btns { display: flex; gap: 4px; flex-shrink: 0; }
+  .mock-lgpd-accept { font-size: 8px; padding: 3px 8px; background: #26b547; color: #fff; border-radius: 3px; white-space: nowrap; }
+  .mock-lgpd-reject { font-size: 8px; padding: 3px 8px; border: 0.5px solid #666; color: #ccc; border-radius: 3px; white-space: nowrap; }
+  .mock-lgpd-close { font-size: 8px; opacity: 0.6; }
+  .mock-lgpd-rounded { border-radius: 8px 8px 0 0; }
+  /* Scrollbar sticky */
+  .mock-scroll-wrap { position: relative; height: 60px; overflow: hidden; border-radius: 6px; background: var(--color-background-secondary); }
+  .mock-scroll-content { padding: 8px; }
+  .mock-scroll-navbar { position: sticky; top: 0; background: #fff; border-bottom: 0.5px solid var(--color-border-tertiary); padding: 5px 8px; display: flex; align-items: center; justify-content: space-between; font-size: 9px; }
+  .mock-scroll-body { padding: 8px; }
+  .mock-scroll-line { height: 6px; background: var(--color-border-tertiary); border-radius: 2px; margin-bottom: 4px; }
+</style>
+
+<div class="wrap">
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-layout-navbar" aria-hidden="true"></i>
+    <span class="section-title">1 — Header / Navbar</span>
+    <span class="badge badge-high">Alta prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual</div>
+        <div class="mock">
+          <div class="mock-topbar">Rua das Flores, 123 &nbsp;·&nbsp; 08h–18h <span>📞 (85) 9999-9999</span></div>
+          <div class="mock-navbar">
+            <div class="mock-logo"></div>
+            <div class="mock-links"><div class="mock-link"></div><div class="mock-link"></div><div class="mock-link"></div></div>
+            <div class="mock-btn">Fale Conosco →</div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto</div>
+        <div class="mock">
+          <div class="mock-topbar">Rua das Flores, 123 &nbsp;·&nbsp; 08h–18h <span style="display:flex;gap:6px;align-items:center"><span style="font-size:9px;opacity:.7">WhatsApp</span>📞</span></div>
+          <div class="mock-navbar mock-sticky" style="position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.95);backdrop-filter:blur(4px);">
+            <div class="mock-logo" style="width:56px"></div>
+            <div class="mock-links"><div class="mock-link"></div><div class="mock-link"></div><div class="mock-link"></div></div>
+            <div style="display:flex;gap:4px;align-items:center">
+              <span style="font-size:9px;padding:3px 6px;border:0.5px solid #2687e9;color:#2687e9;border-radius:3px;">WhatsApp</span>
+              <div class="mock-btn">Fale Conosco →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Navbar sticky com <code>position: sticky</code> + <code>backdrop-filter: blur</code> ao rolar — mantém o CTA sempre visível</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Substituir <code>navbar-light</code> (depreciado no BS 5.3) por <code>data-bs-theme="light"</code></span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Botão "Fale Conosco" com <code>rounded-pill</code> em vez de <code>rounded-0</code> — mais moderno e suave</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Adicionar botão de WhatsApp secundário ao lado do CTA principal no desktop</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Topbar ocultada via JS ao rolar (só aparece no topo), liberando espaço vertical</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-device-desktop" aria-hidden="true"></i>
+    <span class="section-title">2 — Hero / Carousel de Software</span>
+    <span class="badge badge-high">Alta prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual</div>
+        <div class="mock">
+          <div class="mock-hero">
+            <div class="mock-hero-text">
+              <div class="mock-hero-badge">Sistema</div>
+              <div class="mock-hero-h1"></div>
+              <div class="mock-hero-h2"></div>
+              <div class="mock-hero-btns">
+                <div class="mock-hero-btn1">Teste Grátis</div>
+                <div class="mock-hero-btn2">Conheça mais</div>
+              </div>
+            </div>
+            <div class="mock-hero-img"></div>
+          </div>
+          <div class="mock-dots">
+            <div class="mock-dot active"></div>
+            <div class="mock-dot"></div>
+            <div class="mock-dot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto</div>
+        <div class="mock">
+          <div class="mock-hero" style="min-height:80px;position:relative">
+            <div class="mock-hero-text">
+              <div class="mock-hero-badge">Sistema</div>
+              <div class="mock-hero-h1"></div>
+              <div class="mock-hero-h2"></div>
+              <div style="font-size:9px;color:var(--color-text-secondary);margin-bottom:5px">★★★★★ +125 clientes satisfeitos</div>
+              <div class="mock-hero-btns">
+                <div class="mock-hero-btn1">Teste Grátis</div>
+                <div class="mock-hero-btn2">Conheça mais</div>
+              </div>
+            </div>
+            <div class="mock-hero-img" style="border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.12)"></div>
+          </div>
+          <div class="mock-dots" style="justify-content:flex-start;padding-left:8px">
+            <div class="mock-dot active"></div>
+            <div class="mock-dot"></div>
+            <div class="mock-dot"></div>
+          </div>
+          <div class="mock-progress"><div class="mock-progress-bar"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Barra de progresso animada abaixo dos dots — indica timing do autoplay (Bootstrap 5 não tem nativo, mas é fácil com CSS + JS)</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Dots alinhados à esquerda (mais moderno) em vez de centralizados sem contexto</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Micro-prova social no hero: "★★★★★ +125 clientes" logo abaixo do subtítulo, antes do CTA</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Sombra mais pronunciada na imagem do produto (<code>shadow-lg</code> já existe, adicionar <code>transform: perspective(800px) rotateY(-5deg)</code> para efeito 3D sutil)</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Controles prev/next com fundo sólido (branco/10% opacidade) em vez das setas padrão invisíveis no fundo claro</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-chart-bar" aria-hidden="true"></i>
+    <span class="section-title">3 — Seção About / Estatísticas</span>
+    <span class="badge badge-high">Alta prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual</div>
+        <div class="mock">
+          <div class="mock-stats">
+            <div class="mock-stat"><div class="mock-stat-num">+125</div><div class="mock-stat-lbl">Clientes</div></div>
+            <div class="mock-stat"><div class="mock-stat-num">+15</div><div class="mock-stat-lbl">Anos</div></div>
+            <div class="mock-stat"><div class="mock-stat-num">+21.562</div><div class="mock-stat-lbl">Contratos</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto</div>
+        <div class="mock">
+          <div class="mock-stats">
+            <div class="mock-stat" id="stat1">
+              <i class="ti ti-users mock-stat-icon" aria-hidden="true"></i>
+              <div class="mock-stat-num">+<span class="cntup" data-target="125">0</span></div>
+              <div class="mock-stat-lbl">Clientes satisfeitos</div>
+              <div class="mock-stat-bar" id="bar1"></div>
+            </div>
+            <div class="mock-stat" id="stat2">
+              <i class="ti ti-calendar mock-stat-icon" aria-hidden="true"></i>
+              <div class="mock-stat-num">+<span class="cntup" data-target="15">0</span> anos</div>
+              <div class="mock-stat-lbl">de Experiência</div>
+              <div class="mock-stat-bar" id="bar2"></div>
+            </div>
+            <div class="mock-stat" id="stat3">
+              <i class="ti ti-file-text mock-stat-icon" aria-hidden="true"></i>
+              <div class="mock-stat-num">+<span class="cntup" data-target="21562">0</span></div>
+              <div class="mock-stat-lbl">Contratos gerenciados</div>
+              <div class="mock-stat-bar" id="bar3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Ícone acima de cada número (já existe Bootstrap Icons no tema) — contextualiza visualmente cada métrica</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Barra de destaque colorida abaixo de cada stat, animada junto com o countup — reforça o número</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Countup animado (já implementado com <code>.countup</code> + <code>data-count</code>) — disparar via IntersectionObserver quando a seção entra na viewport</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Divisor visual entre o texto da esquerda e os stats da direita (<code>border-start</code> no desktop)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-stars" aria-hidden="true"></i>
+    <span class="section-title">4 — Benefícios</span>
+    <span class="badge badge-med">Média prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual</div>
+        <div class="mock">
+          <div class="mock-benefits">
+            <div class="mock-benefit">
+              <div class="mock-benefit-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+              <div class="mock-benefit-title">Eficiência</div>
+              <div class="mock-benefit-text">Ajuda a organizar rotinas administrativas...</div>
+            </div>
+            <div class="mock-benefit">
+              <div class="mock-benefit-icon"><i class="ti ti-lock" aria-hidden="true"></i></div>
+              <div class="mock-benefit-title">Confiança</div>
+              <div class="mock-benefit-text">Banco de dados SQL Open Source...</div>
+            </div>
+            <div class="mock-benefit">
+              <div class="mock-benefit-icon"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+              <div class="mock-benefit-title">Controle</div>
+              <div class="mock-benefit-text">Relatórios detalhados em tempo real...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto</div>
+        <div class="mock">
+          <div class="mock-benefits">
+            <div class="mock-benefit" style="border-top: 3px solid #2687e9;border-radius:0 0 6px 6px;">
+              <div class="mock-benefit-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+              <div class="mock-benefit-title">Eficiência</div>
+              <div class="mock-benefit-text">Organiza e automatiza rotinas...</div>
+              <div class="mock-benefit-arrow">Saiba mais →</div>
+            </div>
+            <div class="mock-benefit" style="border-top: 3px solid #26b547;border-radius:0 0 6px 6px;">
+              <div class="mock-benefit-icon" style="color:#26b547"><i class="ti ti-lock" aria-hidden="true"></i></div>
+              <div class="mock-benefit-title">Confiança</div>
+              <div class="mock-benefit-text">SQL Open Source, seguro...</div>
+              <div class="mock-benefit-arrow" style="color:#26b547">Saiba mais →</div>
+            </div>
+            <div class="mock-benefit" style="border-top: 3px solid #ffc107;border-radius:0 0 6px 6px;">
+              <div class="mock-benefit-icon" style="color:#ffc107"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+              <div class="mock-benefit-title">Controle</div>
+              <div class="mock-benefit-text">Relatórios em tempo real...</div>
+              <div class="mock-benefit-arrow" style="color:#ffc107">Saiba mais →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Borda colorida no topo de cada card (cor diferente por benefício) — quebra a monotonia do grid uniforme</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Link "Saiba mais →" em cada card — aumenta engajamento e leva à página correspondente</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Ícone com cor própria por benefício (azul/verde/amarelo) em vez de todos azuis</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Os textos dos benefícios estão hardcoded em PHP — mover para CPT ou Customizer para edição sem código</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-message-circle" aria-hidden="true"></i>
+    <span class="section-title">5 — Depoimentos</span>
+    <span class="badge badge-med">Média prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual — 1 por vez</div>
+        <div class="mock">
+          <div class="mock-testimonial" style="max-width:200px;margin:0 auto">
+            <div class="mock-testi-avatar"></div>
+            <div class="mock-testi-stars">★★★★★</div>
+            <div class="mock-testi-quote">"Sistema excelente para gestão de planos funerários..."</div>
+            <div class="mock-testi-name">João Silva</div>
+            <div class="mock-testi-role">Diretor, Funerária ABC</div>
+          </div>
+          <div class="mock-dots" style="margin-top:8px"><div class="mock-dot active"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto — grid 3 colunas</div>
+        <div class="mock">
+          <div class="mock-multi-testi">
+            <div class="mock-testimonial" style="font-size:0.85em">
+              <div class="mock-testi-avatar" style="width:22px;height:22px"></div>
+              <div class="mock-testi-stars" style="font-size:8px">★★★★★</div>
+              <div class="mock-testi-quote" style="font-size:8px">"Excelente sistema..."</div>
+              <div class="mock-testi-name" style="font-size:9px">João S.</div>
+            </div>
+            <div class="mock-testimonial" style="font-size:0.85em">
+              <div class="mock-testi-avatar" style="width:22px;height:22px"></div>
+              <div class="mock-testi-stars" style="font-size:8px">★★★★★</div>
+              <div class="mock-testi-quote" style="font-size:8px">"Recomendo muito..."</div>
+              <div class="mock-testi-name" style="font-size:9px">Maria L.</div>
+            </div>
+            <div class="mock-testimonial" style="font-size:0.85em">
+              <div class="mock-testi-avatar" style="width:22px;height:22px"></div>
+              <div class="mock-testi-stars" style="font-size:8px">★★★★★</div>
+              <div class="mock-testi-quote" style="font-size:8px">"Facilita tudo..."</div>
+              <div class="mock-testi-name" style="font-size:9px">Pedro R.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>No desktop: substituir o carousel por grid de 3 colunas — mostra mais depoimentos de uma vez e elimina a necessidade de interação</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>No mobile: manter o carousel atual (já funciona bem), controlado por media query</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Adicionar borda colorida com a cor da avaliação (5 estrelas = dourado, 4 = cinza) no topo do card</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Markup JSON-LD de <code>AggregateRating</code> — os dados já existem (<code>_avaliacao</code>) mas nunca são usados no schema</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-help-circle" aria-hidden="true"></i>
+    <span class="section-title">6 — FAQ</span>
+    <span class="badge badge-med">Média prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual — coluna única</div>
+        <div class="mock">
+          <div class="mock-faq">
+            <div class="mock-faq-item"><div class="mock-faq-q">O sistema funciona online? <span>+</span></div></div>
+            <div class="mock-faq-item"><div class="mock-faq-q">Qual o prazo de teste? <span>+</span></div><div class="mock-faq-a">O período de teste é de 15 dias grátis...</div></div>
+            <div class="mock-faq-item"><div class="mock-faq-q">Tem suporte técnico? <span>+</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto — 2 colunas no desktop</div>
+        <div class="mock">
+          <div class="mock-faq-2col">
+            <div class="mock-faq">
+              <div class="mock-faq-item"><div class="mock-faq-q">Funciona online? <span>+</span></div></div>
+              <div class="mock-faq-item"><div class="mock-faq-q">Prazo de teste? <span>+</span></div><div class="mock-faq-a">15 dias gratuitos...</div></div>
+            </div>
+            <div class="mock-faq">
+              <div class="mock-faq-item"><div class="mock-faq-q">Tem suporte técnico? <span>+</span></div></div>
+              <div class="mock-faq-item"><div class="mock-faq-q">Como atualizo? <span>+</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Layout 2 colunas no desktop (<code>col-lg-6</code>) — aproveita o espaço horizontal e reduz scroll</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Primeiro item aberto por padrão (<code>show</code> no primeiro <code>accordion-collapse</code>) — sinaliza interatividade ao usuário</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Ícone animado no botão do accordion (+ vira ×) com CSS transition simples</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Link "Ver todas as perguntas" abaixo do accordion, levando à página dedicada de FAQs</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-speakerphone" aria-hidden="true"></i>
+    <span class="section-title">7 — CTA</span>
+    <span class="badge badge-low">Baixa prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual — 1 botão</div>
+        <div class="mock"><div class="mock-cta"><div class="mock-cta-title">Pronto para simplificar?</div><div class="mock-cta-sub">Experimente e veja a diferença.</div><div class="mock-cta-btns"><div class="mock-cta-btn1">Experimente Agora</div></div></div></div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto — ação dupla</div>
+        <div class="mock"><div class="mock-cta" style="background:linear-gradient(135deg,var(--color-background-info),var(--color-background-secondary))"><div class="mock-cta-title">Pronto para simplificar?</div><div class="mock-cta-sub">+125 clientes já usam. Comece agora sem cartão.</div><div class="mock-cta-btns"><div class="mock-cta-btn1">Experimente Grátis</div><div class="mock-cta-btn2">Falar com vendas</div></div></div></div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Botão secundário "Falar com vendas" — captura leads que ainda não estão prontos para baixar</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Microcopy de prova social abaixo do título ("sem cartão de crédito", "+125 clientes")</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>CTA usando <code>esc_url($site_url)</code> atual está sem escape — já corrigido nas melhorias funcionais, mas vale verificar</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-news" aria-hidden="true"></i>
+    <span class="section-title">8 — Notícias / Blog</span>
+    <span class="badge badge-high">Alta prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual — sem data visível</div>
+        <div class="mock">
+          <div class="mock-news">
+            <div class="mock-news-card">
+              <div class="mock-news-img"><div class="mock-news-cat">Blog</div></div>
+              <div class="mock-news-body"><div class="mock-news-title">Título da notícia</div><div class="mock-news-text">Resumo do post com até 15 palavras...</div><div class="mock-news-footer"><div class="mock-news-read">Ler mais →</div></div></div>
+            </div>
+            <div class="mock-news-card"><div class="mock-news-img"><div class="mock-news-cat">Produto</div></div><div class="mock-news-body"><div class="mock-news-title">Outro título</div><div class="mock-news-text">Resumo aqui...</div><div class="mock-news-footer"><div class="mock-news-read">Ler mais →</div></div></div></div>
+            <div class="mock-news-card"><div class="mock-news-img"><div class="mock-news-cat">Dica</div></div><div class="mock-news-body"><div class="mock-news-title">Mais um título</div><div class="mock-news-text">Resumo...</div><div class="mock-news-footer"><div class="mock-news-read">Ler mais →</div></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto — com data e tempo de leitura</div>
+        <div class="mock">
+          <div class="mock-news">
+            <div class="mock-news-card">
+              <div class="mock-news-img"><div class="mock-news-cat">Blog</div><div class="mock-news-date">Mai 2025</div></div>
+              <div class="mock-news-body"><div class="mock-news-title">Título da notícia</div><div class="mock-news-text">Resumo do post...</div><div class="mock-news-footer"><div class="mock-news-read">Ler mais →</div><div class="mock-news-time">3 min</div></div></div>
+            </div>
+            <div class="mock-news-card"><div class="mock-news-img"><div class="mock-news-cat">Produto</div><div class="mock-news-date">Abr 2025</div></div><div class="mock-news-body"><div class="mock-news-title">Outro título</div><div class="mock-news-text">Resumo...</div><div class="mock-news-footer"><div class="mock-news-read">Ler mais →</div><div class="mock-news-time">5 min</div></div></div></div>
+            <div class="mock-news-card"><div class="mock-news-img"><div class="mock-news-cat">Dica</div><div class="mock-news-date">Mar 2025</div></div><div class="mock-news-body"><div class="mock-news-title">Mais um</div><div class="mock-news-text">Resumo...</div><div class="mock-news-footer"><div class="mock-news-read">Ler mais →</div><div class="mock-news-time">2 min</div></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span><code>$data = get_the_date()</code> é buscada mas nunca exibida no HTML — adicionar a data no card (<code>time</code> com <code>datetime</code> por acessibilidade)</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Tempo estimado de leitura: <code>ceil(str_word_count(get_the_content()) / 200)</code> minutos — fácil de adicionar</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Badge de data posicionado na imagem (canto superior direito) em vez de em texto solto</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Card em destaque para o post mais recente: primeira col com layout horizontal (imagem à esquerda, texto à direita) ao invés de vertical</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block">
+  <div class="section-header" onclick="toggle(this)">
+    <i class="ti ti-layout-footer" aria-hidden="true"></i>
+    <span class="section-title">9 — Footer + LGPD Banner</span>
+    <span class="badge badge-med">Média prioridade</span>
+    <i class="ti ti-chevron-down chevron"></i>
+  </div>
+  <div class="section-body">
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label label-before">Atual</div>
+        <div class="mock">
+          <div class="mock-footer">
+            <div class="mock-footer-top">
+              <div><div class="mock-footer-logo"></div><div class="mock-footer-copy">© 2009–2025 Tecnoinfor</div></div>
+              <div><div class="mock-footer-title">Tecnoinfor</div><div class="mock-footer-link"></div><div class="mock-footer-link" style="width:70%"></div></div>
+              <div><div class="mock-footer-title">Soluções</div><div class="mock-footer-link"></div><div class="mock-footer-link" style="width:80%"></div></div>
+              <div><div class="mock-footer-title">Contato</div><div class="mock-footer-link"></div></div>
+              <div><div class="mock-footer-title">Suporte</div><div class="mock-footer-link"></div><div class="mock-footer-link" style="width:60%"></div></div>
+            </div>
+            <div class="mock-footer-bottom"><div class="mock-footer-bottom-txt">Designed by @manuseiro</div><div class="mock-footer-social"><div class="mock-footer-social-btn"></div><div class="mock-footer-social-btn"></div></div></div>
+          </div>
+          <div class="mock-lgpd-banner" style="border-radius:0 0 6px 6px">
+            <div class="mock-lgpd-row"><div class="mock-lgpd-text">Usamos cookies para melhorar sua experiência...</div><div class="mock-lgpd-btns"><div class="mock-lgpd-accept">Aceitar</div><div class="mock-lgpd-reject">Rejeitar</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label label-after">Proposto — newsletter + LGPD flutuante</div>
+        <div class="mock">
+          <div class="mock-footer">
+            <div class="mock-footer-top">
+              <div>
+                <div class="mock-footer-logo"></div>
+                <div class="mock-footer-copy">© 2009–2025 Tecnoinfor</div>
+                <div class="mock-footer-newsletter" style="margin-top:6px">
+                  <div style="font-size:8px;margin-bottom:3px;opacity:0.9">Receba novidades</div>
+                  <div class="mock-footer-newsletter-input"></div>
+                  <div class="mock-footer-newsletter-btn">Inscrever</div>
+                </div>
+              </div>
+              <div><div class="mock-footer-title">Tecnoinfor</div><div class="mock-footer-link"></div><div class="mock-footer-link" style="width:70%"></div></div>
+              <div><div class="mock-footer-title">Soluções</div><div class="mock-footer-link"></div><div class="mock-footer-link" style="width:80%"></div></div>
+              <div><div class="mock-footer-title">Contato</div><div class="mock-footer-link"></div></div>
+              <div><div class="mock-footer-title">Suporte</div><div class="mock-footer-link"></div><div class="mock-footer-link" style="width:60%"></div></div>
+            </div>
+            <div class="mock-footer-bottom"><div class="mock-footer-bottom-txt">Designed by @manuseiro</div><div class="mock-footer-social"><div class="mock-footer-social-btn"></div><div class="mock-footer-social-btn"></div><div class="mock-footer-social-btn"></div></div></div>
+          </div>
+          <div style="display:flex;justify-content:center;margin-top:8px">
+            <div class="mock-lgpd-banner mock-lgpd-rounded" style="max-width:90%;border-radius:8px;box-shadow:0 -2px 16px rgba(0,0,0,0.25)">
+              <div class="mock-lgpd-row">
+                <div class="mock-lgpd-text">🍪 Usamos cookies. <a href="#" style="color:#7dd3fc;font-size:8px">Política</a></div>
+                <div class="mock-lgpd-btns">
+                  <div class="mock-lgpd-accept">Aceitar</div>
+                  <div class="mock-lgpd-reject">Personalizar</div>
+                </div>
+                <div class="mock-lgpd-close">✕</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="improvements">
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Campo de newsletter no rodapé (coluna do logo) — integra com o <code>wp_mail</code> ou terceiros como Mailchimp</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>LGPD banner flutuante centralizado com <code>border-radius</code> completo e sombra — atual é banner full-width sem separação visual clara</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Botão "Personalizar" em vez de "Rejeitar" — padrão LGPD mais adequado e menos agressivo</span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span><code>text-body-warning</code> nos links legais do footer não existe no Bootstrap 5 — corrigir para <code>text-warning</code></span></div>
+      <div class="improvement-item"><i class="ti ti-check" aria-hidden="true"></i><span>Logo no footer precisa de <code>filter: brightness(0) invert(1)</code> para aparecer em branco sobre fundo azul</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.section-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); chevron.classList.add('open'); }
+}
+
+function animateCountups() {
+  document.querySelectorAll('.cntup').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current.toLocaleString('pt-BR');
+      if (current >= target) clearInterval(interval);
+    }, 40);
+  });
+  setTimeout(() => {
+    document.getElementById('bar1').style.width = '80%';
+    document.getElementById('bar2').style.width = '60%';
+    document.getElementById('bar3').style.width = '100%';
+  }, 200);
+}
+
+document.querySelectorAll('.section-header').forEach(h => {
+  h.addEventListener('click', () => {
+    setTimeout(() => {
+      if (h.querySelector('.ti-chart-bar') && h.nextElementSibling.classList.contains('open')) {
+        animateCountups();
+      }
+    }, 100);
+  });
+});
+
+document.querySelector('.section-header').click();
+</script>

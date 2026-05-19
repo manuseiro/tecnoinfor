@@ -9,7 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }).init();
     }
 
-    // Animação countup
+    // Toggle Topbar on Scroll
+    const navbarTop = document.querySelector('.navbar-top');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            if (navbarTop) navbarTop.classList.add('hidden');
+        } else {
+            if (navbarTop) navbarTop.classList.remove('hidden');
+        }
+    });
+
+    // Animação countup and progress highlight bars
     const countupElements = document.querySelectorAll('.countup');
     if (countupElements.length > 0) {
         const observer = new IntersectionObserver((entries, observer) => {
@@ -34,12 +44,45 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, frameDuration);
 
+                    // Animate the associated progress bar inside the stat item
+                    const parentCard = el.closest('.stat-item');
+                    if (parentCard) {
+                        const progressBar = parentCard.querySelector('.stat-progress');
+                        if (progressBar) {
+                            setTimeout(() => {
+                                progressBar.style.width = '70%';
+                            }, 100);
+                        }
+                    }
+
                     observer.unobserve(el);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.2 });
 
         countupElements.forEach(el => observer.observe(el));
+    }
+
+    // Software Carousel progress linear bar
+    const softwareCarousel = document.getElementById('softwareCarousel');
+    const softwareProgressBar = document.querySelector('.software-progress-bar');
+    if (softwareCarousel && softwareProgressBar) {
+        // Start initial width animation
+        setTimeout(() => {
+            softwareProgressBar.style.width = '100%';
+        }, 100);
+
+        softwareCarousel.addEventListener('slide.bs.carousel', function() {
+            softwareProgressBar.style.transition = 'none';
+            softwareProgressBar.style.width = '0%';
+        });
+
+        softwareCarousel.addEventListener('slid.bs.carousel', function() {
+            // Force browser reflow to reset transition
+            softwareProgressBar.offsetHeight;
+            softwareProgressBar.style.transition = 'width 5s linear';
+            softwareProgressBar.style.width = '100%';
+        });
     }
 
     // Contact Form 7 - Loading Feedback
@@ -86,24 +129,78 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const acceptBtn = document.getElementById('lgpd-accept');
         const rejectBtn = document.getElementById('lgpd-reject');
+        const closeBtn = document.getElementById('lgpd-close');
+
+        const setConsent = function(value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = "lgpd_consent=" + value + expires + "; path=/; SameSite=Lax";
+            lgpdBanner.style.display = 'none';
+        };
 
         if (acceptBtn) {
             acceptBtn.addEventListener('click', function() {
-                // Set cookie for 1 year
-                const d = new Date();
-                d.setTime(d.getTime() + (365*24*60*60*1000));
-                document.cookie = "lgpd_consent=accepted; expires=" + d.toUTCString() + "; path=/; SameSite=Lax";
-                lgpdBanner.style.display = 'none';
+                setConsent('accepted', 365);
             });
         }
 
         if (rejectBtn) {
             rejectBtn.addEventListener('click', function() {
-                // Set cookie for session or shorter
-                document.cookie = "lgpd_consent=rejected; path=/; SameSite=Lax";
+                setConsent('rejected', 30);
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
                 lgpdBanner.style.display = 'none';
             });
         }
+    }
+
+    // AJAX Newsletter Submission
+    const newsletterForm = document.getElementById('newsletter-form');
+    const newsletterMessage = document.getElementById('newsletter-message');
+    if (newsletterForm && newsletterMessage) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = newsletterForm.querySelector('input[name="newsletter_email"]');
+            const email = emailInput.value;
+            
+            newsletterMessage.style.display = 'none';
+            newsletterMessage.className = 'small mt-2 text-warning';
+            newsletterMessage.textContent = 'Processando...';
+            newsletterMessage.style.display = 'block';
+            
+            const formData = new FormData();
+            formData.append('action', 'subscribe_newsletter');
+            formData.append('email', email);
+            
+            const ajaxurl = (typeof tecnoinforStrings !== 'undefined') ? tecnoinforStrings.ajaxurl : '/wp-admin/admin-ajax.php';
+            
+            fetch(ajaxurl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    newsletterMessage.className = 'small mt-2 text-warning';
+                    newsletterMessage.textContent = data.data;
+                    newsletterForm.reset();
+                } else {
+                    newsletterMessage.className = 'small mt-2 text-danger';
+                    newsletterMessage.textContent = data.data;
+                }
+            })
+            .catch(() => {
+                newsletterMessage.className = 'small mt-2 text-danger';
+                newsletterMessage.textContent = 'Erro ao processar inscrição.';
+            });
+        });
     }
 
     // Animação de entrada nos cards de notícias
