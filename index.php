@@ -10,10 +10,14 @@ $template_url = get_bloginfo('template_url');
             <div id="softwareCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <?php
-                    $softwares = new WP_Query(array(
-                        'post_type' => 'software',
-                        'posts_per_page' => -1,
-                    ));
+                    $softwares = wp_cache_get('tecnoinfor_home_softwares', 'tecnoinfor');
+                    if (false === $softwares) {
+                        $softwares = new WP_Query(array(
+                            'post_type' => 'software',
+                            'posts_per_page' => -1,
+                        ));
+                        wp_cache_set('tecnoinfor_home_softwares', $softwares, 'tecnoinfor', 3600);
+                    }
                     $is_first = true;
                     if ($softwares->have_posts()) :
                         while ($softwares->have_posts()) : $softwares->the_post();
@@ -53,11 +57,11 @@ $template_url = get_bloginfo('template_url');
                                     </div>
                                     <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden">
                                         <?php if (has_post_thumbnail()) : ?>
-                                            <?php the_post_thumbnail('large', array('class' => 'rounded-3 img-fluid shadow-lg custom-img', 'loading' => 'lazy')); ?>
+                                            <?php the_post_thumbnail('large', array('class' => 'rounded-3 img-fluid shadow-lg custom-img', 'loading' => $is_first ? 'eager' : 'lazy')); ?>
                                         <?php else : ?>
                                             <img class="rounded-3 img-fluid shadow-lg custom-img"
                                                 src="<?php echo esc_url($template_url); ?>/assets/images/hero-img.png"
-                                                alt="<?php the_title(); ?>" loading="lazy">
+                                                alt="<?php the_title(); ?>" loading="<?php echo $is_first ? 'eager' : 'lazy'; ?>">
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -115,7 +119,7 @@ $template_url = get_bloginfo('template_url');
                         <div class="col col-lg-6">
                             <div class="stat-item text-center">
                                 <h3 class="fw-bold text-primary mb-0">
-                                    +<?php echo get_theme_mod('tecnoinfor_clients', 125); ?>
+                                    +<span class="countup" data-count="<?php echo esc_attr(get_theme_mod('tecnoinfor_clients', 125)); ?>">0</span>
                                 </h3>
                                 <p class="text-muted fs-6"><?php _e('Satisfied Clients', 'tecnoinfor'); ?></p>
                             </div>
@@ -123,7 +127,7 @@ $template_url = get_bloginfo('template_url');
                         <div class="col col-lg-6">
                             <div class="stat-item text-center">
                                 <h3 class="fw-bold text-primary mb-0">
-                                    +<?php echo get_theme_mod('tecnoinfor_years', 15); ?>
+                                    +<span class="countup" data-count="<?php echo esc_attr(get_theme_mod('tecnoinfor_years', 15)); ?>">0</span>
                                     <?php _e('years', 'tecnoinfor'); ?>
                                 </h3>
                                 <p class="text-muted fs-6"><?php _e('of Experience', 'tecnoinfor'); ?></p>
@@ -132,7 +136,7 @@ $template_url = get_bloginfo('template_url');
                         <div class="col col-lg-6">
                             <div class="stat-item text-center">
                                 <h3 class="fw-bold text-primary mb-0">
-                                    +<?php echo number_format(get_theme_mod('tecnoinfor_contracts', 21562), 0, '', '.'); ?>
+                                    +<span class="countup" data-count="<?php echo esc_attr(get_theme_mod('tecnoinfor_contracts', 21562)); ?>">0</span>
                                 </h3>
                                 <p class="text-muted fs-6"><?php _e('Managed Contracts', 'tecnoinfor'); ?></p>
                             </div>
@@ -181,12 +185,16 @@ $template_url = get_bloginfo('template_url');
 
         <div class="container pb-5">
             <?php
-            $args = [
-                'post_type'      => 'depoimentos',
-                'posts_per_page' => 3,
-                'post_status'    => 'publish',
-            ];
-            $depoimentos = new WP_Query($args);
+            $depoimentos = wp_cache_get('tecnoinfor_home_depoimentos', 'tecnoinfor');
+            if (false === $depoimentos) {
+                $args = [
+                    'post_type'      => 'depoimentos',
+                    'posts_per_page' => get_theme_mod('tecnoinfor_testimonials_count', 3),
+                    'post_status'    => 'publish',
+                ];
+                $depoimentos = new WP_Query($args);
+                wp_cache_set('tecnoinfor_home_depoimentos', $depoimentos, 'tecnoinfor', 3600);
+            }
 
             if ($depoimentos->have_posts()) : ?>
                 <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -295,14 +303,18 @@ $template_url = get_bloginfo('template_url');
             </div>
             <div class="col-lg-8 mx-auto">
                 <?php
-                $faq_query = new WP_Query([
-                    'post_type' => 'faq',
-                    'tax_query' => [[
-                        'taxonomy' => 'assunto',
-                        'field'    => 'slug',
-                        'terms'    => 'perguntas-gerais',
-                    ]],
-                ]);
+                $faq_query = wp_cache_get('tecnoinfor_home_faqs', 'tecnoinfor');
+                if (false === $faq_query) {
+                    $faq_query = new WP_Query([
+                        'post_type' => 'faq',
+                        'tax_query' => [[
+                            'taxonomy' => 'assunto',
+                            'field'    => 'slug',
+                            'terms'    => 'perguntas-gerais',
+                        ]],
+                    ]);
+                    wp_cache_set('tecnoinfor_home_faqs', $faq_query, 'tecnoinfor', 3600);
+                }
 
                 if ($faq_query->have_posts()) {
                     echo '<div class="accordion accordion-flush" id="accordionFaqs">';
@@ -343,10 +355,14 @@ $template_url = get_bloginfo('template_url');
     <!-- NOTICIAS -->
     <section class="lastnews py-5">
         <div class="container my-5 px-4 px-lg-5">
-            <h2 class="text-center mb-5 fw-bold text-primary"><?php __('Latest News', 'tecnoinfor'); ?></h2>
+            <h2 class="text-center mb-5 fw-bold text-primary"><?php echo __('Latest News', 'tecnoinfor'); ?></h2>
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 <?php
-                $noticias = new WP_Query(['post_type' => 'post', 'posts_per_page' => 6]);
+                $noticias = wp_cache_get('tecnoinfor_home_noticias', 'tecnoinfor');
+                if (false === $noticias) {
+                    $noticias = new WP_Query(['post_type' => 'post', 'posts_per_page' => 6]);
+                    wp_cache_set('tecnoinfor_home_noticias', $noticias, 'tecnoinfor', 3600);
+                }
                 if ($noticias->have_posts()) :
                     while ($noticias->have_posts()) : $noticias->the_post();
                         // Verificar se o post tem thumbnail, caso contrário usa imagem padrão
@@ -359,7 +375,7 @@ $template_url = get_bloginfo('template_url');
                         $data = get_the_date();
                         $categoria = get_the_category_list(', ');
                 ?>
-                        <div class="col">
+                        <div class="col wow fadeInUp" data-wow-delay="0.<?php echo esc_attr($noticias->current_post + 1); ?>s">
                             <div class="card h-100 border-0">
                                 <div class="rounded-top position-relative overflow-hidden">
                                     <?php echo $imagem; // Exibe a imagem do post ou a imagem padrão 

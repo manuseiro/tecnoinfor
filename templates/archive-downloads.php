@@ -16,22 +16,28 @@ get_header();
 
     <div class="container my-5 px-4 px-lg-5">
         <!-- Filtro de Categorias e Busca -->
-        <div class="row mb-4 align-items-center">
-            <div class="col-md-6 col-lg-4 ms-auto">
-                <?php
-                $categories = get_terms(array('taxonomy' => 'download_category', 'hide_empty' => true));
-                if (!empty($categories) && !is_wp_error($categories)) :
-                    echo '<select class="form-select" onchange="window.location.href=this.value" aria-label="' . esc_attr__('Filter by category', 'tecnoinfor') . '">';
-                    echo '<option value="' . esc_url(get_permalink()) . '">' . esc_html__('All Categories', 'tecnoinfor') . '</option>';
-                    foreach ($categories as $category) :
-                        $selected = isset($_GET['category']) && $_GET['category'] === $category->slug ? 'selected' : '';
-                        echo '<option value="' . esc_url(add_query_arg('category', $category->slug)) . '" ' . $selected . '>' . esc_html($category->name) . '</option>';
-                    endforeach;
-                    echo '</select>';
-                endif;
-                ?>
+        <form method="get" action="<?php echo esc_url(get_permalink()); ?>" class="row mb-4 align-items-center">
+            <div class="col-md-6 col-lg-4 mb-3 mb-md-0">
+                <div class="input-group">
+                    <input type="text" name="s" class="form-control" placeholder="<?php esc_attr_e('Search downloads...', 'tecnoinfor'); ?>" value="<?php echo isset($_GET['s']) ? esc_attr(sanitize_text_field($_GET['s'])) : ''; ?>">
+                    <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+                </div>
             </div>
-        </div>
+            <div class="col-md-6 col-lg-4 ms-auto">
+                <select class="form-select" name="category" onchange="this.form.submit()" aria-label="<?php esc_attr_e('Filter by category', 'tecnoinfor'); ?>">
+                    <option value=""><?php esc_html_e('All Categories', 'tecnoinfor'); ?></option>
+                    <?php
+                    $categories = get_terms(array('taxonomy' => 'download_category', 'hide_empty' => true));
+                    if (!empty($categories) && !is_wp_error($categories)) :
+                        foreach ($categories as $category) :
+                            $selected = isset($_GET['category']) && $_GET['category'] === $category->slug ? 'selected' : '';
+                            echo '<option value="' . esc_attr($category->slug) . '" ' . $selected . '>' . esc_html($category->name) . '</option>';
+                        endforeach;
+                    endif;
+                    ?>
+                </select>
+            </div>
+        </form>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <?php

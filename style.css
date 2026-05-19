@@ -142,12 +142,12 @@ footer .delimiter-top::before {
 }
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   box-shadow: var(--shadow-lg);
 }
 
 .card-img-top {
-  max-height: 150px;
+  max-height: 200px;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
@@ -236,26 +236,6 @@ footer .delimiter-top::before {
 
 .banner-breadcrumb {
   min-height: 300px;
-}
-
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1) !important;
-}
-
-.card-img-top {
-  max-height: 150px;
-  object-fit: cover;
-}
-
-.btn-primary:hover,
-.btn-outline-primary:hover {
-  background-color: #0056b3;
-  border-color: #004085;
 }
 /* About Page */
 .card--software {
@@ -433,17 +413,6 @@ footer .delimiter-top::before {
 }
 
 /*NEWS*/
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-.card-img-top {
-  object-fit: cover;
-  height: 200px; /* Ajuste conforme necessário */
-}
 .pagination {
   --bs-pagination-border-radius: 50rem;
 }
@@ -453,17 +422,14 @@ footer .delimiter-top::before {
 .form-select.rounded-pill {
   padding: 0.75rem 1.5rem;
 }
-.card-img-top {
-  transition: transform 0.3s ease;
-}
-
-.card:hover .card-img-top {
-  transform: scale(1.05);
-}
 .news .card {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.news .card.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 /*CLIENTES*/
 /* Estilos personalizados para o layout de clientes */
@@ -497,14 +463,6 @@ footer .delimiter-top::before {
   font-size: 0.9rem;
 }
 
-.btn-primary {
-  background-color: #007bff;
-  border: none;
-  transition: background-color 0.3s ease;
-}
-.btn-primary:hover {
-  background-color: #0056b3;
-}
 /*TERMO*/
 /* Estilo para o link ativo */
 .nav-link.custom-link {
@@ -515,7 +473,7 @@ footer .delimiter-top::before {
 }
 
 .nav-link.custom-link:hover {
-  color: color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, -1))
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
 }
 
 .nav-link.active,

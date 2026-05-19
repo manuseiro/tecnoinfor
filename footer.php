@@ -7,7 +7,7 @@
         <div class="row py-1">
             <div class="col-12 col-md-3 mb-4 text-center text-md-start">
                 <div class="footer-logo c-white">
-                    <?php echo get_custom_logo('img-fluid'); ?>
+                    <?php echo get_custom_logo(); ?>
                 </div>
                 <p class="small"><?php echo esc_html(tecnoinfor_copyright()); ?></p>
             </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="col-6 col-md-2 mb-4 text-center text-md-start">
                 <h5 class="fw-bold"><?php echo __('Support', 'tecnoinfor'); ?></h5>
-                <?php wp_nav_menu(array('theme_location' => 'Fifth', 'menu_class' => 'nav flex-column', 'container' => false, 'fallback_cb' => false, 'depth' => 1)); ?>
+                <?php wp_nav_menu(array('theme_location' => 'fifth', 'menu_class' => 'nav flex-column', 'container' => false, 'fallback_cb' => false, 'depth' => 1)); ?>
             </div>
             <div class="col-12 text-center">
                 <p class="small text-body-warning">
@@ -51,6 +51,17 @@
         </div>
     </div>
 </footer>
+<?php if (!isset($_COOKIE['lgpd_consent'])) : ?>
+<div id="lgpd-consent-banner" class="d-none">
+    <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+        <p class="mb-0 text-start"><?php _e('Nós usamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com a nossa Política de Privacidade e Cookies.', 'tecnoinfor'); ?></p>
+        <div class="d-flex gap-2">
+            <button id="lgpd-accept" class="btn btn-success btn-sm"><?php _e('Aceitar', 'tecnoinfor'); ?></button>
+            <button id="lgpd-reject" class="btn id-lgpd-reject btn-outline-light btn-sm"><?php _e('Rejeitar', 'tecnoinfor'); ?></button>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 <?php wp_footer(); ?>
 <script>
 document.addEventListener("DOMContentLoaded", function() {

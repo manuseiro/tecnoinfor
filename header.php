@@ -83,8 +83,7 @@
                   'walker'         => new navbar_walker_custom(), // Caso precise de uma customização adicional com walker
               ));
               ?>
-                        <a href="<?php echo get_bloginfo('url');?>/contato" class="btn btn-primary py-4 px-lg-4 d-none d-lg-block rounded-0">Fale Conosco<i
-                                class="bi bi-arrow-right ms-3"></i></a>
+                        <a href="<?php echo esc_url(home_url('/contato')); ?>" class="btn btn-primary py-4 px-lg-4 d-none d-lg-block rounded-0">Fale Conosco<i class="bi bi-arrow-right ms-3"></i></a>
                     </div>
                 </nav>
 
