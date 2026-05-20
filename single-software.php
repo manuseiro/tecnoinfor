@@ -24,14 +24,14 @@ get_header();
                     <a href="<?php echo esc_url($download_link); ?>" 
                        class="btn btn-success btn-lg py-3 px-5" 
                        target="_blank" rel="noopener noreferrer" 
-                       aria-label="<?php _e('Download Software', 'tecnoinfor'); ?>">
-                        <?php _e('Download Software', 'tecnoinfor'); ?> <i class="bi bi-download ms-2"></i>
+                       aria-label="<?php esc_attr_e('Download Software', 'tecnoinfor'); ?>">
+                        <?php esc_html_e('Download Software', 'tecnoinfor'); ?> <i class="bi bi-download ms-2"></i>
                     </a>
                 <?php endif; ?>
                 <a href="<?php echo $contact_link; ?>" 
                    class="btn btn-outline-light btn-lg py-3 px-5" 
-                   aria-label="<?php _e('Commercial Contact', 'tecnoinfor'); ?>">
-                    <?php _e('Commercial Contact', 'tecnoinfor'); ?>
+                   aria-label="<?php esc_attr_e('Commercial Contact', 'tecnoinfor'); ?>">
+                    <?php esc_html_e('Commercial Contact', 'tecnoinfor'); ?>
                 </a>
             </div>
             <?php if ($download_link) : ?>
@@ -74,8 +74,8 @@ get_header();
     <nav aria-label="breadcrumb" class="py-3 bg-light">
         <div class="container">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="<?php echo esc_url(home_url('/')); ?>"><?php _e('Home', 'tecnoinfor'); ?></a></li>
-                <li class="breadcrumb-item"><a href="<?php echo esc_url(get_post_type_archive_link('software')); ?>"><?php _e('Softwares', 'tecnoinfor'); ?></a></li>
+                <li class="breadcrumb-item"><a href="<?php echo esc_url(home_url('/')); ?>"><?php esc_html_e('Home', 'tecnoinfor'); ?></a></li>
+                <li class="breadcrumb-item"><a href="<?php echo esc_url(get_post_type_archive_link('software')); ?>"><?php esc_html_e('Softwares', 'tecnoinfor'); ?></a></li>
                 <li class="breadcrumb-item active" aria-current="page"><?php the_title(); ?></li>
             </ol>
         </div>
@@ -85,7 +85,7 @@ get_header();
     <section class="overview py-5 bg-light">
         <div class="container">
             <h2 class="display-6 fw-bold text-primary text-center"><?php printf(__('Discover %s', 'tecnoinfor'), get_the_title()); ?></h2>
-            <p class="col-lg-10 mx-auto lead text-muted text-center mb-5"><?php echo wp_trim_words(get_the_content(), 30, '...'); ?></p>
+            <!--<p class="col-lg-10 mx-auto lead text-muted text-center mb-5"><?php echo wp_trim_words(get_the_content(), 30, '...'); ?></p>-->
             <div class="row g-5 align-items-center">
                 <div class="col-12 col-lg-6">
                     <div class="software-content"><?php the_content(); ?></div>
@@ -93,7 +93,7 @@ get_header();
                     $categories = get_the_terms(get_the_ID(), 'software_category');
                     if ($categories && !is_wp_error($categories)) :
                     ?>
-                        <p><strong><?php _e('Category:', 'tecnoinfor'); ?></strong> <?php echo esc_html(implode(', ', wp_list_pluck($categories, 'name'))); ?></p>
+                        <p><strong><?php esc_html_e('Category:', 'tecnoinfor'); ?></strong> <?php echo esc_html(implode(', ', wp_list_pluck($categories, 'name'))); ?></p>
                     <?php endif; ?>
                 </div>
                 <div class="col-12 col-lg-6 text-center">
@@ -105,11 +105,17 @@ get_header();
                             <?php echo $video_embed; ?>
                         </div>
                     <?php elseif (has_post_thumbnail()) : ?>
-                        <?php the_post_thumbnail('large', array(
-                            'class' => 'img-fluid rounded shadow-lg',
-                            'alt' => esc_attr(get_the_title()),
-                            'loading' => 'lazy'
-                        )); ?>
+                        <?php 
+                        $thumbnail_id = get_post_thumbnail_id();
+                        $img_data     = wp_get_attachment_image_src($thumbnail_id, 'large');
+                        the_post_thumbnail('large', array(
+                            'class'   => 'img-fluid rounded shadow-lg',
+                            'alt'     => esc_attr(get_the_title()),
+                            'loading' => 'lazy',
+                            'width'   => $img_data[1] ?? '',
+                            'height'  => $img_data[2] ?? ''
+                        )); 
+                        ?>
                     <?php endif; ?>
                 </div>
             </div>
@@ -119,7 +125,7 @@ get_header();
     <!-- Funcionalidades -->
     <section class="functionalities py-5 bg-light">
         <div class="container">
-            <h2 class="display-6 fw-bold text-primary text-center"><?php _e('Key Features', 'tecnoinfor'); ?></h2>
+            <h2 class="display-6 fw-bold text-primary text-center"><?php esc_html_e('Key Features', 'tecnoinfor'); ?></h2>
             <p class="col-lg-10 mx-auto lead text-muted text-center mb-5">
                 <?php printf(__('Learn about the features that make %s special.', 'tecnoinfor'), get_the_title()); ?>
             </p>
@@ -145,11 +151,11 @@ get_header();
                 </div>
                 <div class="text-center mt-4">
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#functionalitiesModal">
-                        <?php _e('View All Features', 'tecnoinfor'); ?>
+                        <?php esc_html_e('View All Features', 'tecnoinfor'); ?>
                     </button>
                 </div>
             <?php else : ?>
-                <p class="text-center text-muted"><?php _e('No features registered yet.', 'tecnoinfor'); ?></p>
+                <p class="text-center text-muted"><?php esc_html_e('No features registered yet.', 'tecnoinfor'); ?></p>
             <?php endif; ?>
         </div>
         
@@ -161,7 +167,7 @@ get_header();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="functionalitiesModalLabel"><?php printf(__('All Features of %s', 'tecnoinfor'), get_the_title()); ?></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php _e('Close', 'tecnoinfor'); ?>"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php esc_attr_e('Close', 'tecnoinfor'); ?>"></button>
                 </div>
                 <div class="modal-body">
                     <?php if (is_array($functionalities) && !empty($functionalities)) : ?>
@@ -177,11 +183,11 @@ get_header();
                             </div>
                         <?php endforeach; ?>
                     <?php else : ?>
-                        <p class="text-muted"><?php _e('No features available.', 'tecnoinfor'); ?></p>
+                        <p class="text-muted"><?php esc_html_e('No features available.', 'tecnoinfor'); ?></p>
                     <?php endif; ?>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php _e('Close', 'tecnoinfor'); ?></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php esc_html_e('Close', 'tecnoinfor'); ?></button>
                 </div>
             </div>
         </div>
@@ -190,7 +196,7 @@ get_header();
     <!-- Produtos Relacionados -->
     <section class="related-softwares py-5 bg-light">
         <div class="container">
-            <h2 class="display-6 fw-bold text-primary text-center"><?php _e('Related Products', 'tecnoinfor'); ?></h2>
+            <h2 class="display-6 fw-bold text-primary text-center"><?php esc_html_e('Related Products', 'tecnoinfor'); ?></h2>
             <div class="row g-4 mt-4">
                 <?php
                 $current_categories = wp_get_post_terms(get_the_ID(), 'software_category', array('fields' => 'ids'));
@@ -213,7 +219,17 @@ get_header();
                     <div class="col-12 col-lg-4">
                         <div class="card h-100 border-0 shadow-sm">
                             <?php if (has_post_thumbnail()) : ?>
-                                <?php the_post_thumbnail('medium', array('class' => 'card-img-top', 'alt' => esc_attr(get_the_title()), 'loading' => 'lazy')); ?>
+                                <?php 
+                                $thumbnail_id = get_post_thumbnail_id();
+                                $img_data     = wp_get_attachment_image_src($thumbnail_id, 'medium');
+                                the_post_thumbnail('medium', array(
+                                    'class'   => 'card-img-top', 
+                                    'alt'     => esc_attr(get_the_title()), 
+                                    'loading' => 'lazy',
+                                    'width'   => $img_data[1] ?? '',
+                                    'height'  => $img_data[2] ?? ''
+                                )); 
+                                ?>
                             <?php endif; ?>
                             <div class="card-body">
                                 <h3 class="card-title fs-5 fw-bold"><a href="<?php the_permalink(); ?>" class="text-dark text-decoration-none"><?php the_title(); ?></a></h3>
@@ -226,7 +242,7 @@ get_header();
                     wp_reset_postdata();
                 else :
                 ?>
-                    <p class="text-center text-muted"><?php _e('No related software found.', 'tecnoinfor'); ?></p>
+                    <p class="text-center text-muted"><?php esc_html_e('No related software found.', 'tecnoinfor'); ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -236,7 +252,7 @@ get_header();
     <?php
     $planos_args = array(
         'post_type' => 'planos',
-        'posts_per_page' => -1,
+        'posts_per_page' => 20,
         'orderby' => 'menu_order',
         'order' => 'ASC',
         'meta_query' => array(
@@ -254,13 +270,13 @@ get_header();
     ?>
         <section class="software-pricing py-5 bg-white">
             <div class="container my-5 px-4 px-lg-5">
-                <h2 class="display-6 fw-bold text-primary text-center mb-2"><?php _e('Subscription Plans', 'tecnoinfor'); ?></h2>
-                <p class="col-lg-10 mx-auto lead text-muted text-center mb-5"><?php _e('Choose the ideal plan to scale your operation with complete security.', 'tecnoinfor'); ?></p>
+                <h2 class="display-6 fw-bold text-primary text-center mb-2"><?php esc_html_e('Subscription Plans', 'tecnoinfor'); ?></h2>
+                <p class="col-lg-10 mx-auto lead text-muted text-center mb-5"><?php esc_html_e('Choose the ideal plan to scale your operation with complete security.', 'tecnoinfor'); ?></p>
                 
                 <div class="text-center mb-5">
                     <label class="form-check form-switch d-inline-block">
-                        <input class="form-check-input" type="checkbox" id="toggle-software-pricing">
-                        <span class="ms-2 fw-semibold text-muted"><?php _e('Cobrança Anual (com desconto)', 'tecnoinfor'); ?></span>
+                        <input class="form-check-input toggle-pricing-switch" type="checkbox" data-target="soft">
+                        <span class="ms-2 fw-semibold text-muted"><?php esc_html_e('Cobrança Anual (com desconto)', 'tecnoinfor'); ?></span>
                     </label>
                 </div>
 
@@ -289,7 +305,7 @@ get_header();
                             <div class="card h-100 rounded-3 shadow-sm border <?php echo $is_recommended ? "border-2 border-$highlight_color" : 'border-light'; ?> transition-hover">
                                 <?php if ($is_recommended) : ?>
                                     <div class="card-header py-3 text-white bg-<?php echo esc_attr($highlight_color); ?> border-0">
-                                        <h4 class="my-0 fw-bold fs-5"><?php _e('Recomendado', 'tecnoinfor'); ?></h4>
+                                        <h4 class="my-0 fw-bold fs-5"><?php esc_html_e('Recomendado', 'tecnoinfor'); ?></h4>
                                     </div>
                                 <?php else : ?>
                                     <div class="card-header py-3 bg-light border-0">
@@ -299,7 +315,7 @@ get_header();
                                 <div class="card-body p-4 d-flex flex-column">
                                     <h3 class="card-title pricing-card-title mb-4">
                                         <?php if ($is_free) : ?>
-                                            <span class="fs-2 fw-bold text-success"><?php _e('Grátis', 'tecnoinfor'); ?></span>
+                                            <span class="fs-2 fw-bold text-success"><?php esc_html_e('Grátis', 'tecnoinfor'); ?></span>
                                         <?php else : ?>
                                             <div class="preco-mensal-soft">
                                                 <span class="fs-1 fw-bold">R$ <?php echo number_format($preco_mensal, 2, ',', '.'); ?></span>
@@ -317,11 +333,11 @@ get_header();
                                     <ul class="list-unstyled text-start mb-4 flex-grow-1">
                                         <li class="mb-2">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            <strong><?php echo $max_users ?: 'Ilimitado'; ?></strong> <?php _e('usuários', 'tecnoinfor'); ?>
+                                            <strong><?php echo $max_users ?: 'Ilimitado'; ?></strong> <?php esc_html_e('usuários', 'tecnoinfor'); ?>
                                         </li>
                                         <li class="mb-2">
                                             <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                            <strong><?php echo $max_companies ?: 'Ilimitado'; ?></strong> <?php _e('empresas', 'tecnoinfor'); ?>
+                                            <strong><?php echo $max_companies ?: 'Ilimitado'; ?></strong> <?php esc_html_e('empresas', 'tecnoinfor'); ?>
                                         </li>
                                         <?php foreach ($funcionalidades as $func) : ?>
                                             <?php if (!empty($func['nome'])) : ?>
@@ -340,7 +356,7 @@ get_header();
                 </div>
 
                 <!-- Comparação de Planos do Software -->
-                <h3 class="display-7 fw-bold text-primary text-center mb-4 mt-5"><?php _e('Compare Plans', 'tecnoinfor'); ?></h3>
+                <h3 class="display-7 fw-bold text-primary text-center mb-4 mt-5"><?php esc_html_e('Compare Plans', 'tecnoinfor'); ?></h3>
                 <?php
                 $planos_query->rewind_posts();
                 $nomes_planos = [];
@@ -379,7 +395,7 @@ get_header();
                     <table class="table text-center table-bordered align-middle mb-0">
                         <thead class="table-dark">
                             <tr>
-                                <th class="text-start py-3" style="position: sticky; left: 0; background: #212529; color: white;"><?php _e('Features', 'tecnoinfor'); ?></th>
+                                <th class="text-start py-3" style="position: sticky; left: 0; background: #212529; color: white;"><?php esc_html_e('Features', 'tecnoinfor'); ?></th>
                                 <?php foreach ($nomes_planos as $plano) : ?>
                                     <th style="width: <?php echo 60 / count($nomes_planos); ?>%;"><?php echo esc_html($plano); ?></th>
                                 <?php endforeach; ?>
@@ -400,33 +416,20 @@ get_header();
             </div>
         </section>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const toggle = document.getElementById('toggle-software-pricing');
-                const mensalPrices = document.querySelectorAll('.preco-mensal-soft');
-                const anualPrices = document.querySelectorAll('.preco-anual-soft');
-                if (toggle) {
-                    toggle.addEventListener('change', function() {
-                        const isAnual = this.checked;
-                        mensalPrices.forEach(price => price.style.display = isAnual ? 'none' : 'block');
-                        anualPrices.forEach(price => price.style.display = isAnual ? 'block' : 'none');
-                    });
-                }
-            });
-        </script>
+
     <?php endif; ?>
 
     <!-- CTA -->
     <section class="cta py-5 bg-primary text-white text-center">
         <div class="container my-5 px-4 px-lg-5">
             <h2 class="display-6 fw-bold"><?php printf(__('Ready to Try %s?', 'tecnoinfor'), get_the_title()); ?></h2>
-            <p class="lead mt-3 col-lg-8 mx-auto"><?php _e('Try it now and see how it can optimize your processes.', 'tecnoinfor'); ?></p>
+            <p class="lead mt-3 col-lg-8 mx-auto"><?php esc_html_e('Try it now and see how it can optimize your processes.', 'tecnoinfor'); ?></p>
             <?php if ($download_link) : ?>
                 <a href="<?php echo esc_url($download_link); ?>" 
                    class="btn btn-success btn-lg mt-4 py-3 px-5" 
                    target="_blank" rel="noopener noreferrer" 
-                   aria-label="<?php _e('Try for Free', 'tecnoinfor'); ?>">
-                    <?php _e('Try for Free', 'tecnoinfor'); ?> <i class="bi bi-download ms-2"></i>
+                   aria-label="<?php esc_attr_e('Try for Free', 'tecnoinfor'); ?>">
+                    <?php esc_html_e('Try for Free', 'tecnoinfor'); ?> <i class="bi bi-download ms-2"></i>
                 </a>
             <?php endif; ?>
         </div>
@@ -435,13 +438,14 @@ get_header();
     <!-- FAQs -->
     <section class="faq py-5">
         <div class="container my-5 px-4 px-lg-5">
-            <h2 class="display-6 fw-bold text-primary text-center"><?php _e('Frequently Asked Questions', 'tecnoinfor'); ?></h2>
+            <h2 class="display-6 fw-bold text-primary text-center"><?php esc_html_e('Frequently Asked Questions', 'tecnoinfor'); ?></h2>
             <p class="col-lg-10 mx-auto lead text-muted text-center mb-5">
-                <?php printf(__('Check out FAQs related to %s.', 'tecnoinfor'), get_the_title()); ?>
+                <?php printf(esc_html__('Check out FAQs related to %s.', 'tecnoinfor'), get_the_title()); ?>
             </p>
             <?php
             $faq_query = new WP_Query(array(
                 'post_type' => 'faqs',
+                'posts_per_page' => 20,
                 'meta_query' => array(
                     array(
                         'key' => '_related_software',
@@ -472,7 +476,7 @@ get_header();
                     </div>
                 </div>
             <?php else : ?>
-                <p class="text-center text-muted"><?php _e('No FAQs related to this software.', 'tecnoinfor'); ?></p>
+                <p class="text-center text-muted"><?php esc_html_e('No FAQs related to this software.', 'tecnoinfor'); ?></p>
             <?php endif; wp_reset_postdata(); ?>
         </div>
     </section>

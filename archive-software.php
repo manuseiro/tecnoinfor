@@ -7,6 +7,7 @@ get_header();
 ?>
 
 <main class="main-content">
+    <?php $banner_image = get_template_directory_uri() . '/assets/images/default-banner.jpg'; ?>
     <section class="banner-breadcrumb bg-delp"
             style="background: linear-gradient(to bottom, rgba(11, 94, 215, 0.3) 0%, rgba(11, 94, 215, 0.4) 50%, rgba(11, 94, 215, 0.8) 100%), url('<?php echo esc_url($banner_image); ?>'); background-size: cover; background-position: center;">
             <div class="container">
@@ -16,12 +17,21 @@ get_header();
 
                     <!-- Título e Descrição -->
                     <div class="d-flex flex-column align-items-start text-left">
+                        <?php 
+                        if (is_post_type_archive('software')) {
+                            $page_title = post_type_archive_title('', false);
+                            $page_desc = get_the_archive_description();
+                        } else {
+                            $page_title = get_the_title();
+                            $page_desc = has_excerpt() ? get_the_excerpt() : '';
+                        }
+                        ?>
                         <h1 class="display-4 text-white fw-bolder">
-                            <?php echo esc_html(get_the_title()); ?>
+                            <?php echo esc_html($page_title); ?>
                         </h1>
                         <div class="text-white col-lg-8 page-summary">
-                            <?php if (has_excerpt()) : ?>
-                            <p><?php echo wp_kses_post(get_the_excerpt()); ?></p>
+                            <?php if ($page_desc) : ?>
+                            <p><?php echo wp_kses_post($page_desc); ?></p>
                             <?php endif; ?>
                         </div>
                     </div>

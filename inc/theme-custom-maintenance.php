@@ -1,5 +1,10 @@
 <?php
 function wp_custom_maintenance() {
+     // Verifica se o modo de manutenção está ativado no Customizer
+     if (!get_theme_mod('tecnoinfor_maintenance_mode', false)) {
+         return;
+     }
+
      // Verifique se o usuário está logado ou possui acesso de administrador
      if (is_user_logged_in() || current_user_can('manage_options')) {
          return;
@@ -112,3 +117,24 @@ function wp_custom_maintenance() {
      exit();
  }
 add_action('template_redirect', 'wp_custom_maintenance');
+
+// Adiciona a opção no Customizer para ativar/desativar o modo de manutenção
+function tecnoinfor_maintenance_customizer($wp_customize) {
+    $wp_customize->add_section('tecnoinfor_maintenance_section', array(
+        'title'       => __('Modo de Manutenção', 'tecnoinfor'),
+        'priority'    => 100,
+        'description' => __('Ative ou desative o modo de manutenção do site.', 'tecnoinfor'),
+    ));
+
+    $wp_customize->add_setting('tecnoinfor_maintenance_mode', array(
+        'default'           => false,
+        'sanitize_callback' => 'rest_sanitize_boolean',
+    ));
+
+    $wp_customize->add_control('tecnoinfor_maintenance_mode', array(
+        'label'   => __('Ativar Modo de Manutenção', 'tecnoinfor'),
+        'section' => 'tecnoinfor_maintenance_section',
+        'type'    => 'checkbox',
+    ));
+}
+add_action('customize_register', 'tecnoinfor_maintenance_customizer');

@@ -109,5 +109,10 @@ function tecnoinfor_enqueue_assets() {
     ));
     wp_enqueue_script('custom-logo-script', get_template_directory_uri().'/js/custom-logo.js', array('jquery'), '0.0.3', true );
     wp_enqueue_script('tecnoinfor_empresa-admin', get_template_directory_uri().'/assets/js/empresa-admin.js', array('jquery'), '0.0.1', true );
+    wp_enqueue_script('tecnoinfor-scroll-top', get_template_directory_uri() . '/js/scroll-to-top.js', array(), wp_get_theme()->get('Version'), true);
+
+    if (is_singular('software') || is_page_template('templates/page-pricing.php')) {
+        wp_enqueue_script('tecnoinfor-pricing-toggle', get_template_directory_uri() . '/js/pricing-toggle.js', array(), wp_get_theme()->get('Version'), true);
+    }
 }
 add_action('wp_enqueue_scripts', 'tecnoinfor_enqueue_assets');

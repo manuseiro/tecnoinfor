@@ -40,7 +40,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
 
     $args = array(
         'post_type' => 'planos',
-        'posts_per_page' => -1,
+        'posts_per_page' => 20,
         'orderby' => 'menu_order',
         'order' => 'ASC',
         'meta_query' => $meta_query
@@ -52,7 +52,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
             <div class="text-center mb-5">
                 <label class="form-check form-switch d-inline-block">
                     <input class="form-check-input toggle-pricing-switch" type="checkbox" data-target="<?php echo $pane_id; ?>">
-                    <span class="ms-2 fw-semibold text-muted"><?php _e('Cobrança Anual (com desconto)', 'tecnoinfor'); ?></span>
+                    <span class="ms-2 fw-semibold text-muted"><?php esc_html_e('Cobrança Anual (com desconto)', 'tecnoinfor'); ?></span>
                 </label>
             </div>
 
@@ -80,7 +80,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
                         <div class="card h-100 rounded-3 shadow-sm border <?php echo $is_recommended ? "border-2 border-$highlight_color" : 'border-light'; ?> transition-hover">
                             <?php if ($is_recommended) : ?>
                                 <div class="card-header py-3 text-white bg-<?php echo esc_attr($highlight_color); ?> border-0">
-                                    <h4 class="my-0 fw-bold fs-5"><?php _e('Recomendado', 'tecnoinfor'); ?></h4>
+                                    <h4 class="my-0 fw-bold fs-5"><?php esc_html_e('Recomendado', 'tecnoinfor'); ?></h4>
                                 </div>
                             <?php else : ?>
                                 <div class="card-header py-3 bg-light border-0">
@@ -90,7 +90,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
                             <div class="card-body p-4 d-flex flex-column">
                                 <h3 class="card-title pricing-card-title mb-4">
                                     <?php if ($is_free) : ?>
-                                        <span class="fs-2 fw-bold text-success"><?php _e('Grátis', 'tecnoinfor'); ?></span>
+                                        <span class="fs-2 fw-bold text-success"><?php esc_html_e('Grátis', 'tecnoinfor'); ?></span>
                                     <?php else : ?>
                                         <div class="preco-mensal-<?php echo $pane_id; ?>">
                                             <span class="fs-1 fw-bold">R$ <?php echo number_format($preco_mensal, 2, ',', '.'); ?></span>
@@ -108,11 +108,11 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
                                 <ul class="list-unstyled text-start mb-4 flex-grow-1">
                                     <li class="mb-2">
                                         <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                        <strong><?php echo $max_users ?: 'Ilimitado'; ?></strong> <?php _e('usuários', 'tecnoinfor'); ?>
+                                        <strong><?php echo $max_users ?: 'Ilimitado'; ?></strong> <?php esc_html_e('usuários', 'tecnoinfor'); ?>
                                     </li>
                                     <li class="mb-2">
                                         <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                        <strong><?php echo $max_companies ?: 'Ilimitado'; ?></strong> <?php _e('empresas', 'tecnoinfor'); ?>
+                                        <strong><?php echo $max_companies ?: 'Ilimitado'; ?></strong> <?php esc_html_e('empresas', 'tecnoinfor'); ?>
                                     </li>
                                     <?php foreach ($funcionalidades as $func) : ?>
                                         <?php if (!empty($func['nome'])) : ?>
@@ -131,7 +131,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
             </div>
 
             <!-- Comparação de Planos -->
-            <h3 class="display-7 fw-bold text-primary text-center mb-4 mt-5"><?php _e('Compare Plans', 'tecnoinfor'); ?></h3>
+            <h3 class="display-7 fw-bold text-primary text-center mb-4 mt-5"><?php esc_html_e('Compare Plans', 'tecnoinfor'); ?></h3>
             <?php
             $query->rewind_posts();
             $nomes_planos = [];
@@ -170,7 +170,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
                 <table class="table text-center table-bordered align-middle mb-0">
                     <thead class="table-dark">
                         <tr>
-                            <th class="text-start py-3" style="position: sticky; left: 0; background: #212529; color: white;"><?php _e('Features', 'tecnoinfor'); ?></th>
+                            <th class="text-start py-3" style="position: sticky; left: 0; background: #212529; color: white;"><?php esc_html_e('Features', 'tecnoinfor'); ?></th>
                             <?php foreach ($nomes_planos as $plano) : ?>
                                 <th style="width: <?php echo 60 / count($nomes_planos); ?>%;"><?php echo esc_html($plano); ?></th>
                             <?php endforeach; ?>
@@ -189,7 +189,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
                 </table>
             </div>
         <?php else : ?>
-            <p class="text-center text-muted"><?php _e('Nenhum plano cadastrado neste grupo.', 'tecnoinfor'); ?></p>
+            <p class="text-center text-muted"><?php esc_html_e('Nenhum plano cadastrado neste grupo.', 'tecnoinfor'); ?></p>
         <?php endif; ?>
     </div>
     <?php
@@ -224,7 +224,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
     // Obter softwares ativos que possuem planos cadastrados
     $softwares_args = array(
         'post_type' => 'software',
-        'posts_per_page' => -1,
+        'posts_per_page' => 50,
         'post_status' => 'publish'
     );
     $softwares_query = new WP_Query($softwares_args);
@@ -285,7 +285,7 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
         ?>
           <li class="nav-item" role="presentation">
             <button class="nav-link active px-4 py-3 fw-bold rounded-pill shadow-sm" id="tab-general-btn" data-bs-toggle="pill" data-bs-target="#tab-general" type="button" role="tab" aria-controls="tab-general" aria-selected="true">
-              <?php _e('Planos Gerais', 'tecnoinfor'); ?>
+              <?php esc_html_e('Planos Gerais', 'tecnoinfor'); ?>
             </button>
           </li>
         <?php endif; ?>
@@ -319,27 +319,11 @@ function tecnoinfor_render_pricing_plans_pane($pane_id, $software_id = null, $is
         ?>
       </div>
     <?php else : ?>
-      <p class="text-center text-muted py-5"><?php _e('Nenhum plano cadastrado ainda.', 'tecnoinfor'); ?></p>
+      <p class="text-center text-muted py-5"><?php esc_html_e('Nenhum plano cadastrado ainda.', 'tecnoinfor'); ?></p>
     <?php endif; ?>
   </div>
 </main>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Configurar manipuladores individuais para cada switch de precificação (Mensal / Anual)
-  const switches = document.querySelectorAll('.toggle-pricing-switch');
-  switches.forEach(sw => {
-    sw.addEventListener('change', function() {
-      const paneId = this.getAttribute('data-target');
-      const isAnual = this.checked;
-      const mensalPrices = document.querySelectorAll('.preco-mensal-' + paneId);
-      const anualPrices = document.querySelectorAll('.preco-anual-' + paneId);
-      
-      mensalPrices.forEach(price => price.style.display = isAnual ? 'none' : 'block');
-      anualPrices.forEach(price => price.style.display = isAnual ? 'block' : 'none');
-    });
-  });
-});
-</script>
+
 
 <?php get_footer(); ?>

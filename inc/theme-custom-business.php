@@ -182,7 +182,18 @@ function informacoes_empresa_rede_social_callback($args) {
 // Funções para obter informações
 // ===========================
 function get_informacao_empresa($campo) {
-    $valor = get_option("empresa_{$campo}");
+    static $cache = null;
+    if (null === $cache) {
+        $cache = [
+            'telefone' => get_option('empresa_telefone'),
+            'whatsapp' => get_option('empresa_whatsapp'),
+            'endereco' => get_option('empresa_endereco'),
+            'horarios' => get_option('empresa_horarios'),
+            'logo'     => get_option('empresa_logo'),
+        ];
+    }
+
+    $valor = $cache[$campo] ?? '';
     $valor_padrao = '';
 
     if ($campo === 'telefone' || $campo === 'whatsapp') {

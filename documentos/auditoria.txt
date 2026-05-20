@@ -1,0 +1,641 @@
+AUDITORIA TÉCNICA COMPLETA — Tema WordPress tecnoinfor
+Continuação da análise detalhada
+
+1. SEGURANÇA — ANÁLISE PROFUNDA
+🔴 CRÍTICO #1 — XSS em footer.php (interpolação direta em echo)
+Arquivo: footer.php — linhas 44–53
+php// CÓDIGO PROBLEMÁTICO (atual)
+foreach ($redes_sociais as $rede => $dados) {
+    $info = get_rede_social($rede);
+    if (!empty($info['link'])) {
+        echo "<li class='ms-3'><a href='{$info['link']}' class='link-light btn'
+              target='_blank' rel='noopener noreferrer'
+              aria-label='{$info['nome']}'><i class='{$info['icone']}'></i></a></li>";
+    }
+}
+Problema: $info['link'], $info['nome'] e $info['icone'] são interpolados diretamente no HTML sem escaping. Se qualquer um desses valores vier de input do admin/usuário (opções do Customizer, meta do banco), um atacante pode injetar javascript:alert(1) em href ou "><script> nos atributos.
+Impacto real: XSS Stored, executado em todos os visitantes do site. Risco de roubo de sessão, defacement, injeção de malware.
+php// CÓDIGO CORRIGIDO
+foreach ($redes_sociais as $rede => $dados) {
+    $info = get_rede_social($rede);
+    if ( ! empty( $info['link'] ) ) {
+        printf(
+            '<li class="ms-3"><a href="%s" class="link-light btn" target="_blank" rel="noopener noreferrer" aria-label="%s"><i class="%s" aria-hidden="true"></i></a></li>',
+            esc_url( $info['link'] ),
+            esc_attr( $info['nome'] ),
+            esc_attr( $info['icone'] )
+        );
+    }
+}
+O mesmo padrão inseguro ocorre em header.php nas linhas 35–41.
+
+🔴 CRÍTICO #2 — XSS em header.php (regex no logo + output não sanitizado)
+Arquivo: header.php — linha 62
+php// CÓDIGO PROBLEMÁTICO (atual)
+$custom_logo = get_custom_logo();
+$custom_logo = preg_replace('/<a[^>]*>(.*)<\/a>/', '$1', $custom_logo);
+echo $custom_logo; // ← sem wp_kses ou escaping
+Problemas:
+
+A regex '/<a[^>]*>(.*)<\/a>/' usa (.*) greedy, o que pode capturar conteúdo além da ancora se houver SVG inline ou múltiplos elementos. Além disso, echo $custom_logo emite HTML não validado diretamente.
+O get_custom_logo() retorna HTML seguro do core, mas a manipulação via regex e o echo direto anulam essa proteção.
+
+php// CÓDIGO CORRIGIDO
+if ( has_custom_logo() ) {
+    $logo_id  = get_theme_mod( 'custom_logo' );
+    $logo_img = wp_get_attachment_image(
+        $logo_id,
+        'full',
+        false,
+        [ 'class' => 'navbar-logo', 'alt' => esc_attr( get_bloginfo( 'name' ) ) ]
+    );
+    echo $logo_img; // wp_get_attachment_image já escapa corretamente
+} else {
+    echo '<h2 class="m-0 text-primary">' . esc_html( get_bloginfo( 'name' ) ) . '</h2>';
+}
+
+🔴 CRÍTICO #3 — Admin Email exposto publicamente em page-contact.php
+Arquivo: page-contact.php — linhas 73–77
+php// CÓDIGO PROBLEMÁTICO (atual)
+<a href="mailto:<?php echo esc_attr(get_option('admin_email', 'contato@tecnoinfor.com')); ?>">
+    <?php echo esc_html(get_option('admin_email', 'contato@tecnoinfor.com')); ?>
+</a>
+Problema: get_option('admin_email') retorna o email real do administrador WordPress. Exibir esse email publicamente no frontend causa:
+
+Exposição de dados pessoais (LGPD/GDPR violação)
+Spam/email harvesting por scrapers
+Enumeração de usuário administrador (attack surface para brute force)
+
+php// CÓDIGO CORRIGIDO — usar uma opção de tema dedicada
+$contact_email = get_theme_mod( 'tecnoinfor_contact_email', 'contato@tecnoinfor.com.br' );
+// Registrar no Customizer via sanitize_email()
+?>
+<a href="mailto:<?php echo esc_attr( $contact_email ); ?>">
+    <?php echo esc_html( $contact_email ); ?>
+</a>
+
+🔴 CRÍTICO #4 — CSRF: Verificação de cookie LGPD sem httpOnly + lógica server-side frágil
+Arquivo: footer.php — linhas 62–73
+php// CÓDIGO PROBLEMÁTICO (atual)
+<?php if (!isset($_COOKIE['lgpd_consent'])) : ?>
+<div id="lgpd-consent-banner" class="d-none">
+    ...
+    <button id="lgpd-accept">Aceitar</button>
+    <button id="lgpd-reject">Rejeitar</button>
+</div>
+<?php endif; ?>
+Problemas em cascata:
+
+O cookie lgpd_consent é definido via JavaScript no lado do cliente sem a flag httpOnly e Secure, tornando-o acessível por XSS.
+A verificação isset($_COOKIE['lgpd_consent']) no PHP é trivialmente bypassável: qualquer cookie com esse nome suprime o banner, inclusive cookies corrompidos ou injetados.
+A LGPD exige registro de consentimento com timestamp e escopo, não apenas um cookie booleano.
+O banner abre com class="d-none" — se o JS falhar, nenhuma opção de consentimento é apresentada, violando o princípio de privacy by design.
+
+php// SOLUÇÃO CORRIGIDA
+// No functions.php — registrar endpoint REST para salvar consentimento
+add_action( 'rest_api_init', function() {
+    register_rest_route( 'tecnoinfor/v1', '/lgpd-consent', [
+        'methods'             => 'POST',
+        'callback'            => 'tecnoinfor_save_lgpd_consent',
+        'permission_callback' => '__return_true',
+    ] );
+} );
+
+function tecnoinfor_save_lgpd_consent( WP_REST_Request $request ) {
+    $choice = sanitize_text_field( $request->get_param( 'choice' ) );
+    if ( ! in_array( $choice, [ 'accepted', 'rejected' ], true ) ) {
+        return new WP_Error( 'invalid', 'Invalid choice', [ 'status' => 400 ] );
+    }
+    // Definir cookie httpOnly via PHP (seguro contra XSS)
+    setcookie(
+        'lgpd_consent',
+        $choice,
+        [
+            'expires'  => time() + YEAR_IN_SECONDS,
+            'path'     => '/',
+            'secure'   => is_ssl(),
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]
+    );
+    return [ 'status' => 'ok', 'choice' => $choice ];
+}
+
+🔴 CRÍTICO #5 — _e() / __() sem escaping em output direto
+Arquivo: page-contact.php, single-software.php, footer.php
+php// PADRÃO PROBLEMÁTICO — encontrado em pelo menos 15 ocorrências
+<?php _e('Contact Information and Form', 'tecnoinfor'); ?>
+<?php echo __('Tecnoinfor', 'tecnoinfor'); ?>
+<?php _e('Send Us a Message', 'tecnoinfor'); ?>
+Problema: _e() e __() não fazem escaping. Se as strings de tradução em .po/.mo forem comprometidas (por um plugin de tradução malicioso ou acesso ao arquivo), código arbitrário pode ser injetado no output. O correto é usar esc_html_e() e esc_html__().
+php// CORRETO — sempre usar as versões com escaping
+<?php esc_html_e( 'Contact Information and Form', 'tecnoinfor' ); ?>
+<?php echo esc_html__( 'Tecnoinfor', 'tecnoinfor' ); ?>
+// Para atributos HTML:
+<?php esc_attr_e( 'Toggle navigation', 'tecnoinfor' ); ?>
+
+🔴 CRÍTICO #6 — single-downloads.php — Download sem verificação de capability
+Padrão deduzido pelo CPT cpt_downloads.php e single-downloads.php: downloads de software são servidos via _software_download_link sem nenhuma verificação se o usuário tem permissão para baixar (plano ativo, login, etc.).
+php// RISCO INFERIDO no single-software.php linha 29:
+$download_link = get_post_meta(get_the_ID(), '_software_download_link', true);
+// ...
+<a href="<?php echo esc_url($download_link); ?>">Download Software</a>
+Qualquer visitante anônimo acessa o link de download diretamente. Se o link for para um arquivo no servidor (ex: /wp-content/uploads/software.zip), não há controle de acesso algum.
+
+2. PERFORMANCE — ANÁLISE DE N+1 QUERIES
+🔴 CRÍTICO — single-software.php executa 5 WP_Query na mesma requisição
+Arquivo: single-software.php
+php// QUERY 1 — changelog relacionado (linha ~53)
+$changelog_query = new WP_Query([
+    'post_type'  => 'changelogs',
+    'meta_query' => [[ 'key' => '_related_software', 'value' => get_the_ID() ]]
+]);
+
+// QUERY 2 — produtos relacionados (linha ~195)
+$related_query = new WP_Query([
+    'post_type' => 'software',
+    'tax_query' => [[ 'taxonomy' => 'software_category', 'terms' => $current_categories ]]
+]);
+
+// QUERY 3 — planos de assinatura (linha ~215)
+$planos_query = new WP_Query([
+    'post_type'  => 'planos',
+    'posts_per_page' => -1, // ← sem limite!
+    'meta_query' => [[ 'key' => '_plano_software_id', 'value' => get_the_ID() ]]
+]);
+
+// QUERY 4 — rewind + loop duplo dos planos para tabela de comparação
+$planos_query->rewind_posts(); // executa um segundo loop completo
+
+// QUERY 5 — FAQs relacionadas (linha ~380)
+$faq_query = new WP_Query([
+    'post_type'  => 'faqs',
+    'meta_query' => [[ 'key' => '_related_software', 'value' => get_the_ID() ]]
+]);
+Impacto: Uma única visualização de página de software gera no mínimo 5 queries ao banco + a query principal do post, além de múltiplas chamadas a get_post_meta() dentro de loops (padrão N+1). Em um site com 50 planos e 20 funcionalidades cada, isso pode gerar 100+ chamadas ao banco por page load.
+Solução — consolidar com transients e pre-loading:
+php// SOLUÇÃO: Centralizar dados em um único transient por post
+function tecnoinfor_get_software_page_data( int $software_id ): array {
+    $cache_key = "software_page_data_{$software_id}";
+    $data      = get_transient( $cache_key );
+
+    if ( false !== $data ) {
+        return $data;
+    }
+
+    // Uma única query para changelogs
+    $changelog = get_posts([
+        'post_type'   => 'changelogs',
+        'numberposts' => 1,
+        'meta_key'    => '_related_software',
+        'meta_value'  => $software_id,
+        'orderby'     => 'date',
+        'order'       => 'DESC',
+    ]);
+
+    // Uma query para planos com todos os meta em um go
+    $planos = get_posts([
+        'post_type'   => 'planos',
+        'numberposts' => 20, // limite explícito
+        'orderby'     => 'menu_order',
+        'meta_key'    => '_plano_software_id',
+        'meta_value'  => $software_id,
+    ]);
+
+    // Pre-load meta em batch (evita N+1)
+    if ( $planos ) {
+        $plano_ids = wp_list_pluck( $planos, 'ID' );
+        update_postmeta_cache( $plano_ids ); // carrega todos os meta de uma vez
+    }
+
+    $data = compact( 'changelog', 'planos' );
+    set_transient( $cache_key, $data, HOUR_IN_SECONDS );
+
+    return $data;
+}
+
+// Invalidar cache ao salvar/atualizar post
+add_action( 'save_post_planos',     fn( $id ) => delete_transient( "software_page_data_*" ) );
+add_action( 'save_post_changelogs', fn( $id ) => delete_transient( "software_page_data_*" ) );
+
+🟠 ALTO — posts_per_page => -1 sem limite
+Arquivo: single-software.php linha ~217
+php$planos_args = array(
+    'posts_per_page' => -1, // ← NUNCA usar em produção sem limite
+    ...
+);
+Sem um limite, se o banco crescer para 500+ planos, essa query retorna tudo de uma vez, consumindo memória e TTFB. Sempre defina um limite razoável ('posts_per_page' => 50).
+
+🟠 ALTO — get_informacao_empresa() chamada 5+ vezes sem caching
+Arquivo: header.php linhas 19, 22, 30 + page-contact.php linhas 45, 50, 60, 69
+php// Chamadas repetidas sem cache:
+get_informacao_empresa('endereco')  // header.php linha 19
+get_informacao_empresa('horarios')  // header.php linha 22
+get_informacao_empresa('telefone')  // header.php linha 30
+// + 3x mais em page-contact.php
+Se get_informacao_empresa() faz uma chamada a get_option() ou get_theme_mod() por campo, são 6+ queries ou operações de opções por load. Corrija centralizando:
+php// Em inc/theme-helpers.php — singleton com cache estático
+function tecnoinfor_empresa(): array {
+    static $cache = null;
+    if ( null === $cache ) {
+        $cache = [
+            'endereco' => sanitize_text_field( get_theme_mod( 'empresa_endereco', '' ) ),
+            'horarios' => sanitize_text_field( get_theme_mod( 'empresa_horarios', '' ) ),
+            'telefone' => sanitize_text_field( get_theme_mod( 'empresa_telefone', '' ) ),
+            'whatsapp' => sanitize_text_field( get_theme_mod( 'empresa_whatsapp', '' ) ),
+            'email'    => sanitize_email( get_theme_mod( 'empresa_email', '' ) ),
+        ];
+    }
+    return $cache;
+}
+
+🟠 ALTO — JavaScript inline em template de CPT (viola Content Security Policy)
+Arquivo: single-software.php linhas 410–420 e footer.php linhas 74–82
+php// PROBLEMA — JavaScript inline no template
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('toggle-software-pricing');
+    // ...
+});
+</script>
+
+// E no footer.php:
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const goTopBtn = document.getElementById("goTopBtn");
+    // ...
+});
+</script>
+Problemas:
+
+Viola Content Security Policy (CSP) script-src 'self' — sites com CSP ativado quebram
+Scripts não versionados, não minificados, não diferidos
+Lógica de UI acoplada ao template PHP
+
+php// CORRETO — criar arquivo JS dedicado e enqueue adequado
+// js/pricing-toggle.js (arquivo separado)
+// js/scroll-to-top.js (arquivo separado)
+
+// Em inc/theme-setup.php:
+function tecnoinfor_enqueue_scripts() {
+    wp_enqueue_script(
+        'tecnoinfor-scroll-top',
+        get_template_directory_uri() . '/js/scroll-to-top.js',
+        [],
+        wp_get_theme()->get( 'Version' ),
+        true // no footer
+    );
+
+    // Apenas na página de software:
+    if ( is_singular( 'software' ) ) {
+        wp_enqueue_script(
+            'tecnoinfor-pricing-toggle',
+            get_template_directory_uri() . '/js/pricing-toggle.js',
+            [ 'tecnoinfor-main' ],
+            wp_get_theme()->get( 'Version' ),
+            true
+        );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'tecnoinfor_enqueue_scripts' );
+
+3. QUALIDADE DO CÓDIGO — ANTI-PATTERNS
+🔴 CRÍTICO — Arquivo monolítico de 481 linhas
+Arquivo: single-software.php — 481 linhas de PHP/HTML misto
+Este arquivo viola Single Responsibility Principle (SRP) de forma severa. Ele contém:
+
+5 WP_Query distintas
+Lógica de negócio (cálculo de preço anual com desconto)
+Apresentação HTML de 6 seções distintas
+JavaScript inline
+Loop duplo com rewind_posts()
+Lógica de comparação de planos
+
+Solução — decomposição em template-parts:
+single-software.php (< 50 linhas, apenas orquestração)
+├── template-parts/software/banner.php
+├── template-parts/software/overview.php
+├── template-parts/software/features.php
+├── template-parts/software/pricing.php
+├── template-parts/software/comparison-table.php
+├── template-parts/software/related.php
+└── template-parts/software/faqs.php
+php// single-software.php REFATORADO
+get_header();
+$software_data = tecnoinfor_get_software_page_data( get_the_ID() );
+
+get_template_part( 'template-parts/software/banner',     null, $software_data );
+get_template_part( 'template-parts/software/overview',   null, $software_data );
+get_template_part( 'template-parts/software/features',   null, $software_data );
+get_template_part( 'template-parts/software/pricing',    null, $software_data );
+get_template_part( 'template-parts/software/related',    null, $software_data );
+get_template_part( 'template-parts/software/faqs',       null, $software_data );
+
+get_footer();
+
+🟠 ALTO — body_class() com classe hardcoded
+Arquivo: header.php linha 9
+php// PROBLEMÁTICO
+<body <?php body_class('main-home'); ?> data-bs-spy="scroll" ...>
+'main-home' é adicionado a TODAS as páginas, não apenas à home. Isso quebra seletores CSS específicos de contexto e anti-patterns de CSS. O correto:
+php// CORRETO
+<?php
+$extra_classes = [];
+if ( is_front_page() ) {
+    $extra_classes[] = 'main-home';
+}
+?>
+<body <?php body_class( $extra_classes ); ?> <?php if ( is_front_page() ): ?>data-bs-spy="scroll" data-bs-target="#goTop" data-bs-offset="0"<?php endif; ?>>
+
+🟠 ALTO — wp_body_open() fora de posição e get_bloginfo('url') redundante
+Arquivo: header.php linha 93, page-contact.php linhas 9–10
+php// PROBLEMA 1 — wp_body_open DEVE vir imediatamente após <body>
+// posição atual: linha 93 (último do arquivo, após todo o header HTML)
+
+// PROBLEMA 2 — variáveis desnecessárias nunca usadas
+$site_url     = get_bloginfo('url');       // page-contact.php linha 9
+$template_url = get_bloginfo('template_url'); // linha 10
+// Essas variáveis são declaradas mas NUNCA usadas no restante do arquivo
+php// CORRETO — wp_body_open logo após <body>
+<body <?php body_class(); ?>>
+<?php wp_body_open(); // ← AQUI, imediatamente após a tag body ?>
+<header class="navbar-main">
+...
+
+🟠 ALTO — Shortcode hardcoded por ID em page-contact.php
+Arquivo: page-contact.php linha 34
+php// PROBLEMÁTICO — ID hardcoded não portável entre ambientes
+echo do_shortcode('[contact-form-7 id="2c6c7f4" title="Formulário de contato 1"]');
+Este ID é específico ao banco de dados de produção. Em staging, dev ou após uma migração, o formulário simplesmente não aparece.
+php// CORRETO — usar theme_mod configurável
+$cf7_id = get_theme_mod( 'tecnoinfor_contact_form_id', '' );
+if ( $cf7_id && function_exists( 'wpcf7' ) ) {
+    echo do_shortcode( sprintf( '[contact-form-7 id="%s"]', esc_attr( $cf7_id ) ) );
+} else {
+    // Fallback: formulário nativo WordPress
+    comment_form( [ 'title_reply' => esc_html__( 'Envie uma mensagem', 'tecnoinfor' ) ] );
+}
+
+🟡 MÉDIO — Loop duplo com rewind_posts() para tabela de comparação
+Arquivo: single-software.php linhas ~330–390
+php// Primeiro loop: coletar nomes dos planos
+while ($planos_query->have_posts()) : $planos_query->the_post();
+    $nomes_planos[] = get_the_title();
+    // ...
+endwhile;
+
+// REWIND — percorre todos os posts novamente
+$planos_query->rewind_posts();
+
+// Segundo loop: montar dados para a tabela
+while ($planos_query->have_posts()) : $planos_query->the_post();
+    // ...
+endwhile;
+A solução é construir o array completo numa única passagem:
+php// Uma única iteração, dados completos
+$planos_data = [];
+while ( $planos_query->have_posts() ) {
+    $planos_query->the_post();
+    $plano_id = get_the_ID();
+    $planos_data[] = [
+        'id'             => $plano_id,
+        'nome'           => get_the_title(),
+        'preco'          => (float) get_post_meta( $plano_id, 'preco', true ),
+        'desconto'       => (float) get_post_meta( $plano_id, 'desconto', true ),
+        'funcionalidades'=> maybe_unserialize( get_post_meta( $plano_id, 'funcionalidades', true ) ) ?: [],
+        'is_recommended' => get_post_meta( $plano_id, 'is_recommended', true ),
+        'classe_botao'   => get_post_meta( $plano_id, 'classe_botao', true ) ?: 'btn-primary',
+    ];
+}
+wp_reset_postdata();
+
+4. WORDPRESS STANDARDS — VIOLAÇÕES ESPECÍFICAS
+🟠 ALTO — functions.php com defaults hardcoded em português misturado com inglês
+Arquivo: functions.php linhas 62–80
+php// PROBLEMÁTICO — strings de default em PT-BR dentro de código PHP
+$wp_customize->add_setting("benefit_desc_$i", [
+    'default' => $i == 1 ? 
+        'O Sisplan ajuda a organizar e automatizar as principais rotinas...' : 
+        ($i == 2 ? 'Utilizamos um poderoso banco de dados SQL Open Source...' : 
+        'O Sisplan fornece relatórios detalhados...'),
+    'sanitize_callback' => 'sanitize_textarea_field',
+]);
+Problemas:
+
+Strings longas hardcoded no PHP violam i18n (não passam por __()).
+O nome do software "Sisplan" está hardcoded, acoplando o tema a um produto específico.
+Ternários aninhados com 3 níveis — complexidade ciclomática desnecessária.
+
+php// CORRETO
+$benefit_defaults = [
+    1 => [
+        'title' => __( 'Efficiency', 'tecnoinfor' ),
+        'desc'  => __( 'Organize and automate your main routines, reducing administrative time.', 'tecnoinfor' ),
+    ],
+    2 => [
+        'title' => __( 'Trust', 'tecnoinfor' ),
+        'desc'  => __( 'Powered by a robust open-source SQL database ensuring data integrity.', 'tecnoinfor' ),
+    ],
+    3 => [
+        'title' => __( 'Control', 'tecnoinfor' ),
+        'desc'  => __( 'Get detailed real-time reports on contracts and key business metrics.', 'tecnoinfor' ),
+    ],
+];
+
+🟡 MÉDIO — echo __() ao invés de esc_html_e() no footer
+Arquivo: footer.php linhas 17, 22, 27, 32
+php// PROBLEMÁTICO — 4 ocorrências
+<h5 class="fw-bold"><?php echo __('Tecnoinfor', 'tecnoinfor'); ?></h5>
+<h5 class="fw-bold"><?php echo __('Solutions', 'tecnoinfor'); ?></h5>
+<h5 class="fw-bold"><?php echo __('Contact', 'tecnoinfor'); ?></h5>
+<h5 class="fw-bold"><?php echo __('Support', 'tecnoinfor'); ?></h5>
+php// CORRETO
+<h5 class="fw-bold"><?php esc_html_e( 'Tecnoinfor', 'tecnoinfor' ); ?></h5>
+
+🟡 MÉDIO — Dependência de theme-update-checker.php sem tratamento de erro
+Arquivo: functions.php linha 13
+phprequire_once TECNOINFOR_INC . 'theme-update-checker.php';
+require_once gera Fatal Error se o arquivo não existir (ex: deploy parcial, git checkout parcial). O correto é require_once apenas com validação prévia ou usar o padrão de carregamento condicional:
+php// SEGURO
+$update_checker_file = TECNOINFOR_INC . 'theme-update-checker.php';
+if ( file_exists( $update_checker_file ) ) {
+    require_once $update_checker_file;
+}
+
+5. BANCO DE DADOS — META QUERIES E INDEXAÇÃO
+🟠 ALTO — Meta queries sem índice em campos relacionais
+php// Padrão encontrado em múltiplos templates:
+'meta_query' => [[
+    'key'     => '_related_software',
+    'value'   => get_the_ID(),
+    'compare' => '=',
+]]
+A tabela wp_postmeta não tem índice em meta_value por padrão. Queries que filtram por meta_value fazem full table scan. Para o campo _related_software que é um relacionamento entre CPTs, a solução correta é usar taxonomias:
+php// SOLUÇÃO ARQUITETURAL — usar taxonomia ao invés de post_meta para relacionamentos
+// Em vez de _related_software como meta, registrar uma taxonomia 'software_ref'
+register_taxonomy( 'software_ref', [ 'changelogs', 'faqs', 'downloads' ], [
+    'public'       => false,
+    'hierarchical' => false,
+    'rewrite'      => false,
+] );
+
+// Query com taxonomia usa índice nativo:
+$faq_query = new WP_Query([
+    'post_type' => 'faqs',
+    'tax_query' => [[
+        'taxonomy' => 'software_ref',
+        'field'    => 'slug',
+        'terms'    => get_post_field( 'post_name', get_the_ID() ),
+    ]],
+]);
+
+6. FRONTEND — PROBLEMAS DE ACESSIBILIDADE E PERFORMANCE
+🟡 MÉDIO — data-bs-spy="scroll" aplicado globalmente
+Arquivo: header.php linha 9
+O atributo Bootstrap Scrollspy data-bs-spy="scroll" está no <body> de todas as páginas, não apenas na home. Isso causa:
+
+JavaScript do Bootstrap processando scroll em páginas onde não há necessidade
+Conflitos com links de âncora em páginas de blog/single posts
+Impacto desnecessário em INP (Interaction to Next Paint)
+
+🟡 MÉDIO — Imagens sem width e height explícitos
+php// Em single-software.php — sem dimensões explícitas
+the_post_thumbnail('large', array(
+    'class'   => 'img-fluid rounded shadow-lg',
+    'alt'     => esc_attr(get_the_title()),
+    'loading' => 'lazy'
+));
+Sem width e height, o browser não pode calcular o aspect ratio antes de carregar a imagem, causando CLS (Cumulative Layout Shift).
+php// CORRETO
+$thumbnail_id = get_post_thumbnail_id();
+$img_data     = wp_get_attachment_image_src( $thumbnail_id, 'large' );
+
+the_post_thumbnail( 'large', [
+    'class'   => 'img-fluid rounded',
+    'alt'     => esc_attr( get_the_title() ),
+    'loading' => 'lazy',
+    'width'   => $img_data[1] ?? '',
+    'height'  => $img_data[2] ?? '',
+] );
+🟡 MÉDIO — Mapa do Google comentado em page-contact.php
+php// Código morto — comentado há tempo indefinido
+<!--
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!...
+-->
+Código morto aumenta o tamanho do arquivo, confunde mantenedores e o iframe tem coordenadas claramente de placeholder (-46.654321, -23.565432). Remover ou implementar via Customizer.
+
+7. DEVOPS E INFRAESTRUTURA
+🔴 CRÍTICO — Zero cobertura de CI/CD e testes
+O repositório não possui:
+
+Nenhum arquivo .github/workflows/
+Nenhum phpunit.xml ou phpunit.xml.dist
+Nenhum phpcs.xml (WordPress Coding Standards)
+Nenhum composer.json / package.json
+Nenhum .nvmrc ou .php-version
+
+Pipeline mínimo recomendado (GitHub Actions):
+yaml# .github/workflows/ci.yml
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+      - run: composer install --no-progress
+      - run: vendor/bin/phpcs --standard=WordPress .
+
+  phpunit:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env: { MYSQL_ROOT_PASSWORD: root, MYSQL_DATABASE: wordpress_test }
+        options: --health-cmd="mysqladmin ping" --health-interval=10s
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: '8.2', tools: composer }
+      - run: composer install --no-progress
+      - run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1 latest
+      - run: vendor/bin/phpunit
+
+  lint-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci
+      - run: npm run lint
+composer.json mínimo:
+json{
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.0",
+        "phpcsstandards/phpcsutils": "^1.0",
+        "phpunit/phpunit": "^10.0",
+        "yoast/phpunit-polyfills": "^3.0"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": "phpcs --standard=WordPress ."
+    }
+}
+
+8. DÉBITO TÉCNICO — TABELA CONSOLIDADA
+IDSeveridadeArquivoProblemaEsforçoImpactoS01🔴 Críticofooter.phpXSS — echo sem escaping em redes sociais2hAltoS02🔴 Críticoheader.phpXSS — echo logo sem validação1hAltoS03🔴 Críticopage-contact.phpAdmin email exposto publicamente1hAltoS04🔴 Críticofooter.phpCSRF — cookie LGPD inseguro4hAltoS05🔴 Críticomúltiplos_e() sem escaping — 15+ ocorrências3hMédioS06🔴 Críticosingle-software.phpDownload sem controle de acesso6hAltoP01🔴 Críticosingle-software.phpN+1 queries — 5 WP_Query aninhadas8hAltoP02🟠 Altosingle-software.phpposts_per_page => -1 sem limite1hMédioP03🟠 Altoheader.php + templatesget_informacao_empresa() sem cache3hMédioP04🟠 Altosingle-software.phpLoop duplo com rewind_posts()2hMédioC01🔴 Críticosingle-software.phpArquivo monolítico 481 linhas16hAltoC02🟠 Altoheader.phpbody_class hardcoded 'main-home'1hBaixoC03🟠 Altoheader.phpwp_body_open() fora de posição0.5hMédioC04🟠 Altopage-contact.phpShortcode CF7 por ID hardcoded2hMédioC05🟠 Altosingle-software.phpJavaScript inline (viola CSP)4hAltoC06🟠 Altofooter.phpecho __() sem escaping1hMédioC07🟡 Médiofunctions.phpStrings de default sem i18n2hBaixoC08🟡 Médiofunctions.phprequire_once sem validação0.5hMédioDB01🟠 AltomúltiplosMeta queries sem índice (post_meta)8hAltoDB02🟡 Médiofunctions.phpCustomizer sem transport => refresh1hBaixoFE01🟡 Médioheader.phpScrollspy global em todas as páginas1hBaixoFE02🟡 Médiosingle-software.phpImagens sem width/height (CLS)2hMédioFE03🟡 Médiopage-contact.phpCódigo morto (mapa comentado)0.5hBaixoD01🔴 CríticorepositórioZero testes (PHPUnit/PHPCS/E2E)12hAltoD02🔴 CríticorepositórioZero CI/CD e GitHub Actions6hAltoD03🟡 MédiorepositórioSem composer.json / package.json2hMédioI01🟡 Médiopage-contact.phpVariáveis declaradas e nunca usadas0.5hBaixo
+
+9. ROADMAP DE REFATORAÇÃO
+Fase 1 — Curto prazo (Sprint 1–2, ~30h) — "Stop the bleeding"
+Semana 1 — Segurança crítica:
+
+Substituir todos os echo $var e echo __() por esc_html(), esc_url(), esc_attr() — varredura em todos os templates
+Mover admin_email para theme_mod configurável no Customizer
+Implementar cookie LGPD via PHP com flags httpOnly + Secure
+Corrigir posição do wp_body_open()
+Adicionar controle de acesso ao download de software
+
+Semana 2 — Quick wins de performance:
+
+Mover todos os <script> inline para arquivos .js com enqueue correto
+Adicionar posts_per_page com limite em todas as WP_Queries
+Implementar função tecnoinfor_empresa() com cache estático
+Remover código morto (mapa comentado, variáveis não usadas)
+
+Fase 2 — Médio prazo (Sprint 3–5, ~40h) — "Refatoração estrutural"
+
+Decompor single-software.php em 7 template-parts
+Implementar tecnoinfor_get_software_page_data() com transients
+Migrar relacionamentos CPT de post_meta para taxonomias
+Configurar composer.json + PHPCS + PHPUnit
+Criar GitHub Actions para lint e testes
+Padronizar todos os _e() para esc_html_e()
+
+Fase 3 — Longo prazo (Sprint 6–10, ~50h) — "Qualidade e escalabilidade"
+
+Cobertura de testes PHPUnit para todas as funções helper (get_informacao_empresa, get_redes_sociais, CPT registrations)
+Migrar JavaScript para módulos ES6 com build process (Vite ou @wordpress/scripts)
+Implementar object cache layer (Redis/Memcached) para transients
+Auditoria completa de acessibilidade (WCAG 2.1 AA) — crítico para o segmento funerário
+Implementar REST API endpoints para dados de software em vez de rendering server-side puro
+Avaliar migração para block theme (FSE) para alinhamento com o futuro do WordPress
+
+
+10. RESUMO EXECUTIVO FINAL
+Contexto: O tema tecnoinfor é um tema WordPress clássico customizado para o segmento de software de gestão (funerárias, óticas, igrejas). Conta com 8+ Custom Post Types, integração com Customizer, Bootstrap 5, e um sistema de planos de assinatura.
+Principais achados:
+O projeto demonstra intenção arquitetural correta — modularização em inc/, separação de CPTs em arquivos individuais, uso de template-parts — mas a execução apresenta falhas graves especialmente em segurança e performance.
+O problema mais crítico é o padrão de output sem escaping, presente em pelo menos 20 pontos do código, que configura vulnerabilidade XSS real. O segundo problema mais urgente é o padrão N+1 no single-software.php, que pode degradar severamente o TTFB em produção com volume de dados real.
+A ausência total de testes e CI/CD é um risco operacional grave: qualquer deploy pode introduzir regressões sem detecção automatizada.
+DimensãoAvaliaçãoNotaSegurançaVulnerabilidades XSS reais, LGPD frágil, email exposto3/10PerformanceN+1 queries, sem caching, JS inline5/10ArquiteturaIntenção boa, execução com acoplamento alto5.5/10Qualidade de códigoMonolito de 481 linhas, padrões inconsistentes5/10WP StandardsUso correto de hooks, escaping ausente6/10Testes / CI-CDInexistentes0/10GERAL4.8/10
+Risco geral do projeto: 🔴 Alto — O site em produção possui vulnerabilidades XSS exploráveis e exposição de dados de admin. Recomenda-se correção das issues S01–S05 antes do próximo deploy.
+Prioridade máxima: Correção do escaping em todos os templates de output + remoção do admin_email do frontend + controle de acesso aos downloads.
+Esforço total estimado de correção: ~120 horas de desenvolvimento divididas em 3 fases ao longo de 8–10 semanas.
+Maturidade técnica atual: Nível 2 de 5 — Projeto funcional com arquitetura incipiente, mas sem práticas de segurança defense-in-depth, sem automação de qualidade e com débito técnico acumulado que aumenta o custo de cada nova feature em aproximadamente 30–40%.
