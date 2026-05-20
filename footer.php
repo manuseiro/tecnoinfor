@@ -16,11 +16,11 @@
                         <?php esc_html_e('Assine a Newsletter', 'tecnoinfor'); ?></h6>
                     <form id="newsletter-form" class="d-flex gap-2">
                         <input type="email" name="newsletter_email"
-                            class="form-control form-control-sm rounded-pill px-3 border-0 shadow-sm"
+                            class="form-control form-control-sm px-3 border-0 shadow-sm"
                             placeholder="<?php esc_attr_e('Seu e-mail', 'tecnoinfor'); ?>" required
                             style="max-width: 180px;">
                         <button type="submit"
-                            class="btn btn-warning btn-sm rounded-pill px-3 fw-bold text-dark shadow-sm"><?php esc_html_e('Assinar', 'tecnoinfor'); ?></button>
+                            class="btn btn-warning btn-sm px-3 fw-bold text-dark shadow-sm"><?php esc_html_e('Assinar', 'tecnoinfor'); ?></button>
                     </form>
                     <div id="newsletter-message" class="small mt-2" style="display:none;"></div>
                 </div>
@@ -89,9 +89,9 @@
             </p>
             <div class="d-flex gap-2 align-items-center flex-shrink-0">
                 <button id="lgpd-accept"
-                    class="btn btn-success btn-sm rounded-pill px-3 shadow-sm"><?php esc_html_e('Aceitar', 'tecnoinfor'); ?></button>
+                    class="btn btn-success btn-sm px-3 shadow-sm"><?php esc_html_e('Aceitar', 'tecnoinfor'); ?></button>
                 <button id="lgpd-reject"
-                    class="btn id-lgpd-reject btn-outline-light btn-sm rounded-pill px-3"><?php esc_html_e('Personalizar', 'tecnoinfor'); ?></button>
+                    class="btn id-lgpd-reject btn-outline-light btn-sm px-3"><?php esc_html_e('Personalizar', 'tecnoinfor'); ?></button>
                 <button id="lgpd-close" class="btn btn-link text-white p-0 ms-2 text-decoration-none border-0 fs-5"
                     aria-label="Fechar">✕</button>
             </div>

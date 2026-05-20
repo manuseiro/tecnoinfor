@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 <main class="main-content">
-    <?php 
+    <?php
     // Verifica se a página tem uma imagem destacada
     if (has_post_thumbnail()) {
         $banner_image = get_the_post_thumbnail_url(get_the_ID(), 'full');
@@ -27,7 +27,7 @@
                     <!-- Descrição opcional, pode ser a introdução ou campo personalizado -->
                     <div class="page-summary">
                         <?php if (has_excerpt()) : ?>
-                            <p><?php echo get_the_excerpt(); ?></p>
+                            <p><?php echo wp_kses_post(get_the_excerpt()); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -40,60 +40,72 @@
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="editor-wp pe-sm-3">
-                    <?php while (have_posts()) : the_post(); the_content(); endwhile; ?>
+                    <?php if (have_posts()) : while (have_posts()) : the_post();
+                            the_content();
+                        endwhile;
+                    else : ?>
+                        <p><?php esc_html_e('Post não encontrado.', 'tecnoinfor'); ?></p>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="col-12 col-lg-4">
                 <div class="sidebar-related-posts">
-                    <h3 class="fw-bold text-primary mb-4"><?php _e('Recent Posts', 'tecnoinfor'); ?></h3>
+                    <h2 class="fw-bold fs-5"><?php esc_html_e('Recent Posts', 'tecnoinfor'); ?></h2>
                     <?php
                     // Obtém as categorias do post atual
                     $categories = get_the_category();
                     $category_ids = !empty($categories) ? wp_list_pluck($categories, 'term_id') : array();
 
                     if (!empty($category_ids)) :
-                        $related_args = array(
-                            'post_type' => 'post',
-                            'posts_per_page' => 5, // Limite de posts exibidos
-                            'post__not_in' => array(get_the_ID()), // Exclui o post atual
-                            'category__in' => $category_ids, // Filtra por categorias do post atual
-                            'orderby' => 'date',
-                            'order' => 'DESC',
-                        );
-                        $related_query = new WP_Query($related_args);
+                        $cache_key = 'related_posts_' . get_the_ID();
+                        $cached = wp_cache_get($cache_key, 'tecnoinfor');
+                        if (false === $cached) {
+                            $related_args = array(
+                                'post_type' => 'post',
+                                'posts_per_page' => 5, // Limite de posts exibidos
+                                'post__not_in' => array(get_the_ID()), // Exclui o post atual
+                                'category__in' => $category_ids, // Filtra por categorias do post atual
+                                'orderby' => 'date',
+                                'order' => 'DESC',
+                            );
+                            $related_query = new WP_Query($related_args);
+                            wp_cache_set($cache_key, $related_query, 'tecnoinfor', HOUR_IN_SECONDS);
+                        } else {
+                            $related_query = $cached;
+                        }
 
                         if ($related_query->have_posts()) :
                             while ($related_query->have_posts()) : $related_query->the_post();
                     ?>
-                            <div class="related-post mb-4 d-flex align-items-center sticky-top">
-                                <?php if (has_post_thumbnail()) : ?>
-                                    <a href="<?php the_permalink(); ?>" class="me-3">
-                                        <?php the_post_thumbnail('thumbnail', array(
-                                            'class' => 'img-fluid rounded',
-                                            'loading' => 'lazy',
-                                            'style' => 'width: 100px; height: auto;'
-                                        )); ?>
-                                    </a>
-                                <?php endif; ?>
-                                <div class="flex-grow-1">
-                                    <h3 class="fs-6 fw-bold mb-0">
-                                        <a href="<?php the_permalink(); ?>" class="text-dark text-decoration-none">
-                                            <?php the_title(); ?>
+                                <div class="related-post mb-4 d-flex align-items-center">
+                                    <?php if (has_post_thumbnail()) : ?>
+                                        <a href="<?php the_permalink(); ?>" class="me-3">
+                                            <?php the_post_thumbnail('thumbnail', array(
+                                                'class' => 'img-fluid rounded',
+                                                'loading' => 'lazy',
+                                                'style' => 'width: 100px; height: auto;'
+                                            )); ?>
                                         </a>
-                                    </h3>
+                                    <?php endif; ?>
+                                    <div class="flex-grow-1">
+                                        <h3 class="fs-6 fw-bold">
+                                            <a href="<?php the_permalink(); ?>" class="text-dark text-decoration-none">
+                                                <?php the_title(); ?>
+                                            </a>
+                                        </h3>
+                                    </div>
                                 </div>
-                            </div>
-                    <?php
+                            <?php
                             endwhile;
                         else :
-                    ?>
-                            <p class="text-muted"><?php _e('No related posts found.', 'tecnoinfor'); ?></p>
-                    <?php
+                            ?>
+                            <p class="text-muted"><?php esc_html_e('No related posts found.', 'tecnoinfor'); ?></p>
+                        <?php
                         endif;
                         wp_reset_postdata();
                     else :
-                    ?>
-                        <p class="text-muted"><?php _e('No categories associated with this post.', 'tecnoinfor'); ?></p>
+                        ?>
+                        <p class="text-muted"><?php esc_html_e('No categories associated with this post.', 'tecnoinfor'); ?></p>
                     <?php endif; ?>
                 </div>
             </div>

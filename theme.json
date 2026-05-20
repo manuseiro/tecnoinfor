@@ -1,12 +1,13 @@
 {
-    "version": 3,
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
     "settings": {
       "color": {
         "palette": [
           {
             "name": "Primary",
             "slug": "primary",
-            "color": "#0073aa"
+            "color": "#0b5ed7"
           },
           {
             "name": "Secondary",
@@ -29,13 +30,6 @@
           }
         ]
       }
-    },
-    "customTemplates": [
-      {
-        "name": "home",
-        "title": "Home Page",
-        "postTypes": ["page"]
-      }
-    ]
+    }
   }
   

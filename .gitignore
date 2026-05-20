@@ -1,0 +1,10 @@
+# .gitignore recomendado para tema WordPress
+.DS_Store
+Thumbs.db
+*.log
+*.bkp
+*.backup
+node_modules/
+vendor/
+.env
+documentos
